@@ -16,7 +16,9 @@ ZOMG_ITS_A_COMBO_COMBO()
     jfltecri \
     jfltespr \
     jfltetmo \
-    jfltevzw;
+    jfltevzw \
+    jfltexx \
+    f16ref;
   do
     add_lunch_combo vanir_$x-$1
   done
