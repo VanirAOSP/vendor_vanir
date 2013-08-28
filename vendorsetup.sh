@@ -7,12 +7,14 @@ ZOMG_ITS_A_COMBO_COMBO()
     grouper \
     hercules \
     i605 \
+    jewel \
     jflteatt \
     jfltecan \
     jfltecri \
     jfltespr \
     jfltetmo \
     jfltevzw \
+    m7vzw \
     maguro \
     manta \
     mako \
@@ -21,8 +23,7 @@ ZOMG_ITS_A_COMBO_COMBO()
     tilapia \
     toro \
     toroplus \
-    yuga \
-    m7vzw;
+    yuga;
   do
     add_lunch_combo vanir_$x-$1
   done
