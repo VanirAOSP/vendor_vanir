@@ -11,26 +11,16 @@ PRODUCT_COPY_FILES += \
    vendor/vanir/proprietary/common/vendor/lib/drm/libdrmwvmplugin.so:system/vendor/lib/drm/libdrmwvmplugin.so
 endif
 
-# Bravia 2 engine
-
-PRODUCT_PACKAGES += \
-    libiwi \
-    libiwiOmx \
-    libiwiOmxUtil \
-    libmbe \
-    libmbe_paramselector \
-    libSwiqiController \
-    libswiqisettinghelper
-
+# Bravia 3 engine, credit C0deF0x
 PRODUCT_COPY_FILES += \
     vendor/vanir/proprietary/bravia/etc/be_movie:system/etc/be_movie \
-    vendor/vanir/proprietary/bravia/etc/be_movie_setting:system/etc/be_movie_setting \
-    vendor/vanir/proprietary/bravia/etc/be2_album:system/etc/be2_album \
-    vendor/vanir/proprietary/bravia/etc/be_album:system/etc/be_album \
+    vendor/vanir/proprietary/bravia/etc/be_photo:system/etc/be_photo \
     vendor/vanir/proprietary/bravia/etc/permissions/com.sonyericsson.android.SwIqiBmp.xml:system/etc/permissions/com.sonyericsson.android.SwIqiBmp.xml \
     vendor/vanir/proprietary/bravia/framework/com.sonyericsson.android.SwIqiBmp.jar:system/framework/com.sonyericsson.android.SwIqiBmp.jar
 
 # Build.Prop Tweaks
 PRODUCT_PROPERTY_OVERRIDES += \
-    persist.service.swiqi2.enable=1 \
-    ro.service.swiqi2.supported=true
+    persist.service.swiqi3.enable=1 \
+    ro.service.swiqi3.supported=true \
+    persist.service.swiqi.enable=1 \
+    ro.service.swiqi.supported=true
