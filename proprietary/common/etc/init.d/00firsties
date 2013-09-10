@@ -21,3 +21,4 @@ echo '  \\//   \\\\| \\|====|| \\\\'
 
 # Some apps are WICKED FUCKING STUPID... let's give them their 4.2.2 path to internal sdcard back
 [ ! -e /storage/emulated/0 ] && ln -s /mnt/shell/emulated/0 /storage/emulated/0
+[ ! -e /storage/emulated/0 ] && ln -s /storage/sdcard1 /mnt/extSdCard
