@@ -56,13 +56,18 @@ echo '# Prime Directive, Nuclearmistake, Sonicxml
 02 4 * * * /system/bin/cronlogger /system/etc/cron/cron.daily
 03 4 * * 0 /system/bin/cronlogger /system/etc/cron/cron.weekly' > /data/cron/root
 
-if busybox [ ! -d /system/etc/cron/cron.hourly ] || [ ! -d /system/etc/cron/cron.daily ] || [ ! -d /system/etc/cron/cron.weekly ]; then
+
+
+if busybox [ ! -d /system/etc/cron/cron.hourly ] || [ ! -d /system/etc/cron/cron.daily ] || [ ! -d /system/etc/cron/cron.weekly ] || [ ! -d /storage/emulated/0 ] || [ -d /storage/sdcard1 ] && [ ! -d /mnt/extSdCard ]; then
     sync
     busybox mount -o remount,rw /system
     busybox mkdir -p /system/etc/cron/cron.minutely
     busybox mkdir -p /system/etc/cron/cron.hourly
     busybox mkdir -p /system/etc/cron/cron.daily
     busybox mkdir -p /system/etc/cron/cron.weekly
+    # Some apps are WICKED FUCKING STUPID... let's give them their 4.2.2 path to internal sdcard back
+    [ ! -d /storage/emulated/0 ] && ln -s /mnt/shell/emulated/0 /storage/emulated/0
+    [ -d /storage/sdcard1 ] &&  [ ! -d /mnt/extSdCard ] && ln -s /storage/sdcard1 /mnt/extSdCard
     sync
     busybox mount -o remount,ro /system
 fi

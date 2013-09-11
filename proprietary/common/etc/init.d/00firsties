@@ -1,11 +1,5 @@
 #!/system/bin/sh
 
-#Dearest Ian,
-#    In the future, when you want to change the default value of a checkbox in phone's settings, I want you to think "com.android.Phone"... NOT "let's increase the database version number on com.android.providers.settings and add the row in onUpgrade()"
-#                  Sincerely,
-#                  Your biggest fan - Nuclearmistake
-sqlite3 /data/data/com.android.providers.settings/databases/settings.db "PRAGMA user_version = 97"
-
 #toot toot
 echo '\\\\   //\\ ||\\||====||=\\\\'
 echo ' \\\\ //=\\\\||\\\\| || ||=//'
@@ -18,7 +12,3 @@ echo '  \\//   \\\\| \\|====|| \\\\'
 [ -e /sys/class/misc/colorcontrol/v1_offset ] && chown system:system /sys/class/misc/colorcontrol/v1_offset && chmod 0666 /sys/class/misc/colorcontrol/v1_offset
 [ -e /sys/class/misc/colorcontrol/multiplier ] && chown system:system /sys/class/misc/colorcontrol/multiplier && chmod 0666 /sys/class/misc/colorcontrol/multiplier
 [ -e /sys/devices/platform/omapdss/manager0/gamma ] && chown system:system /sys/devices/platform/omapdss/manager0/gamma && chmod 0666 /sys/devices/platform/omapdss/manager0/gamma
-
-# Some apps are WICKED FUCKING STUPID... let's give them their 4.2.2 path to internal sdcard back
-[ ! -e /storage/emulated/0 ] && ln -s /mnt/shell/emulated/0 /storage/emulated/0
-[ -e /storage/sdcard1 ] &&  [ ! -e /mnt/extSdCard ] && ln -s /storage/sdcard1 /mnt/extSdCard
