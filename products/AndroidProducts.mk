@@ -19,4 +19,5 @@ PRODUCT_MAKEFILES := \
     $(LOCAL_DIR)/vanir_jfltespr.mk \
     $(LOCAL_DIR)/vanir_jfltetmo.mk \
     $(LOCAL_DIR)/vanir_yuga.mk \
+    $(LOCAL_DIR)/vanir_m7ul.mk \
     $(LOCAL_DIR)/vanir_m7vzw.mk
