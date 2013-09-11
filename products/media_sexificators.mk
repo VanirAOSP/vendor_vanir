@@ -11,8 +11,11 @@ PRODUCT_COPY_FILES += \
    vendor/vanir/proprietary/common/vendor/lib/drm/libdrmwvmplugin.so:system/vendor/lib/drm/libdrmwvmplugin.so
 endif
 
-# Bravia 2 engine
+# This SHOULD be build by DSPManager..... im tired so a cheap fix
+PRODUCT_COPY_FILES += \
+    vendor/vanir/proprietary/common/vendor/etc/audio_effects.conf:system/vendor/etc/audio_effects.conf
 
+# Bravia 2 engine
 PRODUCT_PACKAGES += \
     libiwi \
     libiwiOmx \
