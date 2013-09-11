@@ -1,2 +1,2 @@
 #!/system/xbin/bash
-PS=`su -c "busybox run-parts -l /system/etc/init.d" 2>&1`; for X in $PS; do su -c $X; done
+PS=`su -c "run-parts --list /system/etc/init.d" 2>&1`; for X in $PS; do su -c $X; done
