@@ -2,7 +2,7 @@
 
 <resources>
 
-    <string-array name="available_toggles_entries" translatable="false">
+    <string-array name="available_QStoggles_entries" translatable="false">
         <item>USER</item>
         <item>FAVCONTACT</item>
         <item>BATTERY</item>
@@ -20,7 +20,6 @@
         <item>VIBRATE</item>
         <item>SYNC</item>
         <item>FCHARGE</item>
-        <item>TORCH</item>
         <item>REBOOTMENU</item>
         <item>QUICKRECORD</item>
         <item>PIE</item>
@@ -28,7 +27,7 @@
         <item>IME</item>
     </string-array>
 
-    <string-array name="available_toggles_values" translatable="false">
+    <string-array name="available_QStoggles_values" translatable="false">
         <item>@string/toggle_user</item>
         <item>@string/toggle_favorite_contact</item>
         <item>@string/toggle_battery</item>
@@ -46,12 +45,34 @@
         <item>@string/toggle_vibrate</item>
         <item>@string/toggle_sync</item>
         <item>@string/toggle_fcharge</item>
-        <item>@string/toggle_torch</item>
         <item>@string/toggle_rebootmenu</item>
         <item>@string/toggle_quickrecord</item>
         <item>@string/toggle_pie</item>
         <item>@string/toggle_expanded_desktop</item>
         <item>@string/toggle_ime</item>
     </string-array>
+
+    <string-array name="available_toggles_entries" translatable="false">
+        <item>ROTATE</item>
+        <item>BT</item>
+        <item>GPS</item>
+        <item>WIFI</item>
+        <item>AIRPLANE_MODE</item>
+        <item>VIBRATE</item>
+        <item>SILENT</item>
+        <item>SYNC</item>
+        <item>NFC</item>
+    </string-array>
+    <string-array name="available_toggles_values">
+        <item>@string/toggle_auto_rotate</item>
+        <item>@string/toggle_bluetooth</item>
+        <item>@string/toggle_gps</item>
+        <item>@string/toggle_wifi</item>
+        <item>@string/toggle_airplane_mode</item>
+        <item>@string/toggle_vibrate</item>
+        <item>@string/toggle_silent</item>
+        <item>@string/toggle_sync</item>
+        <item>@string/toggle_nfc</item>
+    </string-array> 
 
 </resources>
