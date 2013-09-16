@@ -71,6 +71,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
     video.accelerate.hw=1
 endif
 
+# Disable GC freed lines
+PRODUCT_PROPERTY_OVERRIDES += \
+    dalvik.vm.debug.alloc=0
+
 # Questionable stuff -- just trusting stock values on these
 #    movfilter=40 \
 #    per_sec=300 \
