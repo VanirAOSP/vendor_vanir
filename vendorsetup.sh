@@ -25,6 +25,8 @@ ZOMG_ITS_A_COMBO_COMBO()
     tilapia \
     toro \
     toroplus \
+    e975 \
+    e980 \
     yuga;
   do
     add_lunch_combo vanir_$x-$1
