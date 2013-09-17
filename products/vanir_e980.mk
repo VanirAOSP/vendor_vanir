@@ -10,8 +10,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.goo.rom=vanir-e980
 
 # Boot animation
-PRODUCT_COPY_FILES += \
-    vendor/vanir/proprietary/boot_animations/1920x1080.zip:system/media/bootanimation.zip
+# PRODUCT_COPY_FILES += \
+#    vendor/vanir/proprietary/boot_animations/1920x1080.zip:system/media/bootanimation.zip
 
 # Vanir configuration
 $(call inherit-product, vendor/vanir/products/common_phones.mk)
