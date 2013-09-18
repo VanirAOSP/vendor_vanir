@@ -5,9 +5,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
     drm.service.enabled=true \
     ro.goo.rom=vanir-i605
 
-# place boot animation here once we make one
-# PRODUCT_COPY_FILES += \
-#    vendor/vanir/proprietary/boot_animations/768x1280.zip:system/media/bootanimation.zip
+# Boot Animation
+PRODUCT_COPY_FILES += \
+    vendor/vanir/proprietary/boot_animations/768x1280.zip:system/media/bootanimation.zip
 
 # Vanir configuration
 $(call inherit-product, vendor/vanir/products/common_phones.mk)

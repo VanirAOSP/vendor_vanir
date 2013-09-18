@@ -14,8 +14,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Tablet Overlays no radios
     PRODUCT_PACKAGE_OVERLAYS += vendor/vanir/overlay/tab_no_radio
 
-# Copy grouper specific prebuilt files
-## FIX ME: bootanimation
+# Boot Animation
 PRODUCT_COPY_FILES += \
     vendor/vanir/proprietary/boot_animations/800x1280.zip:system/media/bootanimation.zip
 

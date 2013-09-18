@@ -10,7 +10,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Tablet Overlays no radios
     PRODUCT_PACKAGE_OVERLAYS += vendor/vanir/overlay/tab_no_radio
 
-## FIX ME: bootanimation
+# Boot Animation
 PRODUCT_COPY_FILES += \
     vendor/vanir/proprietary/boot_animations/1080x1920.zip:system/media/bootanimation.zip
 

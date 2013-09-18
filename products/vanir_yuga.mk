@@ -3,9 +3,10 @@ DHO_VENDOR := vanir
 
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.goo.rom=vanir-YUGA
-# place boot animation here once we make one
-# PRODUCT_COPY_FILES += \
-#    vendor/vanir/proprietary/maserati/media/bootanimation.zip:system/media/bootanimation.zip
+
+# Boot Animation
+PRODUCT_COPY_FILES += \
+    vendor/vanir/proprietary/boot_animations/1080x1920.zip:system/media/bootanimation.zip
 
 # Vanir configuration
 $(call inherit-product, vendor/vanir/products/common_phones.mk)

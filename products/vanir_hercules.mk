@@ -5,7 +5,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     drm.service.enabled=true \
     ro.goo.rom=vanir-hercules
 
-# place boot animation here once we make one
+# Boot Animation
 PRODUCT_COPY_FILES += \
     vendor/vanir/proprietary/boot_animations/480x480.zip:system/media/bootanimation.zip
 

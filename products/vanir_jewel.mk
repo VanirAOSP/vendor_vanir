@@ -5,7 +5,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
     drm.service.enabled=true \
     ro.goo.rom=vanir-jewel
 
-
 # Inherit AOSP device configuration for toro.
 $(call inherit-product, device/htc/jewel/jewel.mk)
 

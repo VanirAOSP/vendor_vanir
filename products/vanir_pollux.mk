@@ -11,7 +11,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # GSM APNs and Simcard app
 $(call inherit-product, vendor/vanir/products/gsm.mk)
 
-## FIX ME: bootanimation
+# Boot Animation
 PRODUCT_COPY_FILES += \
     vendor/vanir/proprietary/boot_animations/1080x1920.zip:system/media/bootanimation.zip
 

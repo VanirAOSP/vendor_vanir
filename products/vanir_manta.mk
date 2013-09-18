@@ -11,7 +11,7 @@ $(call inherit-product, vendor/vanir/products/beats.mk)
 PRODUCT_PACKAGES += \
     LiveWallpapersPicker
 
-# bootanimation
+# Boot Animation
 PRODUCT_COPY_FILES += \
    vendor/vanir/proprietary/boot_animations/1280x800.zip:system/media/bootanimation.zip
 

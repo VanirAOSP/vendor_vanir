@@ -10,8 +10,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.goo.rom=vanir-TILAPIA
 
-# Copy grouper specific prebuilt files
-## FIX ME: bootanimation
+# Boot Animation
 PRODUCT_COPY_FILES += \
     vendor/vanir/proprietary/boot_animations/800x1280.zip:system/media/bootanimation.zip
 
