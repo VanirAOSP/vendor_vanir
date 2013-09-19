@@ -37,6 +37,7 @@ ZOMG_ITS_A_COMBO_COMBO()
     t0ltetmo \
     tilapia \
     toro \
+    p700 \
     toroplus \
     yuga;
   do
