@@ -31,6 +31,7 @@ ZOMG_ITS_A_COMBO_COMBO()
     manta \
     mako \
     maserati \
+    ovation \
     p880 \
     pollux \
     t0lteatt \
