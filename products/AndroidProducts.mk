@@ -7,6 +7,7 @@ PRODUCT_MAKEFILES := \
 	$(LOCAL_DIR)/vanir_e975.mk \
 	$(LOCAL_DIR)/vanir_e980.mk \
     $(LOCAL_DIR)/vanir_flo.mk \
+	$(LOCAL_DIR)/vanir_find5.mk \
     $(LOCAL_DIR)/vanir_grouper.mk \
     $(LOCAL_DIR)/vanir_hercules.mk \
     $(LOCAL_DIR)/vanir_i605.mk \

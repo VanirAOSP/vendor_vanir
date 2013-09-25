@@ -10,6 +10,7 @@ ZOMG_ITS_A_COMBO_COMBO()
     e975 \
     e980 \
     flo \
+	find5 \
     grouper \
     hercules \
     i605 \
