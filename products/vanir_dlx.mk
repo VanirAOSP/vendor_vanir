@@ -10,6 +10,9 @@ $(call inherit-product, device/htc/dlx/full_dlx.mk)
 $(call inherit-product, vendor/vanir/products/vanir_m7-common.mk)
 $(call inherit-product, vendor/vanir/products/cdma.mk)
 
+# overlays
+PRODUCT_PACKAGE_OVERLAYS += device/htc/dlx/overlay
+
 ## Device identifier. This must come after all inclusions
 PRODUCT_DEVICE := dlx
 PRODUCT_NAME := vanir_dlx
