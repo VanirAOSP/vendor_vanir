@@ -29,6 +29,7 @@ i605
 i9300
 i9305
 iyokan
+janice
 jewel
 jflte
 ls980
