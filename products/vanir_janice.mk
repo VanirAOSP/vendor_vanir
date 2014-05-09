@@ -10,9 +10,6 @@ $(call inherit-product, vendor/vanir/products/gsm.mk)
 # Release name
 PRODUCT_RELEASE_NAME := GT-I9070
 
-# Overlay
-#PRODUCT_PACKAGE_OVERLAYS += vendor/aicp/overlay/janice
- 
 # Setup device specific product configuration
 PRODUCT_DEVICE := janice
 PRODUCT_NAME := vanir_janice
