@@ -7,6 +7,9 @@ $(call inherit-product, vendor/vanir/products/common.mk)
 # Inherit common vanir files.
 $(call inherit-product, vendor/vanir/products/gsm.mk)
 
+# Overlay
+#PRODUCT_PACKAGE_OVERLAYS += vendor/vanirAOSP/overlay/janice
+
 # Release name
 PRODUCT_RELEASE_NAME := GT-I9070
 
