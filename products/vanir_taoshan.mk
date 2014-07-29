@@ -13,7 +13,7 @@ TARGET_SCREEN_HEIGHT := 854
 TARGET_SCREEN_WIDTH := 480
 
 # Inherit device configuration
-$(call inherit-product, device/sony/taoshan/full_taoshan.mk)
+$(call inherit-product, device/sony/taoshan/taoshan.mk)
 
 # Inherit common vanir files.
 $(call inherit-product, vendor/vanir/products/common_phones.mk)
