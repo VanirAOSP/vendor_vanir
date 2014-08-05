@@ -95,7 +95,7 @@ yuga
 EOF
 }
 
-for x in `COMBOSL| sort -h`; do 
+for x in `COMBOL| sort -h`; do 
   add_lunch_combo vanir_legacy_$x-userdebug
   add_lunch_combo vanir_legacy_$x-user
 done

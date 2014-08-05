@@ -1,6 +1,10 @@
 #Squisher Choosing
 DHO_VENDOR := vanir
 
+#Legacy Baggage
+$(cp vendor/vanir/legacy/legacy_manifest.xml .repo/local_manifests/legacy_manifest.xml)
+
+
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.goo.rom=vanir-YUGA
 

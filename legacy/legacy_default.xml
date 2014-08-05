@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+
+  <project path="device/asus/tilapia" name="device_asus_tilapia" remote="vanir" revision="kk44" groups="device" />
+
+  <project path="device/htc/evita" name="cannondalev2000/device_htc_evita" remote="github" revision="kk44" />
+  <project path="device/htc/jewel" name="android_device_htc_jewel" />
+  <project path="device/htc/ville" name="cannondalev2000/device_htc_ville" remote="github" revision="kk44" />
+
+  <project path="device/motorola/maserati" name="android_device_motorola_maserati" />
+  <project path="device/motorola/moto_msm8960dt" name="android_device_motorola_moto_msm8960dt" />
+
+  <project path="device/oppo/n1" name="android_device_oppo_n1" device="oppo_n1" />
+
+  <project path="device/samsung/i605" name="android_device_samsung_i605" groups="device" />
+  <project path="device/samsung/janice" name="device_samsung_janice" remote="vanir" revision="kk44" groups="ste" />
+  <project path="device/samsung/manta" name="device_samsung_manta" remote="vanir" revision="kk44" groups="device" />
+  <project path="device/samsung/t0lte" name="device_samsung_t0lte" remote="vanir" revision="kk44" groups="device" />
+  <project path="device/samsung/p3110" name="android_device_samsung_p3110" groups="p3110" />
+  <project path="device/samsung/t0lteatt" name="android_device_samsung_t0lteatt" groups="device" />
+  <project path="device/samsung/t0ltetmo" name="android_device_samsung_t0ltetmo" groups="device" />
+  <project path="device/samsung/toroplus" name="device_samsung_toroplus" remote="vanir" revision="kk44" groups="device" />
+
+  <project path="device/semc/iyokan" name="LegacyXperia/android_device_semc_iyokan" remote="lx" revision="cm-11.0" />
+
+  <project path="device/sony/pollux" name="device_sony_pollux" remote="vanir" revision="kk44" />
+  <project path="device/sony/pollux_windy" name="android_device_sony_pollux_windy" />
+  <project path="device/sony/pollux-common" name="android_device_sony_pollux-common" groups="device" />
+  <project path="device/sony/sirius" name="android_device_sony_sirius" device="shinano" />
+  <project path="device/sony/yuga" name="device_sony_yuga" remote="vanir" revision="kk44" />
+
+</manifest>
