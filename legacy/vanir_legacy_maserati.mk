@@ -20,7 +20,7 @@ $(call inherit-product, device/motorola/maserati/full_maserati.mk)
 # Setup device specific product configuration.
 #
 # Setup device specific product configuration.
-PRODUCT_NAME := vanir_maserati
+PRODUCT_NAME := vanir_legacy_maserati
 PRODUCT_BRAND := verizon
 PRODUCT_DEVICE := maserati
 PRODUCT_RELEASE_NAME := Droid4

@@ -20,7 +20,7 @@ $(call inherit-product, vendor/vanir/products/gsm.mk)
 $(call inherit-product, device/samsung/t0lteatt/full_t0lteatt.mk)
 
 # Setup device specific product configuration.
-PRODUCT_NAME := vanir_t0lteatt
+PRODUCT_NAME := vanir_legacy_t0lteatt
 PRODUCT_DEVICE := t0lteatt
 PRODUCT_BRAND := Samsung
 PRODUCT_MANUFACTURER := Samsung

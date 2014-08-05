@@ -18,7 +18,7 @@ $(call inherit-product, device/htc/ville/device_ville.mk)
 
 # Device naming
 PRODUCT_DEVICE := ville
-PRODUCT_NAME := vanir_ville
+PRODUCT_NAME := vanir_legacy_ville
 PRODUCT_BRAND := htc
 PRODUCT_MODEL := One S
 PRODUCT_MANUFACTURER := HTC
