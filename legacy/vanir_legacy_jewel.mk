@@ -22,7 +22,7 @@ $(call inherit-product, device/htc/jewel/jewel.mk)
 PRODUCT_LOCALES := en_US
 
 # Setup device specific product configuration.
-PRODUCT_NAME := vanir_jewel
+PRODUCT_NAME := vanir_legacy_jewel
 PRODUCT_BRAND := htc
 PRODUCT_DEVICE := jewel
 PRODUCT_MODEL := EVO 4G LTE

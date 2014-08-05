@@ -21,7 +21,7 @@ PRODUCT_COPY_FILES += \
 # Inherit AOSP device configuration for Manta.
 $(call inherit-product, device/samsung/manta/full_manta.mk)
 
-PRODUCT_NAME := vanir_manta
+PRODUCT_NAME := vanir_legacy_manta
 PRODUCT_DEVICE := manta
 PRODUCT_BRAND := Google
 PRODUCT_MODEL := Nexus 10

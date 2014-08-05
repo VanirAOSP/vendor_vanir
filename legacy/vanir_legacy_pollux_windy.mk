@@ -19,7 +19,7 @@ $(call inherit-product, vendor/vanir/products/common_tabs.mk)
 $(call inherit-product, device/sony/pollux_windy/full_pollux_windy.mk)
 
 # Set those variables here to overwrite the inherited values.
-PRODUCT_NAME := vanir_pollux_windy
+PRODUCT_NAME := vanir_legacy_legacy_pollux_windy
 PRODUCT_DEVICE := pollux_windy
 PRODUCT_BRAND := Sony
 PRODUCT_MANUFACTURER := Sony

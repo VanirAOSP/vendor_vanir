@@ -2,7 +2,6 @@
 COMBOS()
 {
 cat<<EOF
-hammerhead
 anzu
 coconut
 codina
@@ -16,7 +15,6 @@ d802
 d803
 dlx
 e980
-evita
 falcon
 find5
 find7
@@ -27,17 +25,14 @@ golden
 grouper
 haida
 hallon
+hammerhead
 hlte
 honami
 i9100g
-i605
 i9300
 i9305
 i9500
 jactiveltexx
-janice
-iyokan
-jewel
 jflte
 klte
 ls980
@@ -50,41 +45,57 @@ m7vzw
 m8
 maguro
 mango
-manta
 mako
-maserati
 mondrianwifi
 moto_msm8960
-moto_msm8960dt
-n1
 nicki
-p3110
 p880
-pollux
-pollux_windy
-satsuma
-sirius
 skomer
 smultron
-t0lteatt
-t0ltetmo
 taoshan
 tf700t
 tf701t
-tilapia
 toro
-toroplus
 urushi
 v500
-ville
 vs980
-yuga
 EOF
 }
-#galaxysmtd
 
 for x in `COMBOS | sort -h`; do 
   add_lunch_combo vanir_$x-userdebug
   add_lunch_combo vanir_$x-user
 done
 add_lunch_combo vanir_klte-eng
+
+
+COMBOL()
+{
+cat<<EOF
+evita
+i605
+janice
+iyokan
+jewel
+manta
+maserati
+moto_msm8960dt
+n1
+p3110
+pollux
+pollux_windy
+satsuma
+sirius
+t0lteatt
+t0ltetmo
+tilapia
+toroplus
+ville
+yuga
+EOF
+}
+
+for x in `COMBOSL| sort -h`; do 
+  add_lunch_combo vanir_legacy_$x-userdebug
+  add_lunch_combo vanir_legacy_$x-user
+done

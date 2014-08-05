@@ -18,7 +18,7 @@ $(call inherit-product, device/samsung/janice/full_janice.mk)
 
 # Setup device specific product configuration
 PRODUCT_DEVICE := janice
-PRODUCT_NAME := vanir_janice
+PRODUCT_NAME := vanir_legacy_janice
 PRODUCT_BRAND := samsung
 PRODUCT_MODEL := GT-I9070
 PRODUCT_MANUFACTURER := samsung

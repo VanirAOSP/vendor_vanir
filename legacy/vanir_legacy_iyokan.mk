@@ -40,7 +40,7 @@ PRODUCT_BUILD_PROP_OVERRIDES += \
     PRIVATE_BUILD_DESC="MK16i-user 4.4.4 4.1.B.0.587 tL1_3w test-keys"
 
 # Device identifier. This must come after all inclusions
-PRODUCT_NAME := vanir_iyokan
+PRODUCT_NAME := vanir_legacy_iyokan
 PRODUCT_RELEASE_NAME := iyokan
 
 # Enable Sony apps in play store

@@ -17,5 +17,5 @@ PRODUCT_BUILD_PROP_OVERRIDES += \
     PRODUCT_NAME=moto_msm8960dt \
     TARGET_DEVICE=moto_msm8960dt
 
-PRODUCT_NAME := vanir_moto_msm8960dt
+PRODUCT_NAME := vanir_legacy_moto_msm8960dt
 PRODUCT_DEVICE := moto_msm8960dt

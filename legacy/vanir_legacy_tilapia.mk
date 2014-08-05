@@ -29,7 +29,7 @@ $(call inherit-product, vendor/vanir/products/gsm.mk)
 $(call inherit-product, device/asus/tilapia/full_tilapia.mk)
 
 # Setup device specific product configuration.
-PRODUCT_NAME := vanir_tilapia
+PRODUCT_NAME := vanir_legacy_tilapia
 PRODUCT_BRAND := google
 PRODUCT_DEVICE := tilapia
 PRODUCT_MODEL := Nexus 7 GSM

@@ -20,7 +20,7 @@ $(call inherit-product, device/sony/yuga/full_yuga.mk)
 # Setup device specific product configuration.
 #
 # Setup device specific product configuration.
-PRODUCT_NAME := vanir_yuga
+PRODUCT_NAME := vanir_legacy_yuga
 PRODUCT_BRAND := Sony
 PRODUCT_DEVICE := yuga
 PRODUCT_RELEASE_NAME := Xperia Z

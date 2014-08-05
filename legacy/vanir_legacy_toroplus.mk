@@ -16,7 +16,7 @@ $(call inherit-product, vendor/vanir/products/vanir_tuna.mk)
 $(call inherit-product, device/samsung/toroplus/full_toroplus.mk)
 
 # Setup device specific product configuration.
-PRODUCT_NAME := vanir_toroplus
+PRODUCT_NAME := vanir_legacy_toroplus
 PRODUCT_BRAND := google
 PRODUCT_DEVICE := toroplus
 PRODUCT_MODEL := Galaxy Nexus

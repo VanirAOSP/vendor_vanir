@@ -21,7 +21,7 @@ PRODUCT_COPY_FILES += \
 $(call inherit-product, device/samsung/p3110/full_p3110.mk)
 
 # Set those variables here to overwrite the inherited values.
-PRODUCT_NAME := vanir_p3110
+PRODUCT_NAME := vanir_legacy_p3110
 PRODUCT_DEVICE := p3110
 PRODUCT_BRAND := Samsung
 PRODUCT_MANUFACTURER := Samsung
