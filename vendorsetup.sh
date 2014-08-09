@@ -2,8 +2,8 @@
 COMBOS()
 {
 cat<<EOF
-hammerhead
 anzu
+bacon
 coconut
 codina
 codinalte
@@ -27,6 +27,7 @@ golden
 grouper
 haida
 hallon
+hammerhead
 hlte
 honami
 i9100g
