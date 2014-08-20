@@ -1,0 +1,9 @@
+#!/system/bin/sh
+
+mount -o remount,rw /system;
+
+var_gps="/system/etc/gps.conf";
+bak_gps="/system/etc/gps.conf.bak";
+
+rm -rf $var_gps
+mv $bak_gps $var_gps

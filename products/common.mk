@@ -293,6 +293,16 @@ PRODUCT_COPY_FILES += \
     vendor/vanir/proprietary/common/etc/init.d/0000kernelassimilator:system/etc/init.d/0000kernelassimilator \
     vendor/vanir/proprietary/common/etc/kernelassimilator.d/00bootclasspath:system/etc/kernelassimilator.d/00bootclasspath
 
+# gps region
+PRODUCT_COPY_FILES += \
+    vendor/vanir/proprietary/gpsscripts/europa:system/etc/gpsscripts/europa \
+    vendor/vanir/proprietary/gpsscripts/africa:system/etc/gpsscripts/africa \
+    vendor/vanir/proprietary/gpsscripts/asia:system/etc/gpsscripts/asia \
+    vendor/vanir/proprietary/gpsscripts/default:system/etc/gpsscripts/default \
+    vendor/vanir/proprietary/gpsscripts/northamerica:system/etc/gpsscripts/northamerica \
+    vendor/vanir/proprietary/gpsscripts/oceania:system/etc/gpsscripts/oceania \
+    vendor/vanir/proprietary/gpsscripts/southamerica:system/etc/gpsscripts/southamerica
+
 
 -include vendor/cyngn/product.mk
 

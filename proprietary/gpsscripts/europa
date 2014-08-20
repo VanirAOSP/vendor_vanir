@@ -1,0 +1,13 @@
+#!/system/bin/sh
+
+mount -o remount,rw /system;
+
+var_gps="/system/etc/gps.conf";
+
+sed -i "s/NTP_SERVER[.a-zA-Z\=-\0-5\]*//g" $var_gps;
+sed -i "s/-america[.a-zA-Z\=-\0-5\]*//g" $var_gps;
+echo "NTP_SERVER=europe.pool.ntp.org" >> $var_gps;
+echo "NTP_SERVER=0.europe.pool.ntp.org" >> $var_gps;
+echo "NTP_SERVER=1.europe.pool.ntp.org" >> $var_gps;
+echo "NTP_SERVER=2.europe.pool.ntp.org" >> $var_gps;
+echo "NTP_SERVER=3.europe.pool.ntp.org" >> $var_gps;
