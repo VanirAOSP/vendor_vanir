@@ -30,7 +30,7 @@ ifeq ($(RELEASE),)
 ifneq ($(FORCE_BUILD_DATE),)
 BUILD_DATE:=.$(FORCE_BUILD_DATE)
 else
-BUILD_DATE:=$(shell date +".%m%d%y")
+BUILD_DATE:=$(shell date +".%Y%m%d")
 endif
 Vanir_BUILD=$(Vanir_Version)$(BUILD_DATE)
 endif
