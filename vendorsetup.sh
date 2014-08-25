@@ -80,6 +80,7 @@ urushi
 v500
 ville
 vs980
+wx_na_wf
 yuga
 EOF
 }
