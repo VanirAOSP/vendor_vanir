@@ -14,11 +14,15 @@ $(call inherit-product, device/nvidia/wx_na_wf/full_wx_na_wf.mk)
 PRODUCT_COPY_FILES += \
     vendor/vanir/proprietary/boot_animations/1200x1920.zip:system/media/bootanimation.zip
 
+# Set BUILD ID
+BUILD_ID := KOT49H
+BUILD_DISPLAY_ID := KOT49H.22229_440.9583
+
 PRODUCT_BUILD_PROP_OVERRIDES += \
     PRODUCT_NAME=wx_na_wf \
     TARGET_DEVICE=shieldtablet \
-    BUILD_FINGERPRINT="nvidia/wx_na_wf/shieldtablet:4.4.2/KOT49H/22229_438.1909:user/release-keys" \
-    PRIVATE_BUILD_DESC="wx_na_wf-user 4.4.2 KOT49H 22229_438.1909 release-keys"
+    BUILD_FINGERPRINT="nvidia/wx_na_wf/shieldtablet:4.4.2/KOT49H/22229_440.9583:user/release-keys" \
+    PRIVATE_BUILD_DESC="wx_na_wf-user 4.4.2 KOT49H 22229_440.9583 release-keys"
 
 # Setup device specific product configuration.
 PRODUCT_NAME := vanir_wx_na_wf
