@@ -61,6 +61,7 @@ PRODUCT_MAKEFILES := \
     $(LOCAL_DIR)/vanir_n5100.mk \
     $(LOCAL_DIR)/vanir_n5110.mk \
     $(LOCAL_DIR)/vanir_n5120.mk \
+    $(LOCAL_DIR)/vanir_n7100.mk \
     $(LOCAL_DIR)/vanir_nicki.mk \
     $(LOCAL_DIR)/vanir_p3110.mk \
     $(LOCAL_DIR)/vanir_p880.mk \
