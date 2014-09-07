@@ -27,6 +27,7 @@ hlte
 hltespr
 hltevzw
 honami
+huashan
 i9100g
 i605
 i9300
