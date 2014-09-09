@@ -28,6 +28,7 @@ hltespr
 hltevzw
 honami
 huashan
+i9082
 i9100g
 i605
 i9300
