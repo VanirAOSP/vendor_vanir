@@ -1,4 +1,5 @@
 import /init.superuser.rc
+import /system/etc/init.vanir.quickboot.rc
 
 on init
     export TERMINFO /system/etc/terminfo
