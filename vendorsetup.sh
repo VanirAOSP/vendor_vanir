@@ -37,6 +37,7 @@ i9500
 janice
 jewel
 jflte
+klimtwifi
 klte
 kltespr
 kltevzw
