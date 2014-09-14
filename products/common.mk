@@ -20,9 +20,12 @@ PRODUCT_PACKAGES += \
     VanirUpdater \
     Vanir442BootAnimation
 
-# QuickBoot: fuck you jflte.  share.
-PRODUCT_COPY_FILES += \
-    vendor/samsung/jflte/proprietary/app/QuickBoot.apk:system/app/QuickBoot.apk
+# QuickBoot is designed to properly "fake power-off" devices with qcom init tasks
+ifeq ($(BOARD_USES_QCOM_HARDWARE),true)
+PRODUCT_PACKAGES += \
+    QuickBoot
+endif
+
 
 Vanir_Version=4.4.4
 Vanir_BUILD=$(Vanir_Version)
