@@ -1,0 +1,2 @@
+# /system/etc/init.vanir.quickboot.rc
+# this file is intentionally empty because this device is non-QCOM or an oppo msm8974/apq8064 device
