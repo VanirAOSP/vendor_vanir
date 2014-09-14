@@ -20,9 +20,7 @@ PRODUCT_PACKAGES += \
     VanirUpdater \
     Vanir442BootAnimation
 
-# QuickBoot: fuck you jflte.  share.
-PRODUCT_COPY_FILES += \
-    vendor/samsung/jflte/proprietary/app/QuickBoot.apk:system/app/QuickBoot.apk
+$(call inherit-product, vendor/vanir/proprietary/qcom/quickboot.mk)
 
 Vanir_Version=4.4.4
 Vanir_BUILD=$(Vanir_Version)
