@@ -1,0 +1,409 @@
+#!/system/bin/sh
+#
+# FreeXplain-r AKA "FreeX" by -=zeppelinrox=-
+#
+# See http://goo.gl/9H58pS - FreeXplain-r thread at XDA
+#
+ver=RC2
+#
+# When using scripting tricks, ideas, or code snippets from here, GIVE PROPER CREDIT.
+# There are many things may look simple, but actually took a lot of time, trial, and error to get perfected.
+# So DO NOT remove credits, put your name on top, and pretend it's your creation.
+# That's called kanging and makes you a dumbass.
+#
+# This script can be used freely and can even be modified for PERSONAL USE ONLY.
+# It can be freely incorporated into ROMs - provided that proper credit is given WITH a link back to the XDA thread.
+# If you want to share it or make a thread about it, just provide a link to the main thread.
+#      - This ensures that users will always be getting the latest versions.
+# Prohibited: Any modification (excluding personal use), repackaging, redistribution, or mirrors of my work are NOT PERMITTED.
+# Thanks, zeppelinrox.
+#
+# For debugging, delete the # at the beginning of the following 2 lines, and check /sdcard/Debug_Freex.log file to see what may have fubarred.
+# set -x
+# exec > /sdcard/Debug_Freex.log 2>&1
+#
+PATH=$PATH:/system/xbin:/sbin:/vendor/bin:/system/sbin:/system/bin:/data/data/jackpal.androidterm/app_HOME:/data/data/jackpal.androidterm/kbox2/bin:/data/data/os.tools.scriptmanager/bin:/data/data/os.tools.scriptmanagerpro/bin:/data/data/burrows.apps.busybox/app_busybox:/data/data/com.spartacusrex.spartacuside/files/system/bin/bbdir
+cd "${0%/*}" 2>/dev/null
+remount(){
+	mount -o remount,$1 /data 2>/dev/null
+	mount -o remount,$1 /system 2>/dev/null
+	busybox mount -o remount,$1 /system 2>/dev/null
+	busybox mount -o remount,$1 $(busybox mount | awk '/ \/system /{print $1,$3}') 2>/dev/null
+}
+check_commands(){
+	grep Mem /proc/meminfo > /dev/null 2>/dev/null
+	if [ "$?" -gt 0 ]; then
+		nogrep=yes
+		echo $line
+		echo " ERROR: grep command was NOT found."
+		sleep 1
+	fi
+	printf "test\n" > /dev/null 2>/dev/null
+	if [ "$?" -gt 0 ]; then
+		noprintf=yes
+		echo $line
+		echo " ERROR: printf command was NOT found."
+	fi
+	if [ "$nogrep" ] || [ "$noprintf" ]; then
+		coconut
+		if [ "$root" ]; then echo " You have root soooo... Y U NO INSTALL BUSYBOX!?"
+		else
+			echo " Easy fix is to install BusyBox..."
+			echo ""
+			sleep 1
+			echo "               ...root is NOT required..."
+			echo ""
+			sleep 1
+			if [ -f "busybox.zip" ]; then
+				echo $line
+				echo "                     ...Aaaand I found BusyBox!"
+				coconut
+				sleep 1
+				if [ -d /data/data/jackpal.androidterm/app_HOME ]; then
+					install_bb /data/data/jackpal.androidterm/app_HOME "Terminal Emulator"
+				fi
+				if [ ! "$success" ] && [ -d /data/data/os.tools.scriptmanagerpro/bin ]; then
+					install_bb /data/data/os.tools.scriptmanagerpro/bin "Script Manager Pro"
+				fi
+				if [ ! "$success" ] && [ -d /data/data/os.tools.scriptmanager/bin ]; then
+					install_bb /data/data/os.tools.scriptmanager/bin "Script Manager"
+				fi
+			else
+				echo "  ...put a busybox binary in the same folder..."
+				echo ""
+				sleep 1
+				echo "     ...as this script and I can do the rest..."
+				echo ""
+				sleep 1
+			fi
+			if [ ! "$success" ]; then echo "         ...check the XDA thread for more help!"; fi
+		fi
+		if [ ! "$success" ]; then
+			echo ""
+			sleep 1
+			echo " ...Soooo for now..."
+			echo ""
+			sleep 2
+			echo $line
+			echo -e "                ${fubar}NO FREEX FOR YOU!$reset"
+			coconut
+			exit 69
+		fi
+	fi
+}
+check_selfcmd(){
+	if [ "`ls ${PATH//:/ } 2>/dev/null | grep freex`" ]; then cmd=freex
+	else cmd="sh freex"
+	fi
+}
+getta_clu(){
+	coconut
+	check_selfcmd
+	echo -e "$helpc Command Line Usage$reset: $installc$cmd$reset [$helpc-xrmpkwgctoih$reset]"
+	echo ""
+	echo -e "   -x   e${hilite}x${reset}plain wtfree means."
+	echo -e "   -r   explain even moa${hilite}r${reset} (implies x)"
+	echo -e "   -m   ${hilite}m${reset}b mode (default is kB)"
+	echo -e "   -p   ${hilite}p${reset}ercentage mode (default is... nvm)"
+	echo -e "   -k   ${hilite}k${reset}b mode - for use with m and/or p."
+	echo -e "   -w   force -= ${hilite}w${reset} i d e =- output for m and p."
+	echo -e "   -g   show $hilite${huline}g${reset}r${huline}|d lines${reset}"
+	echo -e "   -c   ${hilite}c${reset}yan-O-mode. (get it?)"
+	echo -e "   -t   show only ${hilite}t${reset}otals. Quick & Clean."
+	echo -e "   -o   ${hilite}o${reset}mit -/+ adjustment. Use t if no swap."
+	echo -e "   -i   ${hilite}i${reset}nstall to /system/xbin if #r00t# OR..."
+	echo    "        install to a /data/data/app folder."
+	echo -e "   -h   ${hilite}h${reset}elp. THIS. (other output follows)"
+	echo "   -    clear memory (or I dig up... mwuahahaha)"
+	echo ""
+	echo -e " ${huline}Example$reset: $installc$cmd $helpc-gmxtw$reset (grid/mb/explain/wide)"
+	echo ""
+	echo -e "   ${huline}Notes$reset: freex runs prior command by default..."
+	echo "             ...but it forgets about i and h ;^)"
+	echo "          You can print all 3 tables! ie. [-kpm]"
+	echo "          Swap is shown ONLY if it's enabled."
+	echo ""
+	sleep 2
+}
+install(){
+	remount rw
+	echo $line
+	echo " Installing myself to..."
+	echo ""
+	printf "$installc%47s$reset\n" ...$1
+	coconut
+	cat "$0" > $1
+	chmod 777 $1
+	installed=youbetcha
+	end_ver_check
+}
+copy(){
+	remount rw
+	coconut
+	echo " For convenience..."
+	echo ""
+	sleep 1
+	echo "   ...I'll just copy myself to the same folder!"
+	echo ""
+	sleep 1
+	echo $line
+	echo -e "$installc Copying myself to freex$reset"
+	coconut
+	sleep 2
+	cat "$0" > freex
+	end_ver_check
+}
+install_bb(){
+	echo " Hopefully you're using $2..."
+	echo ""
+	sleep 1
+	echo " Installation can take a minute... hold on!"
+	echo ""
+	cat busybox.zip > $1/busybox
+	cd "$1"
+	chmod 755 busybox
+	for applet in `./busybox --list`; do ./busybox ln -sf busybox $applet; done 2>/dev/null
+	cd -
+	echo $line
+	if [ "`which printf 2>/dev/null`" ]; then success=yes
+		echo "               Aaaand it's good!!"
+		coconut
+		sleep 1
+	else
+		echo " That's a FAIL..."
+		coconut
+		sleep 1
+	fi
+}
+end_ver_check(){
+	remount ro
+	check_selfcmd
+	if [ "$cmd" = "sh freex" ] && [ "$termdir" ]; then cmd=freex
+		echo " For best results, add this to this app's..."
+		echo ""
+		sleep 1
+		echo " ...\"Initial command\"/\"\$PATH\"/similar setting.."
+		echo ""
+		sleep 1
+		echo -e "$installc PATH=\$PATH:$termdir$reset"
+		echo ""
+		sleep 1
+		echo " EXACTLY as shown... Aaaand then..."
+		echo ""
+		coconut
+	fi
+	echo -e " To run in this app, type: $installc$cmd$reset [$helpc-OPTIONS$reset]"
+	echo ""
+}
+coconut(){
+	echo $line
+	echo ""
+	sleep 1
+}
+do_math(){
+	ramtotalraw=$((`grep ^MemTotal: /proc/meminfo | grep -o "[0-9].* "`))
+	swaptotalraw=$((`grep ^SwapTotal: /proc/meminfo | grep -o "[0-9].* "`))
+	ramfreeraw=$((`grep ^MemFree: /proc/meminfo | grep -o "[0-9].* "`))
+	ramcachedraw=$((`grep ^Cached: /proc/meminfo | grep -o "[0-9].* "`))
+	rambuffersraw=$((`grep ^Buffers: /proc/meminfo | grep -o "[0-9].* "`))
+	swapfreeraw=$((`grep ^SwapFree: /proc/meminfo | grep -o "[0-9].* "`))
+	swapcachedraw=$((`grep ^SwapCached: /proc/meminfo | grep -o "[0-9].* "`))
+	ramswaptotalraw=$((ramtotalraw+swaptotalraw))
+	if [ "$pmode" ]; then div=$ramtotalraw; fi
+	ramtotal=$((((((ramtotalraw*100)+(div/2))/div)+(kb/2))/kb))
+	ramfree=$((((((ramfreeraw*100)+(div/2))/div)+(kb/2))/kb))
+	ramused=$((ramtotal-ramfree))
+	rambufferscached=$(((((((ramcachedraw+rambuffersraw)*100)+(div/2))/div)+(kb/2))/kb))
+	ramcached=$((((((ramcachedraw*100)+(div/2))/div)+(kb/2))/kb))
+	rambuffers=$((rambufferscached-ramcached))
+	ramfreereal=$((ramfree+rambufferscached))
+	ramusedreal=$((ramtotal-ramfreereal))
+	if [ "$swaptotalraw" -ne 0 ]; then
+		if [ "$pmode" ]; then div=$swaptotalraw; fi
+		swaptotal=$((((((swaptotalraw*100)+(div/2))/div)+(kb/2))/kb))
+		swapfree=$((((((swapfreeraw*100)+(div/2))/div)+(kb/2))/kb))
+		swapused=$((swaptotal-swapfree))
+		swapfreereal=$(((((((swapfreeraw+swapcachedraw)*100)+(div/2))/div)+(kb/2))/kb))
+		swapcached=$((swapfreereal-swapfree))
+		swapusedreal=$((swaptotal-swapfreereal))
+	else swapfree=0; swapused=0; swapcached=0; swapusedreal=0; swapfreereal=0; swaptotal=0
+	fi
+	if [ "$pmode" ]; then div=$ramswaptotalraw
+		ramswaptotal=$((((((ramswaptotalraw*100)+(div/2))/div)+(kb/2))/kb))
+		physicalfree=$(((((((ramfreeraw+swapfreeraw)*100)+(div/2))/div)+(kb/2))/kb))
+		physicalused=$((ramswaptotal-physicalfree))
+		rambufferscachedtotal=$(((((((ramcachedraw+swapcachedraw+rambuffersraw)*100)+(div/2))/div)+(kb/2))/kb))
+		ramcachedtotal=$(((((((ramcachedraw+swapcachedraw)*100)+(div/2))/div)+(kb/2))/kb))
+	else
+		ramswaptotal=$((ramtotal+swaptotal))
+		physicalfree=$((ramfree+swapfree))
+		physicalused=$((ramswaptotal-physicalfree))
+		rambufferscachedtotal=$((rambufferscached+swapcached))
+		ramcachedtotal=$((ramcached+swapcached))
+	fi
+	rambufferstotal=$((rambufferscachedtotal-ramcachedtotal))
+	realfree=$((physicalfree+rambufferscachedtotal))
+	realused=$((ramswaptotal-realfree))
+	if [ "$swaptotal" -eq 0 ]; then shide="\e[0;8m"
+		if [ "$oldfree" ]; then onlyttls=yes; fi
+	fi
+}
+print_freex(){
+	do_math
+	printf "$wsp$heading$wsp FreeXplain-r$wsp $grid $uline%s%$fsp1%$fsp1%$fsp1%11s%7s$grid\n" "" total used free buffers cached
+	if [ ! "$onlyttls" ]; then
+		printf "%$fsp2$ttlsub%$fsp1$up%$fsp1$fp%$fsp1 $upt$hide-$sign$hide/$fp$hide+$bc%$fsp3$tsp $sign+$bc%$fsp4\n" Mem$l $ramtotal$per $ramused$per $ramfree$per $rambuffers$per $ramcached$per
+		if [ "$uline" ] && [ ! "$oldfree" ] && [ "$swaptotal" -eq 0 ]; then printf "$grid$tuline $upt$uline-$sign$uline/$fpt$uline+$grid$uline $bct$uline%$fsp5$grid$uline%7s%$fsp6$ur$uline%$fsp7$grid$uline $fr$uline%$fsp7$grid$uline $ur$uline=$sign$uline/$fr$uline=$grid$uline%14s$reset\n" $rambufferscached$per bache$l "" $ramusedreal$per $ramfreereal$per ""
+		elif [ ! "$oldfree" ]; then printf " $upt-$sign/$fpt+$bct%$fsp7$grid%7s$ur%$fsp8$fr%$fsp1 $ur=$sign/$fr=$sign$shide%$fsp9$bcs$shide%$fsp4\n" $rambufferscached$per bache$l $ramusedreal$per $ramfreereal$per = $rambufferscached$per
+		fi
+		if [ "$swaptotal" -ne 0 ]; then
+			if [ "$uline" ] && [ "$oldfree" ]; then printf "$grid$tuline $uline%$fsp10 $ttlsub$uline%$fsp7$grid$uline $up$uline%$fsp7$grid$uline $fp$uline%$fsp7$grid$uline%$fsp11$tsp$bc$uline%$fsp5$reset\n" Swap$l $swaptotal$per $swapused$per $swapfree$per "" $swapcached$per
+			else printf "$grid%$fsp2$ttlsub%$fsp1$up%$fsp1$fp%$fsp1 $upt$hide-$sign$hide/$fp$hide+$bc%14s\n" Swap$l $swaptotal$per $swapused$per $swapfree$per $swapcached$per
+			fi
+			if [ ! "$oldfree" ]; then printf "$grid$tuline $upt$uline-$sign$uline/$fpt$uline+$grid$uline $bct$uline%$fsp5$grid$uline%7s%$fsp6$ur$uline%$fsp7$grid$uline $fr$uline%$fsp7$grid$uline $ur$uline=$sign$uline/$fr$uline=$grid$uline%14s$reset\n" $swapcached$per sache$l "" $swapusedreal$per $swapfreereal$per ""; fi
+		fi
+	fi
+	printf "$grid%$fsp2$ttlfin%$fsp1$upt%$fsp1$fpt%$fsp1 $upt-$sign/$fpt+$bct%$fsp3$tsp $sign+$bct%$fsp4\n" "TTLs: Physical$l" $ramswaptotal$per $physicalused$per $physicalfree$per $rambufferstotal$per $ramcachedtotal$per
+	printf " $upt-$sign/$fpt+$act%$fsp7$grid%7s$ttlfin%$fsp1$urt%$fsp1$frt%$fsp1 $urt=$sign/$frt=$grid$sign%$fsp9$act%$fsp4$reset\n" $rambufferscachedtotal$per Real$l $ramswaptotal$per $realused$per $realfree$per = $rambufferscachedtotal$per
+	echo ""
+}
+echo ""
+reset="\e[0m";black="\e[0;30m";blackbold="\e[0;1;30m";red="\e[0;91m";redbold="\e[0;1;31m";orange="\e[0;38;5;202m";orangebold="\e[0;1;38;5;202m";green="\e[0;32m";greenbold="\e[0;1;32m";yellow="\e[0;38;5;184m";yellowbold="\e[0;1;38;5;184m";holo="\e[0;94m";holobold="\e[0;1;34m";blue="\e[0;38;5;33m";bluebold="\e[0;1;38;5;33m";magneta="\e[0;95m";magnetabold="\e[0;1;35m";cyan="\e[0;36m";cyanbold="\e[0;1;36m";white="\e[0;37m";whitebold="\e[0;1;37m";heading="\e[0;4;1;102;38;5;57m";fubar="\e[1;101;33m"
+storage=${EXTERNAL_STORAGE#*mnt}; l=":"; huline="\e[4m"
+hilite=$greenbold; helpc=$green; installc=$magnetabold; grid=$white; sign=$white; ttlsub=$orange; ttlfin=$orangebold; up=$magneta; upt=$magnetabold; ur=$red; urt=$redbold; fp=$yellow; fpt=$yellowbold; fr=$green; frt=$greenbold; bc=$blue; bcs=$cyan; bct=$bluebold;act=$cyanbold
+line="-e $helpc================================================$reset"
+id=$(id); id=${id#*=}; id=${id%%[\( ]*}
+if [ "$id" = "0" ] || [ "$id" = "root" ]; then root=yes; termdir=/system/xbin
+elif [ "`ps | grep jackpal.androidterm`" ]; then termdir=/data/data/jackpal.androidterm
+elif [ "`ps | grep os.tools.scriptmanagerpro`" ]; then termdir=/data/data/os.tools.scriptmanagerpro
+elif [ "`ps | grep os.tools.scriptmanager`" ]; then termdir=/data/data/os.tools.scriptmanager
+elif [ "`ps | grep com.spartacusrex.spartacuside`" ]; then termdir=/data/data/com.spartacusrex.spartacuside/files/system/bin
+fi
+check_commands
+check_selfcmd
+opt=`cat /sdcard/.freex 2>/dev/null`
+if [ "`echo $1 | grep "^-" | grep -v [^-xrmpkwgctoih]`" ]; then opt=$1
+	optclean=$(echo `echo $opt | grep -o [-xrmpkwgcto]`)
+	echo ${optclean// } > $storage/.freex
+elif [ "$1" ]; then opt=-k; gotta_getta_clu=yes
+elif [ ! "$opt" ]; then opt=-k; echo $opt > $storage/.freex; gotta_getta_clu=yes
+fi
+if [ ! "$1" ]; then echo " Executing \"$0 $opt\""; echo ""; fi
+if [ "`echo $opt | grep x`" ]; then explain=yes; fi
+if [ "`echo $opt | grep r`" ]; then moar=yes; fi
+if [ "`echo $opt | grep m`" ]; then mbmode=yes; fi
+if [ "`echo $opt | grep p`" ]; then pmode=yes; fi
+if [ ! "$pmode" ] && [ ! "$mbmode" ] || [ "`echo $opt | grep k`" ]; then kmode=yes; fi
+if [ "`echo $opt | grep g`" ]; then uline="\e[4m"; l="|"; fi
+if [ "`echo $opt | grep c`" ]; then heading="\e[0;4;1;36m"; hilite=$cyanbold; grid=$cyan; helpc=$grid; ttlsub=$white; ttlfin=$whitebold; up=$ttlsub; upt=$ttlfin; ur=$grid; urt=$hilite; fp=$ttlsub; fp2=$grid; fp3=$grid; fpt=$ttlfin; fpt2=$hilite; fr=$grid; frt=$hilite; bc=$ttlsub; bct=$ttlfin; act=$ttlfin; fi
+line="-e $helpc================================================$reset"
+if [ "`echo $opt | grep t`" ]; then onlyttls=yes; fi
+if [ "`echo $opt | grep o`" ]; then	oldfree=yes; hide="\e[0;8m"; fp2=; fpt2=; fi
+if [ "`echo $opt | grep i`" ]; then
+	if [ "$termdir" ] && [ "`echo $0 | grep -v $termdir/freex`" ]; then install $termdir/freex
+	elif [ "$termdir" ]; then
+		coconut
+		echo " Sorry I can't go install myself!"
+		echo ""
+		sleep 1
+		echo " I'm the destination..."
+		echo ""
+		sleep 1
+		echo "    ...AND that's just anatomically impossible!"
+		echo ""
+		sleep 2
+	else
+		coconut
+		echo " I can't determine your terminal app..."
+		echo ""
+		sleep 1
+		echo "     ...so I can't install to its /data folder!"
+		echo ""
+		sleep 2
+	fi
+	if [ "${0##*/}" != "freex" ] && [ ! "$installed" ]; then
+		echo " ANYWAY..."
+		echo ""
+		sleep 1
+		copy
+	fi
+elif [ "$termdir" ] && [ ! "`grep $ver $termdir/freex 2>/dev/null`" ]; then install $termdir/freex
+elif [ ! "`grep $ver freex 2>/dev/null`" ]; then copy
+fi
+if [ "`echo $opt | grep h`" ] || [ "$gotta_getta_clu" ]; then getta_clu; fi
+if [ "`echo $opt | grep w`" ] || [ "$kmode" ]; then
+	fsp1=8s;fsp2=18s;fsp3=5s;fsp4=7s;fsp5=6s;fsp6=9s;fsp7=7s;fsp8=16s;fsp9=7s;fsp10=17s;fsp11=12s
+	wsp=" "
+	line="-e $helpc============================================================$reset"
+else
+	fsp1=5s;fsp2=15s;fsp3=6s;fsp4=5s;fsp5=3s;fsp6=6s;fsp7=4s;fsp8=10s;fsp9=9s;fsp10=14s;fsp11=14s
+	tsp=" "; tuline=$uline
+	line="-e $helpc================================================$reset"
+fi
+echo $line
+echo ""
+if [ "$pmode" ]; then kb=1; mode=%; per=%; print_freex; fi
+if [ "$mbmode" ]; then kb=1024; mode=" mb"; div=100; pmode=; per=; print_freex; fi
+if [ "$kmode" ]; then kb=1; mode=" kB"; div=100; pmode=; per=; print_freex; fi
+if [ "$explain" ] || [ "$moar" ]; then
+	line="-e $helpc================================================$reset"
+	uline="\e[4m"
+	if [ "$kmode" ]; then xsp1=13s; xsp2=1s; xsp3=11s; xsp4=2s
+	elif [ "$mbmode" ]; then xsp1=13s; xsp2=4s; xsp3=8s; xsp4=5s
+	else xsp1=10s; xsp2=5s; xsp3=4s; xsp4=6s
+	fi
+	if [ ! "$onlyttls" ] && [ ! "$oldfree" ]; then echo -e "  *${grid}bache$reset =$grid b${bc}uffers/c${grid}ache$reset"
+		if [ "$swaptotal" -ne 0 ]; then echo -e "  *${grid}sache$reset =$grid s${bc}wap c${grid}ache$reset"; fi
+		echo ""
+	elif [ "$onlyttls" ] && [ "$swaptotal" -ne 0 ]; then moar=
+	fi
+	echo -e "   ${uline}Note$reset: *$fpt math +$bct adds$frt = sideways$reset *"
+	echo -e "         *$upt also -$bct diff$urt = sideways$reset *"
+	if [ "$swaptotal" -ne 0 ] && [ ! "$pmode" ] && [ ! "$onlyttls" ]; then echo -e "         *$fp$fp2 same + hues =$fpt$fpt2 downways$reset *"; fi
+	echo ""
+	printf "$upt%$xsp1$reset is being used. ${uline}BUT$reset it$bc$fp3 includes$reset...\n" "$physicalused$mode"
+	printf "%$xsp2$upt$uline%s$act$uline%$xsp3$reset for all buffers and caches. SO...\n" "" - "$rambufferscachedtotal$mode"
+	printf "$urt%$xsp4%$xsp3$reset is REALLY used! And although...\n" = "$realused$mode"
+	printf "$fpt%$xsp1$reset is \"free\"... when you add the...\n" "$physicalfree$mode"
+	printf "%$xsp2$fpt$uline%s$act$uline%$xsp3$reset to it... you will see that...\n" "" + "$rambufferscachedtotal$mode"
+	printf "$frt%$xsp4$frt%$xsp3$reset is REALLY free! Not just $fpt%s$reset!\n" = "$realfree$mode" "$physicalfree$mode"
+	echo ""
+	if [ "$moar" ]; then act=$cyanbold; coconut
+		echo -e " The $fp$fp3$uline$ramfree$mode$reset \"free\" won't really reflect..."
+		echo "       ...lowmemorykiller/minfree levels either."
+		echo ""
+		echo -e "$fr Linux uses up ram regardless of them$reset!"
+		echo ""
+		echo " It uses whatever available \"free\" ram it can..."
+		echo "      ...to cache data and filesystem meta-data."
+		echo ""
+		echo " This helps the system run faster because..."
+		echo "   ...disk information is already in memory..."
+		echo "                  ...which saves I/O operations."
+		echo ""
+		echo -e " Caching in ram makes$fr app launching faster$reset..."
+		echo -e "                ...and things just$fr run smoother$reset."
+		echo ""
+		echo " Higher minfrees DO allow for more caching tho."
+		echo -e " That can make the $act$uline$rambufferscachedtotal$mode$reset value bigger..."
+		echo " ...so that more data gets stored in fast cache."
+		echo ""
+		echo " Lower minfrees would result in..."
+		echo "                    ...less usage of fast cache."
+		echo "           ...so lags are more likely to happen."
+		echo " "
+		echo -e " Find a $fr${uline}balance$reset where minfrees allow for..."
+		echo -e "      ...BOTH$fr fast ram caching$reset AND$fr multitasking$reset!"
+		echo ""
+		echo -e " $fr${uline}Forget$reset the \"Free ram is wasted ram\" mantra."
+		echo ""
+		echo " What most people consider to be \"free ram\"..."
+		echo -e "            ...is$fr NOT FREE$reset according to Linux..."
+		echo -e "  ...since it's $fr${uline}USED$reset to cache stuff in fast ram!"
+		echo ""
+		echo -e " However, the $fp$fp3$uline$ramfree$mode$reset free IS kinda wasted..."
+		echo "                 ...since it's totally unused :p"
+		echo ""
+	fi
+fi
+coconut
