@@ -134,7 +134,8 @@ PRODUCT_COPY_FILES += \
     vendor/vanir/proprietary/common/bin/otasigcheck.sh:system/bin/otasigcheck.sh \
     vendor/vanir/proprietary/common/bin/sysinit:system/bin/sysinit \
     vendor/vanir/proprietary/common/etc/init.d/00firsties:system/etc/init.d/00firsties \
-    vendor/vanir/proprietary/common/xbin/purgethumbnails:system/xbin/purgethumbnails
+    vendor/vanir/proprietary/common/xbin/purgethumbnails:system/xbin/purgethumbnails \
+    vendor/vanir/proprietary/common/etc/init.d/20purgethumbnailsonce:system/etc/init.d/20purgethumbnailsonce
 
 PRODUCT_COPY_FILES += \
     vendor/vanir/proprietary/common/lib/liblightcycle.so:system/lib/liblightcycle.so \
