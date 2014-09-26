@@ -13,8 +13,14 @@ if [ -z "$OUT" -o ! -d "$OUT" ]; then
     exit 1
 fi
 
-OTAPACKAGE=$OTA_PACKAGE_PATH
-
+if [ "$TARGET_BUILD_TYPE" = "debug" ]; then
+    OTAPACKAGE=$OUT/${TARGET_PRODUCT}_debug-ota-$TARGET_BUILD_VARIANT.$USER.zip
+elif [ "$TARGET_BUILD_VARIANT" = "userdebug" ]; then
+    OTAPACKAGE=$OUT/$TARGET_PRODUCT-ota-eng.$USER.zip
+else
+#    OTAPACKAGE=$OUT/$TARGET_PRODUCT-ota-$TARGET_BUILD_VARIANT.$USER.zip
+    OTAPACKAGE=$OUT/$TARGET_PRODUCT-ota-eng.$USER.zip
+fi
 if [ ! -f "$OTAPACKAGE" ]; then
     echo -e $CL_RED"$OTAPACKAGE doesn't exist!"$CL_RST;
     exit 1
@@ -139,15 +145,15 @@ echo -e ""
 echo -e ""
 echo -e $CL_GRN"================  "$CL_RST OTA package information $CL_GRN"  ================"$CL_RST
 echo -e ""
-echo -e $CL_BLU"Product name:"$CL_RST $OTAPACKAGE
+echo -e $CL_BLU"Product name:"$CL_RST $TARGET_PRODUCT-ota-eng.$USER.zip
 
 img=`basename $OUTFILE`
 cd `dirname $OUTFILE`
-STRING=$OTA_PACKAGE_PATH
+STRING="$TARGET_PRODUCT-ota-eng.$USER.zip"
 OTASIZE=`ls -lah $STRING | awk '{ print $5}' `
 echo -e $CL_BLU"Package Size: "$CL_YLW "$OTASIZE" $CL_RST
 echo -e $CL_BLU"Target Location: " $CL_RST
-echo -e $CL_YLW"$OTA_PACKAGE_PATH" $CL_RST
+echo -e $CL_YLW"$OUT/$TARGET_PRODUCT-ota-eng.$USER.zip" $CL_RST
 echo ""
 
 $MD5 $img >$img.md5
