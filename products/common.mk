@@ -16,8 +16,6 @@ PRODUCT_PACKAGES += \
     Email \
     Launcher3 \
     LiveWallpapersPicker \
-    OmniSwitch \
-    VanirUpdater \
     Vanir442BootAnimation
 
 # QuickBoot (included automagically for non-oppo qcom devices)
@@ -153,16 +151,16 @@ PRODUCT_PACKAGE_OVERLAYS += \
     vendor/vanir/overlay/dictionaries
 
 #Define thirdparty for Koush's SU
-SUPERUSER_EMBEDDED := true
-SUPERUSER_PACKAGE_PREFIX := com.android.settings.vanir.superuser
+#SUPERUSER_EMBEDDED := true
+#SUPERUSER_PACKAGE_PREFIX := com.android.settings.vanir.superuser
 
 # Required CM packages
 PRODUCT_PACKAGES += \
     Camera \
     Development \
     LatinIME \
-    Superuser \
-    su \
+#    Superuser \
+#    su \
     BluetoothExt
 
 # CM Hardware Abstraction Framework
@@ -244,8 +242,8 @@ PRODUCT_PACKAGES += \
 
 # Theme engine
 PRODUCT_PACKAGES += \
-    ThemeChooser \
-    ThemesProvider \
+#    ThemeChooser \
+#    ThemesProvider \
     Vanir_Inverted
 
 PRODUCT_COPY_FILES += \

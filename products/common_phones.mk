@@ -18,11 +18,9 @@ PRODUCT_PACKAGES += \
     Stk
 
 PRODUCT_PACKAGES += \
-    SpeakerProximity \
     CellBroadcastReceiver \
     Mms \
-    SoundRecorder \
-    VoicePlus
+    SoundRecorder
 
 
 # Audio Packages
