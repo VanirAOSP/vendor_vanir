@@ -111,6 +111,10 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     vendor/vanir/proprietary/common/etc/resolv.conf:system/etc/resolv.conf
 
+# Keyboard Files
+PRODUCT_COPY_FILES += \
+    vendor/vanir/proprietary/common/lib/libjni_latinime.so:system/lib/libjni_latinime.so
+
 # proprietary guts
 PRODUCT_COPY_FILES += \
     vendor/vanir/proprietary/common/media/LMprec_508.emd:system/media/LMprec_508.emd \
