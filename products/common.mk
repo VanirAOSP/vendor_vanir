@@ -111,6 +111,12 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     vendor/vanir/proprietary/common/etc/resolv.conf:system/etc/resolv.conf
 
+# Keyboard Files
+PRODUCT_COPY_FILES += \
+    vendor/vanir/proprietary/common/lib/libjni_unbundled_latinimegoogle.so:system/lib/libjni_unbundled_latinimegoogle.so \
+    vendor/vanir/proprietary/common/vendor/lib/libwvdrmengine.so:system/vendor/lib/mediadrm/libwvdrmengine.so \
+    vendor/vanir/proprietary/common/vendor/lib/drm/libdrmwvmplugin.so:system/vendor/lib/drm/libdrmwvmplugin.so
+
 # proprietary guts
 PRODUCT_COPY_FILES += \
     vendor/vanir/proprietary/common/media/LMprec_508.emd:system/media/LMprec_508.emd \
