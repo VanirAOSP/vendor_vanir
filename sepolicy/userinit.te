@@ -4,4 +4,8 @@ type userinit_exec, exec_type, file_type;
 init_daemon_domain(userinit)
 
 #============= userinit ==============
-unconfined_domain(userinit) 
+allow userinit data_file:file { rw_file_perms };
+allow userinit devpts:file { rw_file_perms };
+allow userinit shell_exec:file { rx_file_perms };
+allow userinit system_file:file { rx_file_perms };
+allow userinit self:process setcurrent;
