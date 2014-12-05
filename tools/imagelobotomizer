@@ -1,0 +1,4 @@
+#!/bin/bash
+optipng -o7 -quiet $1
+advdef -z -4 $1 > /dev/null
+mogrify -strip $1 > /dev/null

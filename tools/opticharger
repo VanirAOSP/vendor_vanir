@@ -48,7 +48,21 @@ then
     echo -e $CL_RED"Please install optipng, DICKBAG!"$CL_RST
     exit 1;
 fi
-
+if [ "$(which advdef)" = "" ];
+then
+    echo -e $CL_RED"Please install advancecomp, DICKBAG!"$CL_RST
+    exit 1
+fi
+if [ "$(which mogrify)" = "" ];
+then
+    echo -e $CL_RED"Please install imagemagick, DICKBAG!"$CL_RST
+    exit 1
+fi
+if [ "$(which tidy)" = "" ];
+then
+    echo -e $CL_RED"Please install tidy, DICKBAG!"$CL_RST
+    exit 1
+fi
 if [ "`which aapt`" = "" ];
 then
     echo -e $CL_RED"Please ensure aapt is in your \$PATH"$CL_RST
@@ -105,9 +119,9 @@ then
     cd $TMPDIR/$NAME
     unzip -q $BASE/$1
 
-    find . -name "*.png" | grep -v "\.9.png$" | tr "\n" " " | $XARGS optipng -nc -nb -O3 -quiet
-
-    cp $BASE/$1 $BASE/$1.old
+    containing=`dirname $0`
+    find . -name "*.png" | $XARGS $containing/imagelobotomizer
+    find . -name "*.xml" | $XARGS $containing/layoutlobotomizer
 
     [ $QUIET ] || echo -e $CL_YLW"Repacking apk.."$CL_RST
     aapt p -0 .dat -0 .dict -0 .arsc -F $NAME .
@@ -117,11 +131,6 @@ then
     java -jar $ANDROID_HOST_OUT/framework/signapk.jar $ANDROID_BUILD_TOP/$CERT $ANDROID_BUILD_TOP/$KEY $NAME signed_$NAME
     [ $QUIET ] || echo -e $CL_YLW"Zipaligning.."$CL_RST
     zipalign -f 4 signed_$NAME $BASE/$1
-    if [ ! $QUIET ]; then
-        ls -l $BASE/$1.old
-        ls -l $BASE/$1
-    fi
-    rm $BASE/$1.old
 else
     echo "Usage: $0 [apk file]"
 fi
