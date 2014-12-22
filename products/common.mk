@@ -16,8 +16,7 @@ PRODUCT_PACKAGES += \
     Email \
     Launcher3 \
     LiveWallpapersPicker \
-    OmniSwitch \
-    VanirUpdater
+    ExodusUpdater
 
 # QuickBoot (included automagically for non-oppo qcom devices)
 PRODUCT_PACKAGES += \
