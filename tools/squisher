@@ -56,6 +56,10 @@ rm -rf $REPACK/parallel
 # move utilities
 [ -e $OUT/utilities ] && cp $OUT/utilities/* $REPACK/ota/system/xbin/
 
+# No need for recovery
+rm -rf $REPACK/ota/recovery
+rm -rf $REPACK/ota/system/etc/install-recovery.sh
+
 # Determine what to name the new signed package
 MODVERSION=`sed -n -e'/ro\.modversion/s/^.*=//p' $OUT/system/build.prop`
 OUTVERSION="$TARGET_PRODUCT"_"$MODVERSION"
