@@ -2,6 +2,7 @@
 COMBOS()
 {
 cat<<EOF
+amami
 bacon
 codinalte
 deb
