@@ -1,6 +1,7 @@
 PRODUCT_MAKEFILES := \
     $(LOCAL_DIR)/vanir_bacon.mk \
     $(LOCAL_DIR)/vanir_codinalte.mk \
+    $(LOCAL_DIR)/vanir_comanche.mk \
     $(LOCAL_DIR)/vanir_deb.mk \
     $(LOCAL_DIR)/vanir_d2att.mk \
     $(LOCAL_DIR)/vanir_d2spr.mk \
