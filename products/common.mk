@@ -62,7 +62,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
     wifi.supplicant_scan_interval=300 \
     persist.sys.root_access=3 \
     persist.sys.purgeable_assets=1 \
-    ro.build.selinux=1
+    ro.build.selinux=1 \
+    fw.power_user_switcher=true
 
 # nomnomnom
 PRODUCT_PROPERTY_OVERRIDES += persist.sys.dun.override=0
