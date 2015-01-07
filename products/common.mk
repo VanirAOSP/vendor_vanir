@@ -195,7 +195,6 @@ PRODUCT_PACKAGES += \
     unrar \
     nano \
     htop \
-    powertop \
     lsof \
     mount.exfat \
     fsck.exfat \
@@ -209,6 +208,11 @@ PRODUCT_PACKAGES += \
     procrank \
     sqlite3 \
     strace
+
+ifneq ($(TARGET_ARCH),arm64)
+PRODUCT_PACKAGES += \
+    powertop
+endif
 
 # Stagefright FFMPEG plugin
 PRODUCT_PACKAGES += \
