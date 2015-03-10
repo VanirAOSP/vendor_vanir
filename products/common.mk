@@ -25,7 +25,7 @@ PRODUCT_PACKAGES += \
     QuickBoot \
     init.vanir.quickboot.rc
 
-Vanir_Version=5.0.2
+Vanir_Version=5.1
 Vanir_BUILD=$(Vanir_Version)
 
 ifeq ($(RELEASE),)

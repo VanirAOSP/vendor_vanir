@@ -27,4 +27,4 @@ PRODUCT_DEVICE := flounder
 PRODUCT_MODEL := Nexus 9
 PRODUCT_MANUFACTURER := HTC
 
-PRODUCT_BUILD_PROP_OVERRIDES += PRODUCT_NAME=volantis TARGET_DEVICE=flounder BUILD_FINGERPRINT=google/volantis/flounder:5.0/LRX21L/1546449:user/release-keys PRIVATE_BUILD_DESC="volantis-user 5.0 LRX21L 1546449 release-keys"
+PRODUCT_BUILD_PROP_OVERRIDES += PRODUCT_NAME=volantis TARGET_DEVICE=flounder BUILD_FINGERPRINT=google/volantis/flounder:5.1/LRX21L/1546449:user/release-keys PRIVATE_BUILD_DESC="volantis-user 5.1 LRX21L 1546449 release-keys"
