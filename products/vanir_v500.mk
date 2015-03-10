@@ -3,14 +3,14 @@ DHO_VENDOR := vanir
 
 PRODUCT_PROPERTY_OVERRIDES += \
     drm.service.enabled=true \
-    ro.goo.rom=vanir-v500
+    ro.goo.rom=vanir-v5.1
 
 # Boot Animation
 PRODUCT_COPY_FILES += \
     vendor/vanir/proprietary/boot_animations/1080x1920.zip:system/media/bootanimation.zip
 
 # Inherit device configuration
-$(call inherit-product, device/lge/v500/v500.mk)
+$(call inherit-product, device/lge/v5.1/v5.1.mk)
 
 # Tablet Overlays no radios
     PRODUCT_PACKAGE_OVERLAYS += vendor/vanir/overlay/tab_no_radio
@@ -19,10 +19,10 @@ $(call inherit-product, device/lge/v500/v500.mk)
 $(call inherit-product, vendor/vanir/products/common_tabs.mk)
 
 # Device identifier. This must come after all inclusions
-PRODUCT_DEVICE := v500
-PRODUCT_NAME := vanir_v500
+PRODUCT_DEVICE := v5.1
+PRODUCT_NAME := vanir_v5.1
 PRODUCT_BRAND := lge
-PRODUCT_MODEL := LG-V500
+PRODUCT_MODEL := LG-V5.1
 PRODUCT_MANUFACTURER := LGE
 
-PRODUCT_BUILD_PROP_OVERRIDES += PRODUCT_NAME=awifi_open_eu BUILD_FINGERPRINT=lge/awifi_open_eu/awifi:5.0/LMY47D/V50010a.1380629540:user/release-keys PRIVATE_BUILD_DESC="awifi_open_eu-user 5.0 LMY47D V50010a.1380629540 release-keys"
+PRODUCT_BUILD_PROP_OVERRIDES += PRODUCT_NAME=awifi_open_eu BUILD_FINGERPRINT=lge/awifi_open_eu/awifi:5.1/LMY47D/V5.110a.13806295.1:user/release-keys PRIVATE_BUILD_DESC="awifi_open_eu-user 5.1 LMY47D V5.110a.13806295.1 release-keys"
