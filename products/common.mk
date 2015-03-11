@@ -25,7 +25,7 @@ PRODUCT_PACKAGES += \
     QuickBoot \
     init.vanir.quickboot.rc
 
-Vanir_Version=5.0.2
+Vanir_Version=5.1.0
 Vanir_BUILD=$(Vanir_Version)
 
 ifeq ($(RELEASE),)
@@ -84,7 +84,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 endif
 
 # Version information used on all builds
-PRODUCT_BUILD_PROP_OVERRIDES += BUILD_DISPLAY_ID=LRX22G BUILD_ID=LRX22G BUILD_VERSION_TAGS=release-keys USER=android-build BUILD_EST_DATE=$(shell date +"%s")
+PRODUCT_BUILD_PROP_OVERRIDES += BUILD_DISPLAY_ID=LMY47D BUILD_ID=LMY47D BUILD_VERSION_TAGS=release-keys USER=android-build BUILD_EST_DATE=$(shell date +"%s")
 
 PRODUCT_COPY_FILES += \
     vendor/vanir/proprietary/common/xbin/sysrw:system/xbin/sysrw \
