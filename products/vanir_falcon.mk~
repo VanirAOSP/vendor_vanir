@@ -15,7 +15,6 @@ $(call inherit-product, vendor/vanir/products/common_phones.mk)
 # device name
 PRODUCT_RELEASE_NAME := MOTO G
 PRODUCT_NAME := vanir_falcon
-PRODUCT_DEVICE := falcon
 PRODUCT_BRAND := motorola
 PRODUCT_MODEL := MOTO G
 PRODUCT_MANUFACTURER := MOTOROLA
