@@ -17,6 +17,7 @@ PRODUCT_PACKAGES += \
     Terminal \
     busybox \
     Email \
+    Eleven \
     Launcher3 \
     LiveWallpapersPicker \
     VanirUpdater
