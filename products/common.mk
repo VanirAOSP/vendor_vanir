@@ -21,6 +21,28 @@ PRODUCT_PACKAGES += \
     LiveWallpapersPicker \
     VanirUpdater
 
+# Low Ram Options
+ifeq ($(MODERATE_LOW_RAM_DEVICE),true)
+ADDITIONAL_BUILD_PROPERTIES += \
+    ro.config.low_ram=true \
+    persist.sys.force_highendgfx=true
+endif
+
+ifeq ($(LOW_RAM_DEVICE),true)
+ADDITIONAL_BUILD_PROPERTIES += \
+    ro.config.low_ram=true \
+    dalvik.vm.jit.codecachesize=0
+endif
+
+ifeq ($(EXTREME_LOW_RAM_DEVICE),true)
+ADDITIONAL_BUILD_PROPERTIES += \
+    ro.config.low_ram=true \
+    dalvik.vm.jit.codecachesize=0 \
+    config.disable_atlas=true \
+    ro.config.max_starting_bg=8 \
+    ro.sys.fw.bg_apps_limit=16
+endif
+
 # QuickBoot (included automagically for non-oppo qcom devices)
 PRODUCT_PACKAGES += \
     QuickBoot \
