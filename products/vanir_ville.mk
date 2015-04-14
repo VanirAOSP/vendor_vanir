@@ -12,6 +12,9 @@ $(call inherit-product, device/htc/ville/device_ville.mk)
 # Inherit common phone stuff
 $(call inherit-product, vendor/vanir/products/common_phones.mk)
 
+#Low-Ram
+MODERATE_LOW_RAM_DEVICE := true
+
 # Device naming
 PRODUCT_DEVICE := ville
 PRODUCT_NAME := vanir_ville

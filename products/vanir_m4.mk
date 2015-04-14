@@ -22,6 +22,9 @@ $(call inherit-product, vendor/vanir/products/common_phones.mk)
 # Inherit device configuration - this is redundant, but cm's audio works, so ytf not
 $(call inherit-product, device/htc/m4/device.mk)
 
+#Low-Ram
+MODERATE_LOW_RAM_DEVICE := true
+
 # Device naming
 PRODUCT_DEVICE := m4
 PRODUCT_NAME := vanir_m4

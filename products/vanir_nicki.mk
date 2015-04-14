@@ -29,6 +29,9 @@ $(call inherit-product, vendor/vanir/products/common_phones.mk)
 PRODUCT_COPY_FILES += \
     vendor/vanir/proprietary/boot_animations/480x854.zip:system/media/bootanimation.zip
 
+#Low-Ram
+LOW_RAM_DEVICE := true
+
 ## Device identifier. This must come after all inclusions
 PRODUCT_DEVICE := nicki
 PRODUCT_NAME := vanir_nicki

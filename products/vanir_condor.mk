@@ -14,6 +14,9 @@ $(call inherit-product, vendor/vanir/products/common_phones.mk)
 # Make the device
 $(call inherit-product, device/motorola/condor/full_condor.mk)
 
+#Low-Ram
+LOW_RAM_DEVICE := true
+
 PRODUCT_NAME := vanir_condor
 PRODUCT_DEVICE := condor
 PRODUCT_RELEASE_NAME := MOTO E
