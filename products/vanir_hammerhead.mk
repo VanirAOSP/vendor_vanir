@@ -25,4 +25,4 @@ PRODUCT_MANUFACTURER := LGE
 # Torch
 PRODUCT_PACKAGES += Torch
 
-PRODUCT_BUILD_PROP_OVERRIDES += PRODUCT_NAME=hammerhead BUILD_FINGERPRINT=google/hammerhead/hammerhead:5.1/LMY47I/937116:user/release-keys PRIVATE_BUILD_DESC="hammerhead-user 5.1 LMY47I 937116 release-keys"
+PRODUCT_BUILD_PROP_OVERRIDES += PRODUCT_NAME=hammerhead BUILD_FINGERPRINT=google/hammerhead/hammerhead:5.1/LMY47O/937116:user/release-keys PRIVATE_BUILD_DESC="hammerhead-user 5.1 LMY47O 937116 release-keys"
