@@ -17,6 +17,9 @@ PRODUCT_COPY_FILES += \
 #... and then make the AOSP device configuration for Jewel get on its knees and sing the national anthem into our "microphones"
 PRODUCT_LOCALES := en_US
 
+#Low-Ram
+MODERATE_LOW_RAM_DEVICE := true
+
 # Setup device specific product configuration.
 PRODUCT_NAME := vanir_jewel
 PRODUCT_BRAND := htc
