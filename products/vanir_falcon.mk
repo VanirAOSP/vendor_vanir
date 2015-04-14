@@ -12,6 +12,9 @@ $(call inherit-product, device/motorola/falcon/full_falcon.mk)
 # Inherit common phone stuff
 $(call inherit-product, vendor/vanir/products/common_phones.mk)
 
+#Low-Ram
+MODERATE_LOW_RAM_DEVICE := true
+
 # device name
 PRODUCT_RELEASE_NAME := MOTO G
 PRODUCT_NAME := vanir_falcon
