@@ -25,4 +25,4 @@ PRODUCT_BRAND := lge
 PRODUCT_MODEL := LG-V5.1
 PRODUCT_MANUFACTURER := LGE
 
-PRODUCT_BUILD_PROP_OVERRIDES += PRODUCT_NAME=awifi_open_eu BUILD_FINGERPRINT=lge/awifi_open_eu/awifi:5.1/LVY48C/V5.110a.13806295.1:user/release-keys PRIVATE_BUILD_DESC="awifi_open_eu-user 5.1 LVY48C V5.110a.13806295.1 release-keys"
+PRODUCT_BUILD_PROP_OVERRIDES += PRODUCT_NAME=awifi_open_eu BUILD_FINGERPRINT=lge/awifi_open_eu/awifi:5.1/LMY48I/V5.110a.13806295.1:user/release-keys PRIVATE_BUILD_DESC="awifi_open_eu-user 5.1 LMY48I V5.110a.13806295.1 release-keys"
