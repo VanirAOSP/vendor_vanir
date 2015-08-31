@@ -18,10 +18,4 @@ NO_DRM_BLOBS := true
 # Inherit common phone stuff
 $(call inherit-product, vendor/vanir/products/common_phones.mk)
 
-# MPDecision and thermal(d/-engine) auto-disablers for KT-based kernels (like ours)
-PRODUCT_COPY_FILES += \
-    vendor/vanir/proprietary/jf/etc/boot.d/69nuclearwinter:system/etc/boot.d/69nuclearwinter \
-    vendor/vanir/proprietary/jf/bin/nuclearwinter:system/bin/nuclearwinter \
-    vendor/vanir/proprietary/jf/bin/nuclearwinterinternal:system/bin/nuclearwinterinternal
-
 PRODUCT_NAME := vanir_klteusc
