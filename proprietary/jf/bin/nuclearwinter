@@ -1,5 +1,0 @@
-#!/system/bin/sh
-(
-  while pgrep -f nuclearwinterinternal; do sleep 1; done 
-  nuclearwinterinternal
-) & 
