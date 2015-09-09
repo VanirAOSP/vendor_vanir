@@ -26,5 +26,5 @@ PRODUCT_MANUFACTURER := Asus
 
 PRODUCT_BUILD_PROP_OVERRIDES += \
     PRODUCT_NAME=fugu \
-    BUILD_FINGERPRINT=google/fugu/fugu:5.1.1/LVY48E/1836172:user/release-keys \
-    PRIVATE_BUILD_DESC="fugu-user 5.1.1 LVY48E 1836172 release-keys"
+    BUILD_FINGERPRINT=google/fugu/fugu:5.1.1/LMY48M/1836172:user/release-keys \
+    PRIVATE_BUILD_DESC="fugu-user 5.1.1 LMY48M 1836172 release-keys"
