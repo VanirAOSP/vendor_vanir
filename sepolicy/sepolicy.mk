@@ -4,7 +4,7 @@
 #
 
 BOARD_SEPOLICY_DIRS += \
-    vendor/vanir/sepolicy
+    vendor/cm/sepolicy
 
 BOARD_SEPOLICY_UNION += \
     file.te \
@@ -33,7 +33,6 @@ BOARD_SEPOLICY_UNION += \
     system_app.te \
     system_server.te \
     ueventd.te \
-    afterboot.te \
     uncrypt.te \
     userinit.te \
     vold.te \
