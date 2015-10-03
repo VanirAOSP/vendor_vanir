@@ -4,7 +4,6 @@ type sysinit_exec, exec_type, file_type;
 init_daemon_domain(sysinit)
 
 #============= sysinit ==============
-allow sysinit system_data_file:file { rw_file_perms };
 allow sysinit devpts:chr_file { rw_file_perms };
 allow sysinit shell_exec:file { rx_file_perms };
 allow sysinit system_file:file { rx_file_perms };
