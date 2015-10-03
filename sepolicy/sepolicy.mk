@@ -33,7 +33,6 @@ BOARD_SEPOLICY_UNION += \
     system_app.te \
     system_server.te \
     ueventd.te \
-    afterboot.te \
     uncrypt.te \
     userinit.te \
     vold.te \
