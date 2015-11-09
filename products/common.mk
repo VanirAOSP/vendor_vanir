@@ -224,9 +224,6 @@ PRODUCT_PACKAGES += \
     nano \
     htop \
     lsof \
-    mount.exfat \
-    fsck.exfat \
-    mkfs.exfat \
     ntfsfix \
     ntfs-3g \
     gdbserver \
@@ -237,6 +234,15 @@ PRODUCT_PACKAGES += \
     sqlite3 \
     strace \
     curl
+
+WITH_EXFAT ?= true
+ifeq ($(WITH_EXFAT),true)
+TARGET_USES_EXFAT := true
+PRODUCT_PACKAGES += \
+    mount.exfat \
+    fsck.exfat \
+    mkfs.exfat
+endif
 
 ifneq ($(TARGET_ARCH),arm64)
 PRODUCT_PACKAGES += \
