@@ -269,9 +269,11 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     vendor/vanir/config/permissions/org.cyanogenmod.theme.xml:system/etc/permissions/org.cyanogenmod.theme.xml
 
+ifneq ($(TARGET_ARCH),arm64)
 ## STREAMING DMESG?
 PRODUCT_PACKAGES += \
     klogripper
+endif
 
 ## FOR HOTFIXING KERNELS MAINTAINED BY BUNGHOLES
 PRODUCT_PACKAGES += \
