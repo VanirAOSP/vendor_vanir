@@ -4,4 +4,4 @@
 #
 
 BOARD_SEPOLICY_DIRS += \
-    vendor/vanir/sepolicy
+    vendor/cm/sepolicy
