@@ -1,6 +1,0 @@
-#!/system/bin/sh
-for x in $1/*; do
-  [ -f "$x" ] || continue
-  [ -x "$x" ] || continue
-  . $x
-done
