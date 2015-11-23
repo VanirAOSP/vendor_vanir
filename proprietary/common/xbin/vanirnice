@@ -16,7 +16,7 @@ smartrenice()
         prio=`getprio $pid`
         if [ $prio -ne $2 ]; then
             echo "RENICING $1 from $prio to $2"
-            toybox renice $2 $pid 2>&1
+            busybox renice $2 $pid 2>&1
         fi
     done
     return 0

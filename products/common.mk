@@ -21,6 +21,7 @@ PRODUCT_PACKAGES += \
     IndecentXposure \
     LockClock \
     Terminal \
+    busybox \
     Email \
     Trebuchet \
     AudioFX \
