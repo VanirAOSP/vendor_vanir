@@ -23,13 +23,13 @@
 # set timezone (if you're not between -0500 and -0800 you get PST)
 # todo - support other timezones
 timezone=`date +%z`
-if toybox [ $timezone = "-0800" ]; then
+if [ "$timezone" = "-0800" ]; then
   TZ=PST8PDT
-elif toybox [ $timezone = "-0700" ]; then
+elif [ "$timezone" = "-0700" ]; then
   TZ=MST7MDT
-elif toybox [ $timezone = "-0600" ]; then
+elif [ "$timezone" = "-0600" ]; then
   TZ=CST6CDT
-elif toybox [ $timezone = "-0500" ]; then
+elif [ "$timezone" = "-0500" ]; then
   TZ=EST5EDT
 else
   TZ=PST8PDT
