@@ -22,7 +22,6 @@ on init
 
 on post-fs-data
     mkdir /data/.ssh 0750 root shell
-
     start sysinit
 
 on boot
@@ -148,6 +147,7 @@ on boot
 
 on property:sys.boot_completed=1
     start afterboot
+    start crond
  
 # sysinit (/system/etc/init.d)
 service sysinit /system/bin/sysinit
@@ -158,6 +158,11 @@ service sysinit /system/bin/sysinit
 service afterboot /system/bin/afterboot
     user root
     oneshot
+    disabled
+
+service crond /system/bin/start-crond -c /system/cron/cron.d
+    user root
+    group shell
     disabled
 
 # adb over network
