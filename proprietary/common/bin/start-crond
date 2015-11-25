@@ -36,17 +36,5 @@ else
 fi
 export TZ
 
-# rebuild crontab if it got pwned somehow
-if toybox [ ! -d /cache/cron ]; then
-  toybox mkdir -p /cache/cron
-fi
-
-echo '# Prime Directive, Nuclearmistake, Sonicxml
-
-# Put shell scripts in these folders, and they will run at the named interval... like a bawss
-*/5 * * * * /system/xbin/cronlogger /system/etc/cron/cron.minutely
-01 * * * * /system/xbin/cronlogger /system/etc/cron/cron.hourly
-02 4 * * * /system/xbin/cronlogger /system/etc/cron/cron.daily
-03 4 * * 0 /system/xbin/cronlogger /system/etc/cron/cron.weekly' > /cache/cron/root
-
-crond -c /cache/cron
+# begin radioactive modifications
+crond $@
