@@ -10,11 +10,6 @@ allow sysinit shell_exec:file { rx_file_perms };
 allow sysinit system_file:file { rx_file_perms };
 allow sysinit self:process setcurrent;
 
-#for crond
-allow sysinit cache_file:dir create_dir_perms;
-allow sysinit cache_file:file create_file_perms;
-allow sysinit self:capability { setgid setuid };
-
 userdebug_or_eng(`
     allow sysinit userinit_data_exec:file { r_file_perms relabelto };
     allow sysinit property_socket:sock_file write;
