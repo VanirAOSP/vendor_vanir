@@ -1,0 +1,14 @@
+type crond, domain;
+type crond_exec, exec_type, file_type;
+
+init_daemon_domain(crond)
+
+#============= crond ==============
+allow crond system_data_file:file { getattr open read ioctl };
+allow crond devpts:file { getattr write open read };
+allow crond shell_exec:file { getattr open read execute ioctl };
+allow crond system_file:file { getattr open read execute ioctl };
+allow crond cache_file:file { getattr write open read ioctl };
+allow crond cache_file:dir { getattr write open read ioctl };
+allow crond self:process setcurrent;
+allow crond self:capability { setgid setuid };

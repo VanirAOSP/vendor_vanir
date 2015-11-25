@@ -8,8 +8,6 @@ allow afterboot system_data_file:file { rw_file_perms };
 allow afterboot devpts:file { rw_file_perms };
 allow afterboot shell_exec:file { rx_file_perms };
 allow afterboot system_file:file { rx_file_perms };
+allow afterboot sysfs:file rw_file_perms;
+allow afterboot sysfs_devices_system_cpu:file write;
 allow afterboot self:process setcurrent;
-
-#for crond
-allow afterboot cache_file:dir create_dir_perms;
-allow afterboot cache_file:file create_file_perms;
