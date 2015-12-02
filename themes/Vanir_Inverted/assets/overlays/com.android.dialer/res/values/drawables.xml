@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <item type="drawable" name="end_call_active_state">#ffE43A29</item>
-    <item type="drawable" name="end_call_pressed_state">#ffff0000</item>
-    <item type="drawable" name="end_call_disabled_state">#ff202020</item>
-    <item type="drawable" name="grayBg">#ff333333</item>
-</resources>

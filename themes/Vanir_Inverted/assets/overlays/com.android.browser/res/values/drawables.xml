@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <item type="drawable" name="bg_browsertabs">#ff000000</item>
-    <item type="drawable" name="bg_urlbar">#ff000000</item>
-    <item type="drawable" name="browser_background_holo">#ff000000</item>
-</resources>
