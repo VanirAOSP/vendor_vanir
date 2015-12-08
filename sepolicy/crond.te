@@ -6,10 +6,11 @@ init_daemon_domain(crond)
 #============= crond ==============
 allow crond system_data_file:file { getattr open read ioctl };
 allow crond devpts:file { getattr write open read };
-allow crond shell_exec:file { getattr open read execute ioctl };
-allow crond system_file:file { getattr open read execute ioctl };
+allow crond shell_exec:file { getattr open read execute_no_trans ioctl };
+allow crond system_file:file { getattr open read execute_no_trans ioctl };
 allow crond cache_file:file { getattr write open read ioctl };
 allow crond cache_file:dir { getattr write open read ioctl };
 allow crond self:process setcurrent;
 allow crond self:capability { setgid setuid };
 allow crond crond_exec:file { rx_file_perms };
+allow shell_exec crond_exec:file { rx_file_perms };
