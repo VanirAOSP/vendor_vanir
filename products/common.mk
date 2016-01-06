@@ -3,6 +3,11 @@ PRODUCT_PACKAGE_OVERLAYS += vendor/vanir/overlay/common
 #optional theme files
 PRODUCT_PACKAGE_OVERLAYS += vendor/vanir/overlay/theme
 
+# Straighten out Nexi when build IDs are not harmonious 
+ifeq ($(PRODUCT_BRAND),google)
+PRODUCT_BUILD_PROP_OVERRIDES += BUILD_ID=MMB29P
+endif
+
 # DSPManager and NFC
 $(call inherit-product, vendor/vanir/products/media_sexificators.mk)
 $(call inherit-product, vendor/vanir/config/nfc_enhanced.mk)
