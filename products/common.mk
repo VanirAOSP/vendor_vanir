@@ -29,7 +29,9 @@ PRODUCT_PACKAGES += \
     Profiles \
     CMSettingsProvider \
     ExactCalculator \
-		LiveLockScreenService
+    LiveLockScreenService \
+    WeatherProvider
+
 
 # QuickBoot (included automagically for non-oppo qcom devices)
 PRODUCT_PACKAGES += \
