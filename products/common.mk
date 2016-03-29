@@ -240,6 +240,18 @@ PRODUCT_PACKAGES += \
     utility_mkbootimg \
     utility_unpackbootimg
 
+# Webview is fucked, add it here
+PRODUCT_PACKAGES += \
+    webview
+ifeq ($(TARGET_ARCH),arm64)
+PRODUCT_COPY_FILES += \
+    vendor/vanir/prebuilt/webview/arm64/app/com.google.android.webview/lib/arm64/libwebviewchromium.so:system/lib/arm64/libwebviewchromium.so \
+    vendor/vanir/prebuilt/webview/arm64/app/com.google.android.webview/lib/arm/libwebviewchromium.so:system/lib/arm/libwebviewchromium.so
+else
+PRODUCT_COPY_FILES += \
+    vendor/vanir/prebuilt/webview/arm/app/com.google.android.webview/lib/arm/libwebviewchromium.so:system/lib/arm/libwebviewchromium.so
+endif
+
 -include vendor/cyngn/product.mk
 
 $(call inherit-product-if-exists, vendor/vanir-private/Private.mk)
