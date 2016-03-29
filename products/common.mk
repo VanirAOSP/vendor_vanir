@@ -240,6 +240,11 @@ PRODUCT_PACKAGES += \
     utility_mkbootimg \
     utility_unpackbootimg
 
+# Webview is fucked, so add it here
+PRODUCT_PACKAGES += \
+    webview \
+    libwebviewchromium
+
 -include vendor/cyngn/product.mk
 
 $(call inherit-product-if-exists, vendor/vanir-private/Private.mk)
