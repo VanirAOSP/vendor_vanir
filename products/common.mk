@@ -31,7 +31,7 @@ PRODUCT_PACKAGES += \
     ExactCalculator \
     LiveLockScreenService \
     WeatherProvider \
-		DataUsageProvider
+	DataUsageProvider
 
 # Weather
 PRODUCT_PACKAGES += \
@@ -251,6 +251,23 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     webview \
     libwebviewchromium
+
+# Gello is fucked, so add it here
+PRODUCT_PACKAGES += \
+    libgiga_client \
+    libicui18n.cr \
+    libicuuc.cr \
+    libsta \
+    libstlport_shared \
+    libswe \
+    libsweadrenoext_22_plugin \
+    libsweadrenoext_23_plugin \
+    libsweadrenoext_plugin \
+    libswecore \
+    libswenetxt_plugin \
+    libsweskia \
+    libswev8.so \
+    libswewebrefiner
 
 -include vendor/cyngn/product.mk
 
