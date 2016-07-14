@@ -5,7 +5,7 @@ init_daemon_domain(afterboot)
 
 #============= afterboot ==============
 allow afterboot system_data_file:file { rw_file_perms };
-allow afterboot devpts:file { rw_file_perms };
+allow afterboot devpts:chr_file { rw_file_perms };
 allow afterboot shell_exec:file { rx_file_perms };
 allow afterboot system_file:file { rx_file_perms };
 allow afterboot sysfs:file rw_file_perms;
