@@ -1,8 +1,13 @@
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.goo.rom=vanir-kenzo
 
+# Add the Weak Sauce
+PRODUCT_COPY_FILES += \
+    vendor/vanir/prebuilt/install-recovery/install-recovery.sh:ota_temp/SYSTEM/bin/install-recovery.sh
+
 # Inherit the device
 $(call inherit-product, device/xiaomi/kenzo/device.mk)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
 
 # Boot Animation
 PRODUCT_COPY_FILES += \
