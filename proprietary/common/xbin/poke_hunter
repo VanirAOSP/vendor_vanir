@@ -1,0 +1,86 @@
+#!/system/xbin/bash
+# DHO
+# Menu structure based on Vanir script
+
+menu()
+{
+    sectionheader "Main Menu"
+    echo "0) Activate Superuser Terminal"
+    echo "1) Rename su binaries"
+    echo "2) Restore"
+    echo "Q) Quit"
+    read -p "Enter option: " opt
+    choice=""
+    case $opt in
+      0) choice="su";;
+      1) choice="wp";;
+      2) choice="em";;
+      [Qq]) echo "Goodbye."; echo; exit 0;;
+      *) echo "Invalid option" && sleep 1;;
+    esac
+if [ ! -z $choice ]; then
+menu_$choice
+    fi
+menu
+}
+
+menu_su()
+{
+    echo "Invoking Superuser"
+    echo "I am going to type $ su"
+    echo "You may need to tap Allow"
+    wait 3
+    su -c "poke_hunter"
+    return 0
+}
+
+menu_wp()
+{
+    sysrw
+    cp /system/bin/su /system/bin/supoke
+    cp /system/xbin/su /system/xbin/supoke
+    echo "Neutered Superuser.  Restore it's glory before closing this terminal session"
+    sysro
+    return 0
+}
+
+menu_em()
+{
+    sysrw
+    cp /system/bin/supoke /system/bin/su
+    cp /system/xbin/supoke /system/xbin/su
+    echo "Restored Superuser and exiled Pikachu"
+    sysro
+    return 0
+}
+
+sectionheader()
+{
+    total=$(echo " DHO - Pokemon Enabler " | wc -c)
+    title=$(echo "$1" | wc -c)
+    diff=$(expr $total - $title)
+    lpadc=$(expr $diff / 2)
+    rpadc=$(expr $diff - $lpadc)
+    lpad=""
+    rpad=""
+    while [ $lpadc -gt 0 ]; do lpad="$lpad "; lpadc=$(expr $lpadc - 1); done
+while [ $rpadc -gt 0 ]; do rpad="$rpad "; rpadc=$(expr $rpadc - 1); done
+echo
+echo
+    echo "+++++++++++++++++++++++++++"
+    echo "+   Vanir Poke Enabler    +"
+    echo "+   $lpad $1 $rpad      +"
+    echo "+++++++++++++++++++++++++++"
+}
+
+amiroot()
+{
+    ret=`whoami 2>&1`
+    [ "$ret" = "root" ] && return 0 || [ `echo $ret | egrep "uid 0" | wc -l` -gt 0 ] && return 0 || return 1
+}
+
+if [ ! amiroot ]; then
+    echo "You must run this as root."
+else
+    menu
+fi
