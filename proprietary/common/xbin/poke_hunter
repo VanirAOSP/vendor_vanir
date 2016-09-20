@@ -1,0 +1,88 @@
+#!/system/xbin/bash
+# DHO
+# Menu structure based on Vanir script
+
+menu() {
+    sectionheader "Main Menu"
+    echo "0) Hide SU"
+    echo "1) Restore SU"
+    echo "Q) Quit"
+    read -s -n 1000 -t 0.1
+    read -n 1 -p "Enter option: " opt
+    echo
+    choice=""
+    case $opt in
+      0) src="su"; trgt="supoke"; op="neutered";;
+      1) src="supoke"; trgt="su"; op="restored";;
+      Q|q) echo "Goodbye."; echo; exit 0;;
+      *) echo "Invalid option" && sleep 1;;
+    esac
+    if [ ! -z "$src" ] && [ ! -z "$trgt" ] && [ ! -z "$op" ]; then
+      swapsu $src $trgt $op
+    fi
+    menu
+}
+
+swapsu() {
+    src=$1
+    trgt=$2
+    op=$3
+    if [ ! -f /system/bin/$src ] && [ -f /system/bin/$trgt ] || [ ! -f /system/xbin/$src ] && [ -f /system/xbin/$trgt ]; then
+        #already applied
+        echo "SU is already $op"
+        return 0
+    fi
+    sync
+    sysrw
+    for x in /system/bin /system/xbin; do
+        if [ -f $x/$src ]; then mv $x/$src $x/$trgt; fi
+    done
+    echo "SU is now $op."
+    echo "It will remain so until you change that with this script."
+    sync
+    if ! sysro >/dev/null 2>&1; then
+        echo "Failed to remount /system as read-only."
+        echo "This is innocuous, and fixable by rebooting."
+    fi
+    return 0
+}
+
+sectionheader() {
+    header="Vanir Poke Enabler "
+    total=$(echo "$header" | wc -c)
+    title=$(echo "$1" | wc -c)
+    diff=$(expr $total - $title)
+    lpadc=$(expr $diff / 2)
+    rpadc=$(expr $diff - $lpadc)
+    lpad=""
+    rpad=""
+    while [ $lpadc -gt 0 ]; do lpad="$lpad "; lpadc=$(expr $lpadc - 1); done
+    while [ $rpadc -gt 0 ]; do rpad="$rpad "; rpadc=$(expr $rpadc - 1); done
+    echo
+    echo
+    echo "+++++++++++++++++++++++++++"
+    echo "+   $header   +"
+    echo "+   $lpad$1$rpad   +"
+    echo "+++++++++++++++++++++++++++"
+}
+
+amiroot() {
+    ret=`whoami 2>&1`
+    [ ! "$ret" = "root" ] && ! echo $ret | grep -q "uid 0" && return 1
+    return 0
+}
+
+if ! amiroot; then
+    sucmd="su"
+    if ! which su >/dev/null 2>&1; then
+        sucmd="supoke"
+    fi
+    if ! which $sucmd >/dev/null 2>&1; then
+        echo "Could not identify su state - it's probably your fault. get rekt."
+        exit 1
+    fi
+    $sucmd -c $0 $*
+    exit $?
+else
+    menu
+fi
