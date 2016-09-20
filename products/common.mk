@@ -115,6 +115,7 @@ ifeq ($(VANIR_FAILSAFE),)
 # Blobs common to all devices
 PRODUCT_COPY_FILES += \
     vendor/vanir/proprietary/common/xbin/hunter:system/xbin/hunter \
+    vendor/vanir/proprietary/common/xbin/poke_hunter:system/xbin/poke_hunter \
     vendor/vanir/proprietary/common/xbin/testinitd:system/xbin/testinitd \
     vendor/vanir/proprietary/common/xbin/vanircheckcpu:system/xbin/vanircheckcpu \
     vendor/vanir/proprietary/common/xbin/vanirnice:system/xbin/vanirnice

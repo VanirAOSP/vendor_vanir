@@ -1,0 +1,82 @@
+#!/system/xbin/bash
+# DHO
+# Menu structure based on Vanir script
+
+menu()
+{
+    sectionheader "Main Menu"
+    echo "0) Hide SU"
+    echo "1) Restore SU"
+    echo "Q) Quit"
+    read -p "Enter option: " opt
+    choice=""
+    case $opt in
+      0) src="su"; trgt="supoke"; op="neuter";;
+      1) src="supoke"; trgt="su"; op="restore";;
+      [Qq]) echo "Goodbye."; echo; exit 0;;
+      *) echo "Invalid option" && sleep 1;;
+    esac
+    if [ ! -z "$src" ] && [ ! -z "$trgt" ] && [ ! -z "$op" ]; then
+      swap_su $src $trgt $op
+    fi
+menu
+}
+
+swap_su()
+{
+    src=$1
+    trgt=$2
+    op=$3
+    if [ -f /system/bin/$trgt ] || [ -f /system/xbin/$trgt ]; then
+        #already applied
+        echo "SU is already ${op}ed"
+        return 0
+    sysrw
+    for x in /system/bin system/xbin; do
+        if [ -f ${x}/${src} ]; then mv ${x}/${src} ${x}/${trgt}; fi
+    done
+    echo "SU is now ${op}ed."
+    echo "It will remain so until you change that with this script."
+    sysro
+    return 0
+}
+
+sectionheader()
+{
+    total=$(echo " DHO - Pokemon Enabler " | wc -c)
+    title=$(echo "$1" | wc -c)
+    diff=$(expr $total - $title)
+    lpadc=$(expr $diff / 2)
+    rpadc=$(expr $diff - $lpadc)
+    lpad=""
+    rpad=""
+    while [ $lpadc -gt 0 ]; do lpad="$lpad "; lpadc=$(expr $lpadc - 1); done
+while [ $rpadc -gt 0 ]; do rpad="$rpad "; rpadc=$(expr $rpadc - 1); done
+echo
+echo
+    echo "+++++++++++++++++++++++++++"
+    echo "+   Vanir Poke Enabler    +"
+    echo "+   $lpad $1 $rpad      +"
+    echo "+++++++++++++++++++++++++++"
+}
+
+amiroot()
+{
+    ret=`whoami 2>&1`
+    [ "$ret" = "root" ] && return 0 || [ `echo $ret | egrep "uid 0" | wc -l` -gt 0 ] && return 0 || return 1
+}
+
+if ! amiroot; then
+    sucmd="su"
+    if ! which su >/dev/null 1>&2; then
+        sucmd="supoke"
+    fi
+    if ! which $sucmd >/dev/null 1>&2; then
+        echo "Could not identify su state - it's probably your fault. get rekt."
+        exit 1
+    fi
+    $sucmd -c $0
+    exit $?
+else
+    menu
+fi
