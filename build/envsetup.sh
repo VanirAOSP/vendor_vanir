@@ -48,7 +48,7 @@ function breakfast()
     CM_DEVICES_ONLY="true"
     unset LUNCH_MENU_CHOICES
     add_lunch_combo full-eng
-    for f in `/bin/ls vendor/vanir/vendorsetup.sh 2> /dev/null`
+    for f in $(/bin/ls vendor/vanir/vendorsetup.sh 2> /dev/null)
         do
             echo "including $f"
             . $f
@@ -177,11 +177,11 @@ function dddclient()
        local PID="$3"
        if [ "$PID" ] ; then
            if [[ ! "$PID" =~ ^[0-9]+$ ]] ; then
-               PID=`pid $3`
+               PID=$(pid $3)
                if [[ ! "$PID" =~ ^[0-9]+$ ]] ; then
                    # that likely didn't work because of returning multiple processes
                    # try again, filtering by root processes (don't contain colon)
-                   PID=`adb shell ps | \grep $3 | \grep -v ":" | awk '{print $2}'`
+                   PID=$(adb shell ps | \grep $3 | \grep -v ":" | awk '{print $2}')
                    if [[ ! "$PID" =~ ^[0-9]+$ ]]
                    then
                        echo "Couldn't resolve '$3' to single PID"
@@ -304,12 +304,12 @@ function installboot()
         echo "No boot.img found. Run make bootimage first."
         return 1
     fi
-    PARTITION=`grep "^\/boot" $OUT/recovery/root/etc/recovery.fstab | awk {'print $3'}`
+    PARTITION=$(grep "^\/boot" $OUT/recovery/root/etc/recovery.fstab | awk {'print $3'})
     if [ -z "$PARTITION" ];
     then
         # Try for RECOVERY_FSTAB_VERSION = 2
-        PARTITION=`grep "[[:space:]]\/boot[[:space:]]" $OUT/recovery/root/etc/recovery.fstab | awk {'print $1'}`
-        PARTITION_TYPE=`grep "[[:space:]]\/boot[[:space:]]" $OUT/recovery/root/etc/recovery.fstab | awk {'print $3'}`
+        PARTITION=$(grep "[[:space:]]\/boot[[:space:]]" $OUT/recovery/root/etc/recovery.fstab | awk {'print $1'})
+        PARTITION_TYPE=$(grep "[[:space:]]\/boot[[:space:]]" $OUT/recovery/root/etc/recovery.fstab | awk {'print $3'})
         if [ -z "$PARTITION" ];
         then
             echo "Unable to determine boot partition."
@@ -349,12 +349,12 @@ function installrecovery()
         echo "No recovery.img found. Run make recoveryimage first."
         return 1
     fi
-    PARTITION=`grep "^\/recovery" $OUT/recovery/root/etc/recovery.fstab | awk {'print $3'}`
+    PARTITION=$(grep "^\/recovery" $OUT/recovery/root/etc/recovery.fstab | awk {'print $3'})
     if [ -z "$PARTITION" ];
     then
         # Try for RECOVERY_FSTAB_VERSION = 2
-        PARTITION=`grep "[[:space:]]\/recovery[[:space:]]" $OUT/recovery/root/etc/recovery.fstab | awk {'print $1'}`
-        PARTITION_TYPE=`grep "[[:space:]]\/recovery[[:space:]]" $OUT/recovery/root/etc/recovery.fstab | awk {'print $3'}`
+        PARTITION=$(grep "[[:space:]]\/recovery[[:space:]]" $OUT/recovery/root/etc/recovery.fstab | awk {'print $1'})
+        PARTITION_TYPE=$(grep "[[:space:]]\/recovery[[:space:]]" $OUT/recovery/root/etc/recovery.fstab | awk {'print $3'})
         if [ -z "$PARTITION" ];
         then
             echo "Unable to determine recovery partition."
@@ -409,9 +409,9 @@ function cmgerrit() {
         $FUNCNAME help
         return 1
     fi
-    local user=`git config --get review.review.cyanogenmod.org.username`
-    local review=`git config --get remote.github.review`
-    local project=`git config --get remote.github.projectname`
+    local user=$(git config --get review.review.cyanogenmod.org.username)
+    local review=$(git config --get remote.github.review)
+    local project=$(git config --get remote.github.projectname)
     local command=$1
     shift
     case $command in
@@ -689,21 +689,21 @@ function mka() {
     export TARGET_SIMULATOR=false
     export BUILD_TINY_ANDROID=
     local MAKECMD=""
-    case `uname -s` in
+    case $(uname -s) in
         Darwin)
             if [ ! $(echo $VANIR_PARALLEL_JOBS | wc -w) -gt 0 ]; then
-                local threads=`sysctl hw.ncpu|cut -d" " -f2`
-                local load=`expr $threads \* 2`
+                local threads=$(sysctl hw.ncpu|cut -d" " -f2)
+                local load=$(expr $threads \* 2)
                 VANIR_PARALLEL_JOBS="-j$load"
             fi
-            MAKECMD="`command -pv make` $VANIR_PARALLEL_JOBS"
+            MAKECMD="$(command -pv make) $VANIR_PARALLEL_JOBS"
             ;;
         *)
             if [ ! $(echo $VANIR_PARALLEL_JOBS | wc -w) -gt 0 ]; then
-                local cores=`nproc --all`
+                local cores=$(nproc --all)
                 VANIR_PARALLEL_JOBS="-j$cores"
             fi
-            MAKECMD="schedtool -B -n 1 -e ionice -n 1 `command -pv make` $VANIR_PARALLEL_JOBS"
+            MAKECMD="schedtool -B -n 1 -e ionice -n 1 $(command -pv make) $VANIR_PARALLEL_JOBS"
             ;;
     esac
     export start_time=$(date +"%s")
@@ -772,7 +772,7 @@ function mms() {
         return 1
     fi
 
-    case `uname -s` in
+    case $(uname -s) in
         Darwin)
             local NUM_CPUS=$(sysctl hw.ncpu|cut -d" " -f2)
             ONE_SHOT_MAKEFILE="__none__" \
@@ -795,12 +795,12 @@ function repolastsync() {
 }
 
 function reposync() {
-    case `uname -s` in
+    case $(uname -s) in
         Darwin)
             repo sync -j 4 "$@"
             ;;
         *)
-            schedtool -B -n 1 -e ionice -n 1 `which repo` sync -j 4 "$@"
+            schedtool -B -n 1 -e ionice -n 1 $(which repo) sync -j 4 "$@"
             ;;
     esac
 }
@@ -869,7 +869,7 @@ function dopush()
     fi
 
     # Install: <file>
-    if [ `uname` = "Linux" ]; then
+    if [ $(uname) = "Linux" ]; then
         LOC="$(cat $OUT/.log | sed -r -e 's/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g' -e 's/^\[ {0,2}[0-9]{1,3}% [0-9]{1,6}\/[0-9]{1,6}\] +//' \
             | grep '^Install: ' | cut -d ':' -f 2)"
     else
@@ -878,7 +878,7 @@ function dopush()
     fi
 
     # Copy: <file>
-    if [ `uname` = "Linux" ]; then
+    if [ $(uname) = "Linux" ]; then
         LOC="$LOC $(cat $OUT/.log | sed -r -e 's/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g' -e 's/^\[ {0,2}[0-9]{1,3}% [0-9]{1,6}\/[0-9]{1,6}\] +//' \
             | grep '^Copy: ' | cut -d ':' -f 2)"
     else
@@ -1007,7 +1007,7 @@ function forall_cm()
 }
 
 # sepolicy grep by Nuclearmistake
-case `uname -s` in
+case $(uname -s) in
     Darwin)
         function segrep()
         {
@@ -1030,7 +1030,7 @@ $ANDROID_BUILD_TOP/vendor/vanir/build/tools/ccache_version_check.sh
 if [ $STFU_REPO ]; then
     pushd . >& /dev/null
     cd $(gettop)/.repo/repo
-    [ `git remote -v | grep github | wc -l` -eq 0 ] && git remote add github https://github.com/nuclearmistake/repo
+    [ $(git remote -v | grep github | wc -l) -eq 0 ] && git remote add github https://github.com/nuclearmistake/repo
     git fetch github >& /dev/null
     git checkout github/master >& /dev/null
     popd >& /dev/null
@@ -1049,21 +1049,21 @@ parse_git_branch() {
 }
 if [ ! $GITPS1ENGAGED ]; then
 export GITPS1ENGAGED=1
-export PS1=`echo "$PS1" | sed 's/\[\$ \]*//g'`
+export PS1=$(echo "$PS1" | sed 's/\[\$ \]*//g')
 export NONE='\[\033[0m\]'
 istheregit=$(which git)
-if [ `echo $PS1 | grep parse_git_branch | wc -l` -eq 0 ]; then
+if [ $(echo $PS1 | grep parse_git_branch | wc -l) -eq 0 ]; then
   if [ -x "$istheregit" ]; then
       export PS1="${NONE}$PS1\$(parse_git_branch)${NONE}"
   else
       export PS1="$PS1$ "
   fi
-  export PS1=`echo "$PS1" | sed 's/$[ ]*$//g'`"\n${NONE}\$ "
+  export PS1=$(echo "$PS1" | sed 's/$[ ]*$//g')"\n${NONE}\$ "
 fi
 fi
 
 # tab completion
-if [ `typeset -F | grep _git | wc -l` -eq 0 ]; then
+if [ $(typeset -F | grep _git | wc -l) -eq 0 ]; then
   source $(gettop)/vendor/vanir/build/git-completion.bash
 fi
 
