@@ -3,7 +3,7 @@
 # nuclearmistake 2013
 champagne()
 {
-    source build/envsetup.sh >& /dev/null
+    source build/envsetup.sh > /dev/null
     local TARGET_KERNEL_SOURCE=$(get_build_var TARGET_KERNEL_SOURCE)
     local TARGET_NO_KERNEL=$(get_build_var TARGET_NO_KERNEL)
     local TARGET_KERNEL_VERSION=$(get_build_var TARGET_KERNEL_VERSION)
