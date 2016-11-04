@@ -11,11 +11,11 @@ if [ ! $devicedir ] || [ $(echo $devicedir | wc -c) -le 1 ]; then
 fi
 if [ ! $devicedir ] || [ $(echo $devicedir | wc -c) -le 1 ]; then
     echo "$device IS A SACK OF CRAP AND SO ARE YOU."
-    exit 1
+    return 1
 fi
 
 if [ $TARGET_NO_KERNEL ] && [ "$TARGET_NO_KERNEL" = "true" ]; then
-    exit 0
+    return 0
 fi
 
 if [ ! $TARGET_KERNEL_SOURCE ]; then
@@ -92,7 +92,7 @@ if [ ! $precompiled ] && [ $haskernelline -eq 0 ]; then
     #if bottlservice is prevented (which is useful to maintain versioning consistency while building nightlies, then we should exit non-zero here
     if [ $VANIR_BOTTLESERVICE_DISABLE ]; then
         echo "WARNING: SKIPPING BOTTLESERVICE FOR $device, WHICH NEEDS A F&^%ING BOTTLE SERVED TO IT."
-        exit 1
+        return 1
     fi
     #add kernel to the file
     echo " "
@@ -125,7 +125,7 @@ if [ ! $precompiled ] && [ $haskernelline -eq 0 ]; then
             for x in $invalidateddevices; do
                 for choice in ${LUNCH_MENU_CHOICES[@]}; do
                     if [[ $choice == *$x* ]] && [[ $choice == vanir_* ]]; then
-                        lunch $choice && echo "RE-LUNCHED $choice"&& break
+                        ( lunch $choice ) && echo "RE-LUNCHED $choice"&& break
                     fi
                 done
             done
