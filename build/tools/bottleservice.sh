@@ -21,9 +21,12 @@ fi
 if [ ! $TARGET_KERNEL_SOURCE ]; then
     TARGET_KERNEL_SOURCE=$(echo $devicedir | sed -e 's/^device/kernel/g')
 fi
-
+unset defaultremote
+unset defaultrevision
+unset remote
+unset remoterevision
+unset kernelsource
 kernelsource="android_$(echo $TARGET_KERNEL_SOURCE | sed 's/\//_/g')"
-
 source manifest/kernel_special_cases.sh $device
 [ ! $remote ] && remote=$defaultremote
 [ ! $remoterevision ] && remoterevision=$defaultrevision
