@@ -87,7 +87,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.modversion=$(Vanir_BUILD) \
     ro.goo.version=$(Vanir_BUILD) \
     ro.goo.developerid=vanir \
-    ro.rommanager.developerid=vanir \
     wifi.supplicant_scan_interval=300 \
     ro.build.selinux=1
 
