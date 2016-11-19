@@ -7,7 +7,7 @@ DEVICE_PACKAGE_OVERLAYS += vendor/vanir/overlay/theme
 
 # DSPManager and NFC
 $(call inherit-product, vendor/vanir/products/media_sexificators.mk)
-ifneq ($(filter-out $(PRODUCT_IS_A_NEXUS), true),)
+ifneq ($(PRODUCT_IS_A_NEXUS), true)
 $(call inherit-product, vendor/vanir/config/nfc_enhanced.mk)
 endif
 $(call inherit-product, vendor/vanir/config/cmsdk_common.mk)
