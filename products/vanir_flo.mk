@@ -14,7 +14,7 @@ PRODUCT_COPY_FILES += vendor/vanir/proprietary/boot_animations/1280x1920.zip:sys
 $(call inherit-product, device/asus/flo/full_flo.mk)
 
 # Inherit common product files.
-NEXUS_CATEGORY := phones
+NEXUS_CATEGORY := tabs
 $(call inherit-product, vendor/vanir/products/common_nexus.mk)
 
 # Setup device specific product configuration.
