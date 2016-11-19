@@ -8,7 +8,8 @@ PRODUCT_PROPERTY_OVERRIDES += ro.goo.rom=vanir-hammerhead
 $(call inherit-product, device/lge/hammerhead/full_hammerhead.mk)
 
 # Inherit VANIR files.
-$(call inherit-product, vendor/vanir/products/common_phones.mk)
+NEXUS_CATEGORY := phones
+$(call inherit-product, vendor/vanir/products/common_nexus.mk)
 
 # Copy VANIR files
 PRODUCT_COPY_FILES += vendor/vanir/proprietary/boot_animations/1080x1920.zip:system/media/bootanimation.zip

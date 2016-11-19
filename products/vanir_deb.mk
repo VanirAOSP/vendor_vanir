@@ -17,7 +17,8 @@ PRODUCT_COPY_FILES += vendor/vanir/proprietary/boot_animations/1080x1920.zip:sys
 $(call inherit-product, device/asus/deb/full_deb.mk)
 
 # Inherit common product files.
-$(call inherit-product, vendor/vanir/products/common_tabs.mk)
+NEXUS_CATEGORY := tabs
+$(call inherit-product, vendor/vanir/products/common_nexus.mk)
 
 
 # Setup device specific product configuration.
