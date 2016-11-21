@@ -7,7 +7,8 @@ PRODUCT_PROPERTY_OVERRIDES := drm.service.enabled=true
 $(call inherit-product, device/samsung/manta/full_manta.mk)
 
 # Inherit common product files.
-$(call inherit-product, vendor/vanir/products/common_tabs.mk)
+NEXUS_CATEGORY := tabs
+$(call inherit-product, vendor/vanir/products/common_nexus.mk)
 
 PRODUCT_PACKAGES += LiveWallpapersPicker
 

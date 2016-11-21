@@ -9,4 +9,5 @@ PRODUCT_COPY_FILES += \
 NO_DRM_BLOBS := true
 
 # Inherit common phone stuff
-$(call inherit-product, vendor/vanir/products/common_phones.mk)
+NEXUS_CATEGORY := phones
+$(call inherit-product, vendor/vanir/products/common_nexus.mk)
