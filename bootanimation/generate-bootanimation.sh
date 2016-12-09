@@ -26,7 +26,7 @@ if ! which convert >/dev/null 2>&1; then
   echo "\"convert\" not found. Install ImageMagick"
   exit 1
 fi
-tar xfp "$HERE/bootanimation.tar" --to-command "convert - -resize '$RESOLUTION' \"png8:$OUT/bootanimation/\$TAR_FILENAME\""
+tar xfp "$HERE/bootanimation.tar" --to-command "convert - -resize '$RESOLUTION' \"jpg:$OUT/bootanimation/\$TAR_FILENAME\""
 
 # Create desc.txt
 echo "$WIDTH" "$HEIGHT" 30 > "$OUT/bootanimation/desc.txt"
