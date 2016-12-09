@@ -1,4 +1,5 @@
-#!/bin/bash -ex
+#!/bin/bash
+set -e
 HERE="$(dirname $0)"
 WIDTH="$1"
 HEIGHT="$2"
@@ -21,6 +22,10 @@ RESOLUTION=""$IMAGESIZE"x"$IMAGESIZE""
 for x in `tar tf $HERE/bootanimation.tar --exclude '*/*'`; do
     mkdir -p $OUT/bootanimation/$x
 done
+if ! which convert >/dev/null 2>&1; then
+  echo "\"conver\" not found. Install ImageMagick"
+  exit 1
+fi
 tar xfp "$HERE/bootanimation.tar" --to-command "convert - -resize '$RESOLUTION' \"png8:$OUT/bootanimation/\$TAR_FILENAME\""
 
 # Create desc.txt
