@@ -269,5 +269,8 @@ PRODUCT_PACKAGES += \
 
 -include vendor/cyngn/product.mk
 
+PRODUCT_PACKAGES += \
+       bootanimation.zip
+
 $(call inherit-product-if-exists, vendor/vanir-private/Private.mk)
 $(call inherit-product-if-exists, vendor/extra/product.mk)

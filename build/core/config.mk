@@ -27,3 +27,28 @@ FRAMEWORK_CM_API_NEEDS_UPDATE_TEXT := $(TOPDIR)vendor/vanir/build/core/apicheck_
 LOCAL_PATH := $(TOPDIR)$(shell dirname $(lastword $(MAKEFILE_LIST)))
 BUILD_MAVEN_PREBUILT := $(LOCAL_PATH)/maven_artifact.mk
 PUBLISH_MAVEN_PREBUILT := $(LOCAL_PATH)/maven_artifact_publish.mk
+
+MANGLE_BOOTANIMATION_RESOLUTION :=
+ifeq ($(TARGET_SCREEN_WIDTH),)
+MANGLE_BOOTANIMATION_RESOLUTION := true
+else
+ifeq ($(TARGET_SCREEN_HEIGHT),)
+MANGLE_BOOTANIMATION_RESOLUTION := true
+endif
+endif
+
+ifneq ($(MANGLE_BOOTANIMATION_RESOLUTION),)
+BOOT_ANIMATION_LINE := $(shell echo $(PRODUCT_COPY_FILES) | grep -o '.*bootanimation.zip*' || true)
+ifneq ($(BOOT_ANIMATION_LINE),)
+BOOT_ANIMATION_RESOLUTION := $(shell echo $(BOOT_ANIMATION_LINE) |  sed 's/\.zip:.*//;s/.*\///g') #produces WWWWxHHHH
+TARGET_SCREEN_WIDTH := $(shell echo $(BOOT_ANIMATION_RESOLUTION) | sed 's/x.*//g')
+TARGET_SCREEN_HEIGHT := $(shell echo $(BOOT_ANIMATION_RESOLUTION) | sed 's/.*x//g')
+PRODUCT_COPY_FILES := $(filter-out $(BOOT_ANIMATION_LINE),$(PRODUCT_COPY_FILES))
+else
+ifneq ($(VANIR_BUILD),)
+$(error Could not determine boot animation size based on PRODUCT_COPY_FILES. Set TARGET_SCREEN_WIDTH and TARGET_SCREEN_HEIGHT in vendor/vanir/products/$(TARGET_PRODUCT).mk)
+else
+$(warning Could not determine boot animation size, but you're not building a vanir_* target, so GLHF, butthead)
+endif
+endif
+endif
