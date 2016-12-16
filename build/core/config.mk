@@ -38,7 +38,7 @@ endif
 endif
 
 ifneq ($(MANGLE_BOOTANIMATION_RESOLUTION),)
-BOOT_ANIMATION_LINE := $(shell echo $(PRODUCT_COPY_FILES) | grep -o '.*bootanimation.zip*' || true)
+BOOT_ANIMATION_LINE := $(foreach filecopy, $(PRODUCT_COPY_FILES), $(shell echo $(filecopy) | grep -o '.*bootanimation.zip*' || true))
 ifneq ($(BOOT_ANIMATION_LINE),)
 BOOT_ANIMATION_RESOLUTION := $(shell echo $(BOOT_ANIMATION_LINE) |  sed 's/\.zip:.*//;s/.*\///g') #produces WWWWxHHHH
 TARGET_SCREEN_WIDTH := $(shell echo $(BOOT_ANIMATION_RESOLUTION) | sed 's/x.*//g')
