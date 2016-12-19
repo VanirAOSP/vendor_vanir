@@ -37,13 +37,12 @@ MANGLE_BOOTANIMATION_RESOLUTION := true
 endif
 endif
 
-ifneq ($(MANGLE_BOOTANIMATION_RESOLUTION),)
 BOOT_ANIMATION_LINE := $(foreach filecopy, $(PRODUCT_COPY_FILES), $(shell echo $(filecopy) | grep -o '.*bootanimation.zip*' || true))
+ifneq ($(MANGLE_BOOTANIMATION_RESOLUTION),)
 ifneq ($(BOOT_ANIMATION_LINE),)
 BOOT_ANIMATION_RESOLUTION := $(shell echo $(BOOT_ANIMATION_LINE) |  sed 's/\.zip:.*//;s/.*\///g') #produces WWWWxHHHH
 TARGET_SCREEN_WIDTH := $(shell echo $(BOOT_ANIMATION_RESOLUTION) | sed 's/x.*//g')
 TARGET_SCREEN_HEIGHT := $(shell echo $(BOOT_ANIMATION_RESOLUTION) | sed 's/.*x//g')
-PRODUCT_COPY_FILES := $(filter-out $(BOOT_ANIMATION_LINE),$(PRODUCT_COPY_FILES))
 else
 ifneq ($(VANIR_BUILD),)
 $(error Could not determine boot animation size based on PRODUCT_COPY_FILES. Set TARGET_SCREEN_WIDTH and TARGET_SCREEN_HEIGHT in vendor/vanir/products/$(TARGET_PRODUCT).mk)
@@ -51,4 +50,7 @@ else
 $(warning Could not determine boot animation size, but you're not building a vanir_* target, so GLHF, butthead)
 endif
 endif
+endif
+ifneq ($(BOOT_ANIMATION_LINE),)
+PRODUCT_COPY_FILES := $(filter-out $(BOOT_ANIMATION_LINE),$(PRODUCT_COPY_FILES))
 endif
