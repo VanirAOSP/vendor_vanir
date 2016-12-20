@@ -3,11 +3,11 @@ DHO_VENDOR := vanir
 
 PRODUCT_PROPERTY_OVERRIDES += drm.service.enabled=true ro.goo.rom=vanir-d802
 
-# Inherit device configuration
-$(call inherit-product, device/lge/d802/d802.mk)
-
 # Inherit common vanir files.
 $(call inherit-product, vendor/vanir/products/multi_g2-common.mk)
+
+# Inherit device configuration
+$(call inherit-product, device/lge/d802/d802.mk)
 
 ## Device identifier. This must come after all inclusions
 PRODUCT_DEVICE := d802

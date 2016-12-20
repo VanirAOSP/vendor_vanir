@@ -10,11 +10,11 @@ PRODUCT_PACKAGE_OVERLAYS += vendor/vanir/overlay/tab_no_radio
 # Boot Animation
 PRODUCT_COPY_FILES += vendor/vanir/proprietary/boot_animations/1080x1920.zip:system/media/bootanimation.zip
 
-# Inherit AOSP device configuration for Tablet Z Wifi
-$(call inherit-product, device/sony/pollux_windy/full_pollux_windy.mk)
-
 # Inherit common product files.
 $(call inherit-product, vendor/vanir/products/common_tabs.mk)
+
+# Inherit AOSP device configuration for Tablet Z Wifi
+$(call inherit-product, device/sony/pollux_windy/full_pollux_windy.mk)
 
 # Set those variables here to overwrite the inherited values.
 PRODUCT_NAME := vanir_pollux_windy

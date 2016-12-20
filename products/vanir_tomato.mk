@@ -2,8 +2,6 @@
 
 PRODUCT_PROPERTY_OVERRIDES += ro.goo.rom=vanir-tomato
 
-$(call inherit-product, device/yu/tomato/full_tomato.mk)
-
 # Boot Animation
 PRODUCT_COPY_FILES += vendor/vanir/proprietary/boot_animations/720x1280.zip:system/media/bootanimation.zip
 
@@ -12,6 +10,8 @@ NO_DRM_BLOBS := true
 
 # Inherit common phone stuff
 $(call inherit-product, vendor/vanir/products/common_phones.mk)
+
+$(call inherit-product, device/yu/tomato/full_tomato.mk)
 
 # Naming Tidbits
 PRODUCT_NAME := vanir_tomato

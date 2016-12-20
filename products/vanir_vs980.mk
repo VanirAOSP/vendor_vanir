@@ -3,14 +3,14 @@ DHO_VENDOR := vanir
 
 PRODUCT_PROPERTY_OVERRIDES += drm.service.enabled=true ro.goo.rom=vanir-vs980
 
-# Inherit device configuration
-$(call inherit-product, device/lge/vs980/vs980.mk)
-
 # Inherit common vanir files.
 $(call inherit-product, vendor/vanir/products/multi_g2-common.mk)
 
 # Inherit common Verizon Wireless Perms and Lib
 $(call inherit-product, vendor/vanir/products/vzw.mk)
+
+# Inherit device configuration
+$(call inherit-product, device/lge/vs980/vs980.mk)
 
 ## Device identifier. This must come after all inclusions
 PRODUCT_DEVICE := vs980

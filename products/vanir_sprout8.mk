@@ -2,10 +2,10 @@ DHO_VENDOR := vanir
 # Boot Animation
 PRODUCT_COPY_FILES += vendor/vanir/proprietary/boot_animations/480x854.zip:system/media/bootanimation.zip
 
-$(call inherit-product, device/google/sprout8/sprout8.mk)
-
 # Common vanir stuff
 $(call inherit-product, vendor/vanir/products/common_phones.mk)
+
+$(call inherit-product, device/google/sprout8/sprout8.mk)
 
 PRODUCT_NAME := vanir_sprout8
 PRODUCT_DEVICE :=sprout8

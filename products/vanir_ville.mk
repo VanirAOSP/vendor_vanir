@@ -5,11 +5,11 @@ PRODUCT_COPY_FILES += vendor/vanir/proprietary/boot_animations/540x960.zip:syste
 #Squisher Choosing
 DHO_VENDOR := vanir
 
-# Inherit device configuration
-$(call inherit-product, device/htc/ville/full_ville.mk)
-
 # Inherit common phone stuff
 $(call inherit-product, vendor/vanir/products/common_phones.mk)
+
+# Inherit device configuration
+$(call inherit-product, device/htc/ville/full_ville.mk)
 
 # Device naming
 PRODUCT_DEVICE := ville

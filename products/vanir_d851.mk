@@ -4,8 +4,6 @@
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.goo.rom=vanir-d851
 
-$(call inherit-product, device/lge/d851/full_d851.mk)
-
 # Boot Animation
 PRODUCT_COPY_FILES += \
     vendor/vanir/proprietary/boot_animations/1440x2560.zip:system/media/bootanimation.zip
@@ -15,6 +13,8 @@ NO_DRM_BLOBS := true
 
 # Inherit common phone stuff
 $(call inherit-product, vendor/vanir/products/common_phones.mk)
+
+$(call inherit-product, device/lge/d851/full_d851.mk)
 
 PRODUCT_DEVICE := d851
 PRODUCT_NAME := vanir_d851

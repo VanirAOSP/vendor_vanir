@@ -8,14 +8,14 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.goo.rom=vanir-cancro
 
-# Inherit device configuration
-$(call inherit-product, device/xiaomi/cancro/full_cancro.mk)
-
 # Enhanced NFC
 $(call inherit-product, vendor/vanir/config/nfc_enhanced.mk)
 
 # Inherit some common Vanir stuff 
 $(call inherit-product, vendor/vanir/products/common_phones.mk)
+
+# Inherit device configuration
+$(call inherit-product, device/xiaomi/cancro/full_cancro.mk)
 
 PRODUCT_NAME := vanir_cancro
 PRODUCT_DEVICE := cancro

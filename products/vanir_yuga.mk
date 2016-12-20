@@ -6,11 +6,11 @@ PRODUCT_PROPERTY_OVERRIDES += ro.goo.rom=vanir-YUGA
 # Boot Animation
 PRODUCT_COPY_FILES += vendor/vanir/proprietary/boot_animations/1080x1920.zip:system/media/bootanimation.zip
 
-# Inherit AOSP device configuration for yuga.
-$(call inherit-product, device/sony/yuga/full_yuga.mk)
-
 # Vanir configuration
 $(call inherit-product, vendor/vanir/products/common_phones.mk)
+
+# Inherit AOSP device configuration for yuga.
+$(call inherit-product, device/sony/yuga/full_yuga.mk)
 
 #
 # Setup device specific product configuration.
