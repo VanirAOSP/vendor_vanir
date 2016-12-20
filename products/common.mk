@@ -234,13 +234,8 @@ PRODUCT_PACKAGES += \
 endif
 
 # Keyboard Files
-ifeq ($(TARGET_ARCH),arm64)
-    PRODUCT_COPY_FILES += vendor/vanir/proprietary/common/lib64/libjni_latinimegoogle.so:system/lib64/libjni_latinime.so
-    PRODUCT_PACKAGES += Latinimegoogle64
-else
     PRODUCT_COPY_FILES += vendor/vanir/proprietary/common/lib/libjni_latinimegoogle.so:system/lib/libjni_latinime.so
     PRODUCT_PACKAGES += Latinimegoogle
-endif
 
 # Openssh
 PRODUCT_PACKAGES += \
