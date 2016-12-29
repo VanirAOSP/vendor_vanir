@@ -1,0 +1,67 @@
+#!/bin/bash
+
+# Configuration
+SOURCE_DIR=$"$(pwd)"
+VANIR=$"m/n71"
+SUB_BRANCH=$"remotes/vanir/n71-substratum"
+REMOTE_BRANCH=$"n-mr1-oms7"
+
+
+echo "YOU NEED TO RUN THIS FROM YOUR BUILD DIRECTORY"
+sleep 3
+echo ""
+echo ""
+
+echo "FWB"
+cd $SOURCE_DIR/frameworks/base
+git reset --hard $VANIR
+git merge $SUB_BRANCH
+
+echo ""
+echo "Native"
+cd $SOURCE_DIR/frameworks/native
+git reset --hard $VANIR
+git merge $SUB_BRANCH
+
+echo ""
+echo "Sepolicy"
+cd $SOURCE_DIR/system/sepolicy
+git reset --hard $VANIR
+git merge $SUB_BRANCH
+
+echo ""
+echo "Contacts"
+cd $SOURCE_DIR/packages/apps/Contacts
+git reset --hard $VANIR
+git merge $SUB_BRANCH
+
+
+echo ""
+echo "Fetch-Sex-Magic"
+# Masochism loops
+substratum() {
+cat<<EOF
+Dialer
+ExactCalculator
+PhoneCommon
+Settings
+EOF
+}
+
+# Let's merge it
+substratum | while read u
+do
+cd $SOURCE_DIR/packages/apps/${u}
+git fetch https://github.com/SubstratumResources/platform_packages_apps_${u} $REMOTE_BRANCH
+git merge FETCH_HEAD
+done
+
+# And the fucking annoying one that uses a different naming scheme
+cd $SOURCE_DIR/packages/apps/ContactsCommon
+git fetch https://github.com/SubstratumResources/packages_apps_ContactsCommon $REMOTE_BRANCH
+git merge FETCH_HEAD
+
+echo ""
+echo ""
+echo ""
+echo "Member, need to merge commits to expose overlay for other AOSP apps and services... Member?"
