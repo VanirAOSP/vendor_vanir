@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# Configuration
+SOURCE_DIR=$"$(pwd)"
+VANIR=$"m/n71"
+SUB_BRANCH=$"remotes/vanir/n71-substratum"
+
+
+echo "YOU NEED TO RUN THIS FROM YOUR ROOT DIRECTORY"
+sleep 7
+echo ""
+echo ""
+
+echo "FWB"
+cd $SOURCE_DIR/frameworks/base
+git reset --hard $VANIR
+git merge $SUB_BRANCH
+
+echo ""
+echo "Native"
+cd $SOURCE_DIR/frameworks/native
+git reset --hard $VANIR
+git merge $SUB_BRANCH
+
+echo ""
+echo "Sepolicy"
+cd $SOURCE_DIR/system/sepolicy
+git reset --hard $VANIR
+git merge $SUB_BRANCH
+
+echo ""
+echo "Settings"
+cd $SOURCE_DIR/packages/apps/Settings
+git reset --hard $VANIR
+git merge $SUB_BRANCH
+
+echo ""
+echo ""
+echo ""
+echo "Member, need to merge commits to expose overlay for other AOSP apps... Member?"
