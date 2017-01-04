@@ -263,6 +263,12 @@ PRODUCT_PACKAGES += \
 PRODUCT_BOOT_JARS += \
     telephony-ext
 
+# Build Substratium packages
+PRODUCT_PACKAGES += \
+    aapt \
+    aopt \
+    masquerade
+
 # Theme engine
 #PRODUCT_PACKAGES += \
 #    aapt \
