@@ -12,20 +12,21 @@ sleep 3
 echo ""
 echo ""
 
-# The following 3 have conflicts and need a resolution.
+# 3 have conflicts and need a resolution.  And FWN cleanly merged taint.
 echo "Contacts"
 cd $SOURCE_DIR/packages/apps/Contacts
-git reset --hard $VANIR
 git merge $SUB_BRANCH
 
 echo "FWB"
 cd $SOURCE_DIR/frameworks/base
-git reset --hard $VANIR
+git merge $SUB_BRANCH
+
+echo "FW Native"
+cd $SOURCE_DIR/frameworks/native
 git merge $SUB_BRANCH
 
 echo "Sepolicy"
 cd $SOURCE_DIR/system/sepolicy
-git reset --hard $VANIR
 git merge $SUB_BRANCH
 
 # Now the clean merges
@@ -55,9 +56,6 @@ cd $SOURCE_DIR/packages/apps/ContactsCommon
 git fetch https://github.com/SubstratumResources/packages_apps_ContactsCommon $REMOTE_BRANCH
 git merge FETCH_HEAD
 
-cd $SOURCE_DIR/packages/frameworks/native
-git fetch https://github.com/SubstratumResources/platform_frameworks_native $REMOTE_BRANCH
-git merge FETCH_HEAD
 
 echo ""
 echo ""
