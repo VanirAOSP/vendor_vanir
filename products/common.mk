@@ -160,7 +160,6 @@ PRODUCT_PACKAGES += \
     CMAudioService \
     CMParts \
     Development \
-    su \
     WeatherManagerService
 
 # Optional CM packages
@@ -271,11 +270,9 @@ PRODUCT_PACKAGES += \
     aapt \
     aopt
 
-# Theme engine
-#PRODUCT_PACKAGES += \
-#    aapt \
-#    ThemeChooser \
-#    ThemesProvider
+#  Substratum
+PRODUCT_PACKAGES += \
+    ThemeInterfacer
 
 ## STREAMING DMESG?
 PRODUCT_PACKAGES += \
@@ -297,5 +294,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     keys-migration.sh
 
+$(call inherit-product, vendor/vanir/prebuilt/magisk/config.mk)
 $(call inherit-product-if-exists, vendor/vanir-private/Private.mk)
 $(call inherit-product-if-exists, vendor/extra/product.mk)
