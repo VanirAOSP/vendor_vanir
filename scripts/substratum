@@ -56,6 +56,7 @@ done
 # remove old cm theme taint
 cd $SOURCE_DIR/vendor/vanir
 git revert a12cded
+git revert f27b2a4a29ae26acf7830b63e2d1e64151115ea2
 
 
 echo ""
