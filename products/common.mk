@@ -160,7 +160,6 @@ PRODUCT_PACKAGES += \
     CMAudioService \
     CMParts \
     Development \
-    su \
     WeatherManagerService
 
 # Optional CM packages
