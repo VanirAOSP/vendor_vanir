@@ -53,6 +53,10 @@ git fetch https://github.com/LineageOMS/android_${u} $REMOTE_BRANCH
 git merge FETCH_HEAD
 done
 
+# remove old cm theme taint
+cd $SOURCE_DIR/vendor/vanir
+git revert a12cded
+
 
 echo ""
 echo ""
