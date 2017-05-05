@@ -232,6 +232,11 @@ PRODUCT_PACKAGES += \
     powertop
 endif
 
+ifeq ($(WITHOUT_LOGCAT),true)
+PRODUCT_PROPERTY_OVERRIDES += \
+logcat.live=disable
+endif
+
 # Keyboard Files
 PRODUCT_COPY_FILES += vendor/vanir/proprietary/common/lib/libjni_latinimegoogle.so:system/lib/libjni_latinime.so
 PRODUCT_PACKAGES += Latinimegoogle
