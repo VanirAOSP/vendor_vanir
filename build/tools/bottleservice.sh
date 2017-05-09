@@ -1,3 +1,6 @@
+top="$(dirname "${BASH_SOURCE[0]}")/../../../.."
+source "$top/vendor/vanir/build/tools/bash_mutex.sh"
+source "$top/vendor/vanir/tools/functions"
 for x in TARGET_DEVICE TARGET_KERNEL_SOURCE TARGET_NO_KERNEL device devicedir remote remoterevision kernellocation kernelsource needschecking getkernelline; do
   unset $x
 done
@@ -28,7 +31,7 @@ if [ $kernellocation ]; then
 fi
 [ ! $remote ] && remote=$defaultremote
 [ ! $remoterevision ] && remoterevision=$defaultrevision
-
+lock /tmp/bottleservice.lock
 if [ ! -e .repo/local_manifests ] || [ ! -e .repo/local_manifests/bottleservice.xml ]; then
     mkdir -p .repo/local_manifests
     echo '<?xml version="1.0" encoding="UTF-8"?>
@@ -90,6 +93,7 @@ if [ ! $precompiled ] && [ $haskernelline -eq 0 ]; then
     #if bottlservice is prevented (which is useful to maintain versioning consistency while building nightlies, then we should exit non-zero here
     if [ $VANIR_BOTTLESERVICE_DISABLE ]; then
         echo "WARNING: SKIPPING BOTTLESERVICE FOR $device, WHICH NEEDS A F&^%ING BOTTLE SERVED TO IT."
+        unlock /tmp/bottleservice.lock
         return 1
     fi
     #add kernel to the file
@@ -107,6 +111,7 @@ if [ ! $precompiled ] && [ $haskernelline -eq 0 ]; then
     echo "  $NEWLINE" >> .repo/local_manifests/tmp.xml
     echo "</manifest>" >> .repo/local_manifests/tmp.xml
     mv .repo/local_manifests/tmp.xml .repo/local_manifests/bottleservice.xml
+    unlock /tmp/bottleservice.lock
     echo " Added:  $NEWLINE to bottleservice.xml"
     if  [ ! $IN_THE_MIDDLE_OF_CASCADING_RESYNC ]; then
         if [ $needschecking ]; then
@@ -116,21 +121,24 @@ if [ ! $precompiled ] && [ $haskernelline -eq 0 ]; then
             echo ""
             export IN_THE_MIDDLE_OF_CASCADING_RESYNC=1
             if [ ! $invalidateddevices ]; then
-              invalidatteddevices="$(cat .repo/local_manifests/bottleservice.xml | grep project | sed 's/.*\/>//g' | sed 's/<!--//g' | sed 's/-->//g' | while read line ; do
+              invalidateddevices="$(cat .repo/local_manifests/bottleservice.xml | grep project | sed 's/.*\/>//g' | sed 's/<!--//g' | sed 's/-->//g' | while read line ; do
                 echo -n "$line "
               done)"
             fi
             for x in $invalidateddevices; do
                 for choice in ${LUNCH_MENU_CHOICES[@]}; do
                     if [[ $choice == *$x* ]] && [[ $choice == vanir_* ]]; then
-                        ( lunch $choice ) && echo "RE-LUNCHED $choice"&& break
+                        echo $choice
+                        break
                     fi
                 done
-            done
+            done | $XARGS bash -c "source $top/build/envsetup.sh; lunch"
         fi
         echo " "
         echo " re-syncing!" 1>&2
+        lock /tmp/reposync.lock
         reposync --force-sync -c -f -j32
+        unlock /tmp/reposync.lock
         echo " "
         echo " re-sync complete" 1>&2
     fi
