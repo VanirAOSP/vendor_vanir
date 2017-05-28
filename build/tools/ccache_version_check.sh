@@ -22,17 +22,21 @@ if [ "`which automake``which autogen`" = "" ]; then
   fi
 fi
 current_version="`get_source_ccache_version`"
+if [ ! -d ./ccache ]; then
+    pushd `dirname $0`/../../../.. >/dev/null
+fi
 if [ -e ./ccache/ccache ] && echo $current_version | grep -q $(./ccache/ccache -V | grep "ccache version" | awk '{print $3}'); then
     # ccache exists and its --version output matches the latest source
     echo "ccache is up to date" 1>&2
 else
     set -e
     echo "building ccache binary" 1>&2
-    pushd ccache 2>&1 >/dev/null
+    pushd ccache >/dev/null
     ./autogen.sh >/dev/null
     ./configure >/dev/null
     make >/dev/null
-    popd 2>&1 >/dev/null
+    popd >/dev/null
     set +e
     echo "ccache updated to version $current_version" 1>&2
 fi
+popd >/dev/null
