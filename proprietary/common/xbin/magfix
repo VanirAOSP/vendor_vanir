@@ -1,0 +1,16 @@
+#!/system/xbin/bash
+# DHO
+# Fix credit: https://forum.xda-developers.com/apps/magisk/xiaomi-safetynet-fix-t3600431/page86
+
+
+echo "Invoking SU"
+su -c "magfix"
+
+echo "Tinkering"
+resetprop --delete init.svc.magisk_pfs
+resetprop --delete init.svc.magisk_pfsd
+resetprop --delete init.svc.magisk_service
+resetprop --delete persist.magisk.hide
+resetprop --delete ro.magisk.disable
+
+echo "Profit"
