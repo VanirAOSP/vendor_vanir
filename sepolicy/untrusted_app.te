@@ -1,3 +1,9 @@
+#============= untrusted_app ==============
+allow untrusted_app app_data_file:fifo_file unlink;
+allow untrusted_app debugfs:file { r_file_perms };
+allow untrusted_app persist_file:dir getattr;
+allow untrusted_app self:udp_socket ioctl;
+allow untrusted_app sysfs:file { r_file_perms };
 allow untrusted_app cm_weather_service:service_manager find;
 allow untrusted_app cm_status_bar_service:service_manager find;
 allow untrusted_app cm_profile_service:service_manager find;

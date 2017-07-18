@@ -13,3 +13,6 @@ allow afterboot sysfs_devices_system_cpu:file write;
 allow afterboot self:process setcurrent;
 allow afterboot devpts:chr_file { read write open ioctl };
 allow afterboot system_file:dir { r_dir_perms };
+allow afterboot devpts:chr_file getattr;
+allow afterboot rootfs:file getattr;
+allow afterboot toolbox_exec:file getattr;
