@@ -1,0 +1,6 @@
+#!/system/bin/sh
+
+# remove properties that break safetynet after July 2017 safetynet update
+for x in init.svc.magisk_pfs init.svc.magisk_pfsd init.svc.magisk_service persist.magisk.hide; do
+  /sbin/resetprop --delete $x >/dev/null 2>&1 || true
+done

@@ -120,6 +120,11 @@ PRODUCT_COPY_FILES += \
     vendor/vanir/proprietary/common/xbin/vanircheckcpu:system/xbin/vanircheckcpu \
     vendor/vanir/proprietary/common/xbin/vanirnice:system/xbin/vanirnice
 
+# Fix magisk <13.3 (broken by 7/17/17 safety net update)
+PRODUCT_COPY_FILES += \
+    vendor/vanir/proprietary/common/xbin/magfisx:system/xbin/magfisx \
+    vendor/vanir/proprietary/common/etc/boot.d/20magfisx:system/etc/boot.d/20magfisx
+
 # Misc Files
 PRODUCT_COPY_FILES += \
     vendor/vanir/proprietary/common/etc/resolv.conf:system/etc/resolv.conf
