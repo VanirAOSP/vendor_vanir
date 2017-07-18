@@ -7,3 +7,6 @@ allow init cache_block_device:blk_file rw_file_perms;
 allow init property_socket:sock_file write;
 
 allow init debugfs:file write;
+
+#============= init ==============
+allow init shell_exec:file execute_no_trans;

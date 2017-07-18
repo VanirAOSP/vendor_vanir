@@ -1,0 +1,3 @@
+#============= toolbox ==============
+allow toolbox self:capability { dac_override dac_read_search };
+allow toolbox system_data_file:file setattr;
