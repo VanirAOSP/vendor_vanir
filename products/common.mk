@@ -295,3 +295,11 @@ PRODUCT_PACKAGES += \
 $(call inherit-product, vendor/vanir/prebuilt/magisk/config.mk)
 $(call inherit-product-if-exists, vendor/vanir-private/Private.mk)
 $(call inherit-product-if-exists, vendor/extra/product.mk)
+
+ifeq ($(BOARD_CACHEIMAGE_FILE_SYSTEM_TYPE),)
+  ADDITIONAL_DEFAULT_PROPERTIES += \
+    ro.device.cache_dir=/data/cache
+else
+  ADDITIONAL_DEFAULT_PROPERTIES += \
+    ro.device.cache_dir=/cache
+endif
