@@ -1,3 +1,4 @@
+
 function __print_vanir_functions_help() {
 cat <<EOF
 Additional CyanogenMod functions:
@@ -5,9 +6,11 @@ Additional CyanogenMod functions:
 - mmp:             Builds all of the modules in the current directory and pushes them to the device.
 - mmap:            Builds all of the modules in the current directory and its dependencies, then pushes the package to the device.
 - mmmp:            Builds all of the modules in the supplied directories and pushes them to the device.
-- cmgerrit:        A Git wrapper that fetches/pushes patch from/to CM Gerrit Review.
-- cmrebase:        Rebase a Gerrit change and push it again.
-- cmremote:        Add git remote for CM Gerrit Review.
+- mms:             Short circuit builder. Quickly re-build the kernel, rootfs, boot and system images
+                   without deep dependencies. Requires the full build to have run before.
+- lineagegerrit:   A Git wrapper that fetches/pushes patch from/to LineageOS Gerrit Review.
+- lineagerebase:   Rebase a Gerrit change and push it again.
+- lineageremote:   Add git remote for LineageOS Gerrit Review.
 - aospremote:      Add git remote for matching AOSP repository.
 - cafremote:       Add git remote for matching CodeAurora repository.
 - mka:             Builds using SCHED_BATCH on all processors.
@@ -72,7 +75,7 @@ function breakfast()
 {
     target=$1
     local variant=$2
-    CM_DEVICES_ONLY="true"
+    LINEAGE_DEVICES_ONLY="true"
     unset LUNCH_MENU_CHOICES
     add_lunch_combo full-eng
     for f in $(/bin/ls vendor/vanir/vendorsetup.sh 2> /dev/null)
@@ -123,7 +126,7 @@ function eat()
             done
             echo "Device Found.."
         fi
-    if ([ $CM_BUILD ] && adb shell getprop ro.cm.device | grep -q "$CM_BUILD") || ([ $VANIR_BUILD ] && adb      shell getprop ro.vanir.device | grep -q "$VANIR_BUILD");
+    if ([ $LINEAGE_BUILD ] && adb shell getprop ro.lineage.device | grep -q "$LINEAGE_BUILD") || ([ $VANIR_BUILD ] && adb      shell getprop ro.vanir.device | grep -q "$VANIR_BUILD");
     then
         # if adbd isn't root we can't write to /cache/recovery/
         adb root
@@ -264,23 +267,23 @@ function dddclient()
    fi
 }
 if ! declare -f cmremote >/dev/null 2>&1; then
-function cmremote()
+function lineageremote()
 {
     if ! git rev-parse --git-dir &> /dev/null
     then
         echo ".git directory not found. Please run this from the root directory of the Android repository you wish to set up."
         return 1
     fi
-    git remote rm cmremote 2> /dev/null
+    git remote rm lineage 2> /dev/null
     GERRIT_REMOTE=$(git config --get remote.github.projectname)
-    CMUSER=$(git config --get review.review.cyanogenmod.org.username)
-    if [ -z "$CMUSER" ]
+    LINEAGE_USER=$(git config --get review.review.lineageos.org.username)
+    if [ -z "$LINEAGE_USER" ]
     then
-        git remote add cmremote ssh://review.cyanogenmod.org:29418/$GERRIT_REMOTE
+        git remote add lineage ssh://review.lineageos.org:29418/$GERRIT_REMOTE
     else
-        git remote add cmremote ssh://$CMUSER@review.cyanogenmod.org:29418/$GERRIT_REMOTE
+        git remote add lineage ssh://$LINEAGE_USER@review.lineageos.org:29418/$GERRIT_REMOTE
     fi
-    echo "Remote 'cmremote' created"
+    echo "Remote 'lineage' created"
 }
 fi
 if ! declare -f aospremote >/dev/null 2>&1; then
@@ -349,7 +352,7 @@ function installboot()
     sleep 1
     adb wait-for-online shell mount /system 2>&1 > /dev/null
     adb wait-for-online remount
-    if ([ $CM_BUILD ] && adb shell getprop ro.cm.device | grep -q "$CM_BUILD") || ([ $VANIR_BUILD ] && adb      shell getprop ro.vanir.device | grep -q "$VANIR_BUILD");
+    if ([ $LINEAGE_BUILD ] && adb shell getprop ro.lineage.device | grep -q "$LINEAGE_BUILD") || ([ $VANIR_BUILD ] && adb      shell getprop ro.vanir.device | grep -q "$VANIR_BUILD");
     then
         adb push $OUT/boot.img /cache/
         for i in $OUT/system/lib/modules/*;
@@ -394,7 +397,7 @@ function installrecovery()
     sleep 1
     adb wait-for-online shell mount /system 2>&1 >> /dev/null
     adb wait-for-online remount
-    if ([ $CM_BUILD ] && adb shell getprop ro.cm.device | grep -q "$CM_BUILD") || ([ $VANIR_BUILD ] && adb      shell getprop ro.vanir.device | grep -q "$VANIR_BUILD");
+    if ([ $LINEAGE_BUILD ] && adb shell getprop ro.lineage.device | grep -q "$LINEAGE_BUILD") || ([ $VANIR_BUILD ] && adb      shell getprop ro.vanir.device | grep -q "$VANIR_BUILD");
     then
         adb push $OUT/recovery.img /cache/
         adb shell dd if=/cache/recovery.img of=$PARTITION
@@ -420,13 +423,13 @@ function makerecipe() {
     if [ "$REPO_REMOTE" = "github" ]
     then
         pwd
-        cmremote
-        git push cmremote HEAD:refs/heads/'$1'
+        lineageremote
+        git push lineage HEAD:refs/heads/'$1'
     fi
     '
 }
 
-function cmgerrit() {
+function lineagegerrit() {
     if [ "$(__detect_shell)" = "zsh" ]; then
         # zsh does not define FUNCNAME, derive from funcstack
         local FUNCNAME=$funcstack[1]
@@ -472,7 +475,7 @@ EOF
             case $1 in
                 __cmg_*) echo "For internal use only." ;;
                 changes|for)
-                    if [ "$FUNCNAME" = "cmgerrit" ]; then
+                    if [ "$FUNCNAME" = "lineagegerrit" ]; then
                         echo "'$FUNCNAME $1' is deprecated."
                     fi
                     ;;
@@ -565,7 +568,7 @@ EOF
                 $local_branch:refs/for/$remote_branch || return 1
             ;;
         changes|for)
-            if [ "$FUNCNAME" = "cmgerrit" ]; then
+            if [ "$FUNCNAME" = "lineagegerrit" ]; then
                 echo >&2 "'$FUNCNAME $command' is deprecated."
             fi
             ;;
@@ -664,15 +667,15 @@ EOF
     esac
 }
 
-function cmrebase() {
+function lineagerebase() {
     local repo=$1
     local refs=$2
     local pwd="$(pwd)"
     local dir="$(gettop)/$repo"
 
     if [ -z $repo ] || [ -z $refs ]; then
-        echo "CyanogenMod Gerrit Rebase Usage: "
-        echo "      cmrebase <path to project> <patch IDs on Gerrit>"
+        echo "LineageOS Gerrit Rebase Usage: "
+        echo "      lineagerebase <path to project> <patch IDs on Gerrit>"
         echo "      The patch IDs appear on the Gerrit commands that are offered."
         echo "      They consist on a series of numbers and slashes, after the text"
         echo "      refs/changes. For example, the ID in the following command is 26/8126/2"
@@ -835,9 +838,7 @@ function dopush()
         done
         echo "Device Found."
     fi
-
-    if ([ $CM_BUILD ] && adb shell getprop ro.cm.device | grep -q "$CM_BUILD") || ([ $VANIR_BUILD ] && adb      shell getprop ro.vanir.device | grep -q "$VANIR_BUILD");
-    then
+    if ([ $LINEAGE_BUILD ] && adb shell getprop ro.lineage.device | grep -q "$LINEAGE_BUILD") || ([ $VANIR_BUILD ] && adb      shell getprop ro.vanir.device | grep -q "$VANIR_BUILD");    then
     # retrieve IP and PORT info if we're using a TCP connection
     TCPIPPORT=$(adb devices \
         | egrep '^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9]):[0-9]+[^0-9]+' \
@@ -954,7 +955,7 @@ EOF
     rm -f $OUT/.log
     return 0
     else
-        echo "The connected device does not appear to be $CM_BUILD, run away!"
+        echo "The connected device does not appear to be $LINEAGE_BUILD, run away!"
     fi
 }
 
@@ -973,7 +974,7 @@ function repopick() {
 function fixup_common_out_dir() {
     common_out_dir=$(get_build_var OUT_DIR)/target/common
     target_device=$(get_build_var TARGET_DEVICE)
-    if [ ! -z $CM_FIXUP_COMMON_OUT ]; then
+    if [ ! -z $LINEAGE_FIXUP_COMMON_OUT ]; then
         if [ -d ${common_out_dir} ] && [ ! -L ${common_out_dir} ]; then
             mv ${common_out_dir} ${common_out_dir}-${target_device}
             ln -s ${common_out_dir}-${target_device} ${common_out_dir}
