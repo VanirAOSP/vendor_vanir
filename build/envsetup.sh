@@ -698,7 +698,7 @@ function mka() {
                 local js=$(grep "^processor" /proc/cpuinfo | wc -l)
                 VANIR_PARALLEL_JOBS="-j$js"
             fi
-            MAKECMD="schedtool -B -n 10 -e ionice -n 7 $(command -pv make) -C $T $VANIR_PARALLEL_JOBS $@"
+            MAKECMD="$(command -pv make) -C $T $VANIR_PARALLEL_JOBS $@"
             ;;
     esac
     export start_time=$(date +"%s")
@@ -766,14 +766,7 @@ function repolastsync() {
 }
 
 function reposync() {
-    case `uname -s` in
-        Darwin)
-            repo sync -j 4 "$@"
-            ;;
-        *)
-            schedtool -B -n 1 -e ionice -n 1 `which repo` sync -j 4 "$@"
-            ;;
-    esac
+    repo sync -j 4 "$@"
 }
 
 function repodiff() {
