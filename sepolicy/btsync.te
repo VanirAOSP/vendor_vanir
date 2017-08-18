@@ -1,4 +1,0 @@
-type btsync, domain;
-
-allow btsync btsync_file:file { read write create open unlink };
-allow btsync btsync_file:dir r_dir_perms;

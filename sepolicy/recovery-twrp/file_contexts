@@ -1,2 +1,0 @@
-# TWRP recovery logs
-/tmp/recovery(/.*)?     u:object_r:recovery_tmp_file:s0
