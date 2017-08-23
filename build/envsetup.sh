@@ -273,12 +273,12 @@ function cmremote()
     fi
     git remote rm cmremote 2> /dev/null
     GERRIT_REMOTE=$(git config --get remote.github.projectname)
-    CMUSER=$(git config --get review.review.cyanogenmod.org.username)
-    if [ -z "$CMUSER" ]
+    LINEAGE_USER=$(git config --get review.review.lineageos.org.username)
+    if [ -z "$LINEAGE_USER" ]
     then
-        git remote add cmremote ssh://review.cyanogenmod.org:29418/$GERRIT_REMOTE
+        git remote add lineage ssh://review.lineageos.org:29418/$PFX$GERRIT_REMOTE
     else
-        git remote add cmremote ssh://$CMUSER@review.cyanogenmod.org:29418/$GERRIT_REMOTE
+        git remote add lineage ssh://$LINEAGE_USER@review.lineageos.org:29418/$PFX$GERRIT_REMOTE
     fi
     echo "Remote 'cmremote' created"
 }
