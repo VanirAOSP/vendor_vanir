@@ -271,9 +271,14 @@ function cmremote()
         echo ".git directory not found. Please run this from the root directory of the Android repository you wish to set up."
         return 1
     fi
-    git remote rm cmremote 2> /dev/null
-    GERRIT_REMOTE=$(git config --get remote.github.projectname)
-    LINEAGE_USER=$(git config --get review.review.lineageos.org.username)
+    git remote rm lineage 2> /dev/null
+    local GERRIT_REMOTE=$(git config --get remote.github.projectname)
+    if [ -z "$GERRIT_REMOTE" ]
+    then
+        local GERRIT_REMOTE=$(git config --get remote.aosp.projectname | sed s#platform/#android/#g | sed s#/#_#g)
+        local PFX="LineageOS/"
+    fi
+    local LINEAGE_USER=$(git config --get review.review.lineageos.org.username)
     if [ -z "$LINEAGE_USER" ]
     then
         git remote add lineage ssh://review.lineageos.org:29418/$PFX$GERRIT_REMOTE
@@ -292,10 +297,10 @@ function aospremote()
         return 1
     fi
     git remote rm aosp 2> /dev/null
-    PROJECT=$(pwd -P | sed -e "s#$ANDROID_BUILD_TOP\/##; s#-caf.*##; s#\/default##")
+    local PROJECT=$(pwd -P | sed -e "s#$ANDROID_BUILD_TOP\/##; s#-caf.*##; s#\/default##")
     if (echo $PROJECT | grep -qv "^device")
     then
-        PFX="platform/"
+        local PFX="platform/"
     fi
     git remote add aosp https://android.googlesource.com/$PFX$PROJECT
     echo "Remote 'aosp' created"
@@ -310,10 +315,10 @@ function cafremote()
         return 1
     fi
     git remote rm caf 2> /dev/null
-    PROJECT=$(pwd -P | sed -e "s#$ANDROID_BUILD_TOP\/##; s#-caf.*##; s#\/default##")
+    local PROJECT=$(pwd -P | sed -e "s#$ANDROID_BUILD_TOP\/##; s#-caf.*##; s#\/default##")
     if (echo $PROJECT | grep -qv "^device")
     then
-        PFX="platform/"
+        local PFX="platform/"
     fi
     git remote add caf https://source.codeaurora.org/quic/la/$PFX$PROJECT
     echo "Remote 'caf' created"
