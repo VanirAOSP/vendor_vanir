@@ -148,7 +148,7 @@ EOF
     fi
     return $?
     else
-        echo "The connected device does not appear to be $VANIR_BUILD$CM_BUILD, run away!"
+        echo "The connected device does not appear to be $VANIR_BUILD, run away!"
     fi
 }
 
@@ -363,7 +363,7 @@ function installboot()
         adb shell chmod 644 /system/lib/modules/*
         echo "Installation complete."
     else
-        echo "The connected device does not appear to be $VANIR_BUILD$CM_BUILD, run away!"
+        echo "The connected device does not appear to be $VANIR_BUILD, run away!"
     fi
 }
 
@@ -403,7 +403,7 @@ function installrecovery()
         adb shell dd if=/cache/recovery.img of=$PARTITION
         echo "Installation complete."
     else
-        echo "The connected device does not appear to be $VANIR_BUILD$CM_BUILD, run away!"
+        echo "The connected device does not appear to be $VANIR_BUILD, run away!"
     fi
 }
 
