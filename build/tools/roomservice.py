@@ -161,6 +161,17 @@ def is_in_manifest(projectpath):
         if localpath.get("path") == projectpath:
             return True
 
+    # ... and don't forget the lineage snippet
+    try:
+        lm = ElementTree.parse(".repo/manifests/snippets/lineage.xml")
+        lm = lm.getroot()
+    except:
+        lm = ElementTree.Element("manifest")
+
+    for localpath in lm.findall("project"):
+        if localpath.get("path") == projectpath:
+            return True
+
     return False
 
 def add_to_manifest(repositories, fallback_branch = None):
@@ -201,9 +212,10 @@ def add_to_manifest(repositories, fallback_branch = None):
     f.close()
 
 def fetch_dependencies(repo_path, fallback_branch = None):
-    print('Looking for dependencies')
-    dependencies_path = repo_path + '/cm.dependencies'
+    print('Looking for dependencies in %s' % repo_path)
+    dependencies_path = repo_path + '/lineage.dependencies'
     syncable_repos = []
+    verify_repos = []
 
     if os.path.exists(dependencies_path):
         dependencies_file = open(dependencies_path, 'r')
@@ -214,6 +226,9 @@ def fetch_dependencies(repo_path, fallback_branch = None):
             if not is_in_manifest(dependency['target_path']):
                 fetch_list.append(dependency)
                 syncable_repos.append(dependency['target_path'])
+                verify_repos.append(dependency['target_path'])
+            elif re.search("android_device_.*_.*$", dependency['repository']):
+                verify_repos.append(dependency['target_path'])
 
         dependencies_file.close()
 

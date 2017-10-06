@@ -9,8 +9,8 @@ for x in `COMBOS | sort -h`; do
   add_lunch_combo vanir_$x-userdebug
   add_lunch_combo vanir_$x-user
 done
-if [ -h vendor/cm/build/tools ]; then
-  rm -f vendor/cm/build/tools
-  rmdir vendor/cm/build
-  rmdir vendor/cm
+if [ -h vendor/lineage/build/tools ]; then
+  rm -f vendor/lineage/build/tools
+  rmdir vendor/lineage/build
+  rmdir vendor/lineage
 fi
