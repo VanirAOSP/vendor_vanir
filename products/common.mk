@@ -19,7 +19,7 @@ PRODUCT_COPY_FILES += \
 
 # Lineage-specific broadcast actions whitelist
 PRODUCT_COPY_FILES += \
-    vendor/lineage/config/permissions/lineage-sysconfig.xml:system/etc/sysconfig/lineage-sysconfig.xml
+    vendor/vanir/config/permissions/lineage-sysconfig.xml:system/etc/sysconfig/lineage-sysconfig.xml
 
 # Include explicitly to workaround GMS issue
 PRODUCT_PACKAGES += \
