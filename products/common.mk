@@ -7,7 +7,7 @@ DEVICE_PACKAGE_OVERLAYS += vendor/vanir/overlay/theme
 
 # DSPManager and NFC
 $(call inherit-product, vendor/vanir/products/media_sexificators.mk)
-$(call inherit-product, vendor/vanir/config/cmsdk_common.mk)
+$(call inherit-product, vendor/vanir/config/lineage_sdk_common.mk)
 
 # Add some tones (if this grows to more than like... 5 ringtones and 5 notifications, old ones will be dropped)
 $(call inherit-product, vendor/vanir/proprietary/ringtones/VanirRingtones.mk)
@@ -16,6 +16,10 @@ $(call inherit-product, vendor/vanir/proprietary/ringtones/VanirRingtones.mk)
 PRODUCT_COPY_FILES += \
     vendor/vanir/config/permissions/backup.xml:system/etc/sysconfig/backup.xml \
     vendor/vanir/config/permissions/power-whitelist.xml:system/etc/sysconfig/power-whitelist.xml
+
+# Lineage-specific broadcast actions whitelist
+PRODUCT_COPY_FILES += \
+    vendor/lineage/config/permissions/lineage-sysconfig.xml:system/etc/sysconfig/lineage-sysconfig.xml
 
 # Include explicitly to workaround GMS issue
 PRODUCT_PACKAGES += \
