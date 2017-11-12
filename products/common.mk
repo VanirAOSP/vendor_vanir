@@ -7,10 +7,14 @@ DEVICE_PACKAGE_OVERLAYS += vendor/vanir/overlay/theme
 
 # DSPManager and NFC
 $(call inherit-product, vendor/vanir/products/media_sexificators.mk)
-$(call inherit-product, vendor/vanir/config/lineage_sdk_common.mk)
 
 # Add some tones (if this grows to more than like... 5 ringtones and 5 notifications, old ones will be dropped)
 $(call inherit-product, vendor/vanir/proprietary/ringtones/VanirRingtones.mk)
+
+# Lineage SDK
+#ifneq ($(TARGET_DISABLE_LINEAGE_SDK), true)
+include vendor/vanir/config/lineage_sdk_common.mk
+#endif
 
 # Backup Services whitelist
 PRODUCT_COPY_FILES += \
