@@ -1,9 +1,0 @@
-Copy all files to your source directory and run it instead of build/envsetup.sh
-
-Has external script support for cherry-picks from gerrit, see picks.sh as a template which must be edited
-
-To utilize crond:
-Run through build.sh at minimum of once and set your desired crond runs with the generated configs. Copy vanir-cronbuild.sh and generated configs to appropriate dir.
-
-For multiple devices
-rename build-config/edit variable for device in lowercase inside and set the same filename inside a renamed copy of vanir-cronbuild. Can also use this method for normal building of multiple devices without using crond.
