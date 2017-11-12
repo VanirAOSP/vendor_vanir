@@ -91,7 +91,7 @@ function setup_vendor() {
         COMMON=0
     fi
 
-    if [ "$5" == "true" ] || [ "$5" == "1" ]; then
+    if [ "$5" == "false" ] || [ "$5" == "0" ]; then
         VENDOR_STATE=1
         VENDOR_RADIO_STATE=1
     else
@@ -200,7 +200,7 @@ function truncate_file() {
 # items in the list which do not start with a dash (-).
 #
 function write_product_copy_files() {
-    local COUNT_ALL=${#PRODUCT_COPY_FILES_LIST[@]}
+    local COUNT=${#PRODUCT_COPY_FILES_LIST[@]}
     local TARGET=
     local FILE=
     local LINEEND=
@@ -212,7 +212,7 @@ function write_product_copy_files() {
 
     printf '%s\n' "PRODUCT_COPY_FILES += \\" >> "$PRODUCTMK"
     for (( i=1; i<COUNT+1; i++ )); do
-        FILE="${existing_copy_files[$i-1]}"
+        FILE="${PRODUCT_COPY_FILES_LIST[$i-1]}"
         LINEEND=" \\"
         if [ "$i" -eq "$COUNT" ]; then
             LINEEND=""
@@ -601,8 +601,7 @@ EOF
 # Return success if adb is up and not in recovery
 function _adb_connected {
     {
-        if [[ "$(adb get-state)" == device &&
-              "$(adb shell test -e /sbin/recovery; echo $?)" == 0 ]]
+        if [[ "$(adb get-state)" == device ]]
         then
             return 0
         fi
@@ -746,8 +745,8 @@ function oat2dex() {
     local OAT=
 
     if [ -z "$BAKSMALIJAR" ] || [ -z "$SMALIJAR" ]; then
-        export BAKSMALIJAR="$CM_ROOT"/vendor/vanir/build/tools/smali/baksmali.jar
-        export SMALIJAR="$CM_ROOT"/vendor/vanir/build/tools/smali/smali.jar
+        export BAKSMALIJAR="$LINEAGE_ROOT"/vendor/lineage/build/tools/smali/baksmali.jar
+        export SMALIJAR="$LINEAGE_ROOT"/vendor/lineage/build/tools/smali/smali.jar
     fi
 
     # Extract existing boot.oats to the temp folder
@@ -846,10 +845,6 @@ function init_adb_connection() {
 #
 function fix_xml() {
     local XML="$1"
-    if [ ! -f "$XML" ]; then
-        echo "!!!! Cannot fix_xml $XML (file missing)" 1>&2
-        return
-    fi
     local TEMP_XML="$TMPDIR/`basename "$XML"`.temp"
 
     grep -a '^<?xml version' "$XML" > "$TEMP_XML"
@@ -1006,7 +1001,7 @@ function extract() {
 
         # Check pinned files
         local HASH="${HASHLIST[$i-1]}"
-        if [ ! -z "$HASH" ] && [ "$HASH" != "x" ]; then
+        if [ "$DISABLE_PINNING" != "1" ] && [ ! -z "$HASH" ] && [ "$HASH" != "x" ]; then
             local KEEP=""
             local TMP="$TMP_DIR/$FROM"
             if [ -f "$TMP" ]; then

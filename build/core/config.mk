@@ -18,39 +18,9 @@ INTERNAL_LINEAGE_PLATFORM_API_FILE := $(TARGET_OUT_COMMON_INTERMEDIATES)/PACKAGI
 INTERNAL_LINEAGE_PLATFORM_REMOVED_API_FILE := $(TARGET_OUT_COMMON_INTERMEDIATES)/PACKAGING/lineage_removed.txt
 FRAMEWORK_LINEAGE_PLATFORM_API_FILE := $(TOPDIR)lineage-sdk/api/lineage_current.txt
 FRAMEWORK_LINEAGE_PLATFORM_REMOVED_API_FILE := $(TOPDIR)lineage-sdk/api/lineage_removed.txt
-FRAMEWORK_LINEAGE_API_NEEDS_UPDATE_TEXT := $(TOPDIR)vendor/vanir/build/core/apicheck_msg_current.txt
+FRAMEWORK_LINEAGE_API_NEEDS_UPDATE_TEXT := $(TOPDIR)vendor/lineage/build/core/apicheck_msg_current.txt
 
-BUILD_MAVEN_PREBUILT := $(TOP)/vendor/vanir/build/core/maven_artifact.mk
-PUBLISH_MAVEN_PREBUILT := $(TOP)/vendor/vanir/build/core/maven_artifact_publish.mk
+BUILD_MAVEN_PREBUILT := $(TOP)/vendor/lineage/build/core/maven_artifact.mk
+PUBLISH_MAVEN_PREBUILT := $(TOP)/vendor/lineage/build/core/maven_artifact_publish.mk
 
-BUILD_HTTP_PREBUILT := $(TOP)/vendor/vanir/build/core/http_prebuilt.mk
-
-### Below is Vanir specific
-
-MANGLE_BOOTANIMATION_RESOLUTION :=
-ifeq ($(TARGET_SCREEN_WIDTH),)
-MANGLE_BOOTANIMATION_RESOLUTION := true
-else
-ifeq ($(TARGET_SCREEN_HEIGHT),)
-MANGLE_BOOTANIMATION_RESOLUTION := true
-endif
-endif
-
-BOOT_ANIMATION_LINE := $(foreach filecopy, $(PRODUCT_COPY_FILES), $(shell echo $(filecopy) | grep -o '.*bootanimation.zip*' || true))
-ifneq ($(MANGLE_BOOTANIMATION_RESOLUTION),)
-ifneq ($(BOOT_ANIMATION_LINE),)
-BOOT_ANIMATION_RESOLUTION := $(shell echo $(BOOT_ANIMATION_LINE) |  sed 's/\.zip:.*//;s/.*\///g') #produces WWWWxHHHH
-TARGET_SCREEN_WIDTH := $(shell echo $(BOOT_ANIMATION_RESOLUTION) | sed 's/x.*//g')
-TARGET_SCREEN_HEIGHT := $(shell echo $(BOOT_ANIMATION_RESOLUTION) | sed 's/.*x//g')
-else
-ifneq ($(VANIR_BUILD),)
-$(error Could not determine boot animation size based on PRODUCT_COPY_FILES. Set TARGET_SCREEN_WIDTH and TARGET_SCREEN_HEIGHT in vendor/$(BOOT_ANIMATION_VENDOR)/products/$(TARGET_PRODUCT).mk)
-else
-$(warning Could not determine boot animation size, but you're not building a vanir_* target, so GLHF, butthead)
-endif
-endif
-endif
-ifneq ($(BOOT_ANIMATION_LINE),)
-PRODUCT_COPY_FILES := $(filter-out $(BOOT_ANIMATION_LINE),$(PRODUCT_COPY_FILES))
-endif
-
+BUILD_HTTP_PREBUILT := $(TOP)/vendor/lineage/build/core/http_prebuilt.mk

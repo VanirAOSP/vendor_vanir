@@ -1,13 +1,10 @@
-
-function __print_vanir_functions_help() {
+function __print_lineage_functions_help() {
 cat <<EOF
-Additional CyanogenMod functions:
+Additional LineageOS functions:
 - cout:            Changes directory to out.
 - mmp:             Builds all of the modules in the current directory and pushes them to the device.
 - mmap:            Builds all of the modules in the current directory and its dependencies, then pushes the package to the device.
 - mmmp:            Builds all of the modules in the supplied directories and pushes them to the device.
-- mms:             Short circuit builder. Quickly re-build the kernel, rootfs, boot and system images
-                   without deep dependencies. Requires the full build to have run before.
 - lineagegerrit:   A Git wrapper that fetches/pushes patch from/to LineageOS Gerrit Review.
 - lineagerebase:   Rebase a Gerrit change and push it again.
 - lineageremote:   Add git remote for LineageOS Gerrit Review.
@@ -22,11 +19,6 @@ Additional CyanogenMod functions:
 - repopick:        Utility to fetch changes from Gerrit.
 - installboot:     Installs a boot.img to the connected device.
 - installrecovery: Installs a recovery.img to the connected device.
-Additional Vanir functions:
-- forall_vanir:    A wrapper around 'repo forall ... -c' that only runs on vanir-tracked repos. export FORALL_ARGS=-j# to run # jobs in parallel.
-                   ex: FORALL_ARGS=-j4 forall_vanir 'sleep 5; pwd'
-- forall_cm:       forall_vanir for cm-tracked repos
-- segrep:          grep recursively through selinux policy files
 EOF
 }
 
@@ -78,7 +70,7 @@ function breakfast()
     LINEAGE_DEVICES_ONLY="true"
     unset LUNCH_MENU_CHOICES
     add_lunch_combo full-eng
-    for f in $(/bin/ls vendor/vanir/vendorsetup.sh 2> /dev/null)
+    for f in `/bin/ls vendor/lineage/vendorsetup.sh 2> /dev/null`
         do
             echo "including $f"
             . $f
@@ -94,11 +86,12 @@ function breakfast()
             # A buildtype was specified, assume a full device name
             lunch $target
         else
-            # This is probably just the CM model name
+            # This is probably just the Lineage model name
             if [ -z "$variant" ]; then
                 variant="userdebug"
             fi
-            lunch vanir_$target-$variant
+
+            lunch lineage_$target-$variant
         fi
     fi
     return $?
@@ -109,9 +102,8 @@ alias bib=breakfast
 function eat()
 {
     if [ "$OUT" ] ; then
-        MODVERSION=$(get_build_var VANIR_VERSION)
-        PRODUCT=$(get_build_var VANIR_BUILD)
-        ZIPFILE=vanir_${PRODUCT}_${MODVERSION}.zip
+        MODVERSION=$(get_build_var LINEAGE_VERSION)
+        ZIPFILE=lineage-$MODVERSION.zip
         ZIPPATH=$OUT/$ZIPFILE
         if [ ! -f $ZIPPATH ] ; then
             echo "Nothing to eat"
@@ -126,29 +118,28 @@ function eat()
             done
             echo "Device Found.."
         fi
-    if ([ $LINEAGE_BUILD ] && adb shell getprop ro.lineage.device | grep -q "$LINEAGE_BUILD") || ([ $VANIR_BUILD ] && adb      shell getprop ro.vanir.device | grep -q "$VANIR_BUILD");
-    then
-        # if adbd isn't root we can't write to /cache/recovery/
-        adb root
-        sleep 1
-        adb wait-for-device
-        cat << EOF > /tmp/command
+        if (adb shell getprop ro.lineage.device | grep -q "$LINEAGE_BUILD"); then
+            # if adbd isn't root we can't write to /cache/recovery/
+            adb root
+            sleep 1
+            adb wait-for-device
+            cat << EOF > /tmp/command
 --sideload_auto_reboot
 EOF
-        if adb push /tmp/command /cache/recovery/ ; then
-            echo "Rebooting into recovery for sideload installation"
-            adb reboot recovery
-            adb wait-for-sideload
-            adb sideload $ZIPPATH
+            if adb push /tmp/command /cache/recovery/ ; then
+                echo "Rebooting into recovery for sideload installation"
+                adb reboot recovery
+                adb wait-for-sideload
+                adb sideload $ZIPPATH
+            fi
+            rm /tmp/command
+        else
+            echo "The connected device does not appear to be $LINEAGE_BUILD, run away!"
         fi
-        rm /tmp/command
+        return $?
     else
         echo "Nothing to eat"
         return 1
-    fi
-    return $?
-    else
-        echo "The connected device does not appear to be $VANIR_BUILD, run away!"
     fi
 }
 
@@ -207,11 +198,11 @@ function dddclient()
        local PID="$3"
        if [ "$PID" ] ; then
            if [[ ! "$PID" =~ ^[0-9]+$ ]] ; then
-               PID=$(pid $3)
+               PID=`pid $3`
                if [[ ! "$PID" =~ ^[0-9]+$ ]] ; then
                    # that likely didn't work because of returning multiple processes
                    # try again, filtering by root processes (don't contain colon)
-                   PID=$(adb shell ps | \grep $3 | \grep -v ":" | awk '{print $2}')
+                   PID=`adb shell ps | \grep $3 | \grep -v ":" | awk '{print $2}'`
                    if [[ ! "$PID" =~ ^[0-9]+$ ]]
                    then
                        echo "Couldn't resolve '$3' to single PID"
@@ -266,7 +257,7 @@ function dddclient()
        echo "Unable to determine build system output dir."
    fi
 }
-if ! declare -f cmremote >/dev/null 2>&1; then
+
 function lineageremote()
 {
     if ! git rev-parse --git-dir &> /dev/null
@@ -290,8 +281,7 @@ function lineageremote()
     fi
     echo "Remote 'lineage' created"
 }
-fi
-if ! declare -f aospremote >/dev/null 2>&1; then
+
 function aospremote()
 {
     if ! git rev-parse --git-dir &> /dev/null
@@ -313,8 +303,7 @@ function aospremote()
     git remote add aosp https://android.googlesource.com/$PFX$PROJECT
     echo "Remote 'aosp' created"
 }
-fi
-if ! declare -f cafremote >/dev/null 2>&1; then
+
 function cafremote()
 {
     if ! git rev-parse --git-dir &> /dev/null
@@ -336,7 +325,7 @@ function cafremote()
     git remote add caf https://source.codeaurora.org/quic/la/$PFX$PROJECT
     echo "Remote 'caf' created"
 }
-fi
+
 function installboot()
 {
     if [ ! -e "$OUT/recovery/root/etc/recovery.fstab" ];
@@ -349,12 +338,12 @@ function installboot()
         echo "No boot.img found. Run make bootimage first."
         return 1
     fi
-    PARTITION=$(grep "^\/boot" $OUT/recovery/root/etc/recovery.fstab | awk {'print $3'})
+    PARTITION=`grep "^\/boot" $OUT/recovery/root/etc/recovery.fstab | awk {'print $3'}`
     if [ -z "$PARTITION" ];
     then
         # Try for RECOVERY_FSTAB_VERSION = 2
-        PARTITION=$(grep "[[:space:]]\/boot[[:space:]]" $OUT/recovery/root/etc/recovery.fstab | awk {'print $1'})
-        PARTITION_TYPE=$(grep "[[:space:]]\/boot[[:space:]]" $OUT/recovery/root/etc/recovery.fstab | awk {'print $3'})
+        PARTITION=`grep "[[:space:]]\/boot[[:space:]]" $OUT/recovery/root/etc/recovery.fstab | awk {'print $1'}`
+        PARTITION_TYPE=`grep "[[:space:]]\/boot[[:space:]]" $OUT/recovery/root/etc/recovery.fstab | awk {'print $3'}`
         if [ -z "$PARTITION" ];
         then
             echo "Unable to determine boot partition."
@@ -367,18 +356,21 @@ function installboot()
     sleep 1
     adb wait-for-online shell mount /system 2>&1 > /dev/null
     adb wait-for-online remount
-    if ([ $LINEAGE_BUILD ] && adb shell getprop ro.lineage.device | grep -q "$LINEAGE_BUILD") || ([ $VANIR_BUILD ] && adb      shell getprop ro.vanir.device | grep -q "$VANIR_BUILD");
+    if (adb shell getprop ro.lineage.device | grep -q "$LINEAGE_BUILD");
     then
         adb push $OUT/boot.img /cache/
-        for i in $OUT/system/lib/modules/*;
-        do
-            adb push $i /system/lib/modules/
-        done
+        if [ -e "$OUT/system/lib/modules/*" ];
+        then
+            for i in $OUT/system/lib/modules/*;
+            do
+                adb push $i /system/lib/modules/
+            done
+            adb shell chmod 644 /system/lib/modules/*
+        fi
         adb shell dd if=/cache/boot.img of=$PARTITION
-        adb shell chmod 644 /system/lib/modules/*
         echo "Installation complete."
     else
-        echo "The connected device does not appear to be $VANIR_BUILD, run away!"
+        echo "The connected device does not appear to be $LINEAGE_BUILD, run away!"
     fi
 }
 
@@ -394,12 +386,12 @@ function installrecovery()
         echo "No recovery.img found. Run make recoveryimage first."
         return 1
     fi
-    PARTITION=$(grep "^\/recovery" $OUT/recovery/root/etc/recovery.fstab | awk {'print $3'})
+    PARTITION=`grep "^\/recovery" $OUT/recovery/root/etc/recovery.fstab | awk {'print $3'}`
     if [ -z "$PARTITION" ];
     then
         # Try for RECOVERY_FSTAB_VERSION = 2
-        PARTITION=$(grep "[[:space:]]\/recovery[[:space:]]" $OUT/recovery/root/etc/recovery.fstab | awk {'print $1'})
-        PARTITION_TYPE=$(grep "[[:space:]]\/recovery[[:space:]]" $OUT/recovery/root/etc/recovery.fstab | awk {'print $3'})
+        PARTITION=`grep "[[:space:]]\/recovery[[:space:]]" $OUT/recovery/root/etc/recovery.fstab | awk {'print $1'}`
+        PARTITION_TYPE=`grep "[[:space:]]\/recovery[[:space:]]" $OUT/recovery/root/etc/recovery.fstab | awk {'print $3'}`
         if [ -z "$PARTITION" ];
         then
             echo "Unable to determine recovery partition."
@@ -412,13 +404,13 @@ function installrecovery()
     sleep 1
     adb wait-for-online shell mount /system 2>&1 >> /dev/null
     adb wait-for-online remount
-    if ([ $LINEAGE_BUILD ] && adb shell getprop ro.lineage.device | grep -q "$LINEAGE_BUILD") || ([ $VANIR_BUILD ] && adb      shell getprop ro.vanir.device | grep -q "$VANIR_BUILD");
+    if (adb shell getprop ro.lineage.device | grep -q "$LINEAGE_BUILD");
     then
         adb push $OUT/recovery.img /cache/
         adb shell dd if=/cache/recovery.img of=$PARTITION
         echo "Installation complete."
     else
-        echo "The connected device does not appear to be $VANIR_BUILD, run away!"
+        echo "The connected device does not appear to be $LINEAGE_BUILD, run away!"
     fi
 }
 
@@ -454,9 +446,9 @@ function lineagegerrit() {
         $FUNCNAME help
         return 1
     fi
-    local user=$(git config --get review.review.cyanogenmod.org.username)
-    local review=$(git config --get remote.github.review)
-    local project=$(git config --get remote.github.projectname)
+    local user=`git config --get review.review.lineageos.org.username`
+    local review=`git config --get remote.github.review`
+    local project=`git config --get remote.github.projectname`
     local command=$1
     shift
     case $command in
@@ -711,7 +703,7 @@ function lineagerebase() {
     echo "Bringing it up to date..."
     repo sync .
     echo "Fetching change..."
-    git fetch "http://review.cyanogenmod.org/p/$repo" "refs/changes/$refs" && git cherry-pick FETCH_HEAD
+    git fetch "http://review.lineageos.org/p/$repo" "refs/changes/$refs" && git cherry-pick FETCH_HEAD
     if [ "$?" != "0" ]; then
         echo "Error cherry-picking. Not uploading!"
         return
@@ -724,65 +716,7 @@ function lineagerebase() {
 }
 
 function mka() {
-    local T=$(gettop)
-    if [ ! "$T" ]; then
-        echo "Couldn't locate the top of the tree.  CD into it or try setting TOP." >&2
-        return
-    fi
-    export TARGET_SIMULATOR=false
-    export BUILD_TINY_ANDROID=
-    local MAKECMD=""
-    case $(uname -s) in
-        Darwin)
-            if [ ! $(echo $VANIR_PARALLEL_JOBS | wc -w) -gt 0 ]; then
-                local js=$(sysctl hw.ncpu|cut -d" " -f2)
-                VANIR_PARALLEL_JOBS="-j$js"
-            fi
-            MAKECMD="$(command -pv make) -C $T $VANIR_PARALLEL_JOBS"
-            ;;
-        *)
-            if [ ! $(echo $VANIR_PARALLEL_JOBS | wc -w) -gt 0 ]; then
-                local js=$(grep "^processor" /proc/cpuinfo | wc -l)
-                VANIR_PARALLEL_JOBS="-j$js"
-            fi
-            MAKECMD="$(command -pv make) -C $T $VANIR_PARALLEL_JOBS $@"
-            ;;
-    esac
-    export start_time=$(date +"%s")
-    echo $start_time > ${ANDROID_BUILD_TOP}/.lastbuildstart
-    mk_timer $MAKECMD "$@"
-    retval=$?
-    if [ $retval -eq 0 ] ; then
-        [ ! $VANIR_DISABLE_BUILD_COMPLETION_NOTIFICATIONS ] && notify-send "VANIR" "$TARGET_PRODUCT build completed." -i $T/vendor/vanir/build/buildwin.png -t 10000
-    else
-        [ ! $VANIR_DISABLE_BUILD_COMPLETION_NOTIFICATIONS ] && notify-send "VANIR" "$TARGET_PRODUCT build FAILED." -i $T/build/buildfailed.png -t 10000
-    fi
-    return $retval
-}
-
-smash() {
-    #to do: add smash $anytarget, smashOTA, smash, smashVANIR
-    DIR=$OUT
-    #to do: fix the colors
-    if [ -d  "$DIR" ]; then
-       echo ""
-       echo $CL_RED" Removing" $CL_RST" $TARGET_PRODUCT out directory:"
-       echo " Location:"
-       echo " $OUT"
-       rm -R -f $OUT
-       echo "  ."
-       echo "  ."
-       echo "  ."
-       echo "  ."
-       echo "  ."
-       echo $CL_RST" Destroyed."
-       echo ""
-       return;
-       else 
-       echo ""
-       echo $CL_YLW" Already" $CL_RED" SMASHED it !!!" $CL
-       echo ""
-   fi
+    m -j "$@"
 }
 
 function cmka() {
@@ -853,7 +787,9 @@ function dopush()
         done
         echo "Device Found."
     fi
-    if ([ $LINEAGE_BUILD ] && adb shell getprop ro.lineage.device | grep -q "$LINEAGE_BUILD") || ([ $VANIR_BUILD ] && adb      shell getprop ro.vanir.device | grep -q "$VANIR_BUILD");    then
+
+    if (adb shell getprop ro.lineage.device | grep -q "$LINEAGE_BUILD") || [ "$FORCE_PUSH" = "true" ];
+    then
     # retrieve IP and PORT info if we're using a TCP connection
     TCPIPPORT=$(adb devices \
         | egrep '^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9]):[0-9]+[^0-9]+' \
@@ -983,7 +919,7 @@ alias cmkap='dopush cmka'
 
 function repopick() {
     T=$(gettop)
-    $T/vendor/vanir/build/tools/repopick.py $@
+    $T/vendor/lineage/build/tools/repopick.py $@
 }
 
 function fixup_common_out_dir() {
@@ -1004,76 +940,6 @@ function fixup_common_out_dir() {
     fi
 }
 
-# Run a command inside all projects tracked on the vanir remote in the manifest
-function forall_vanir()
-{
-  cd $ANDROID_BUILD_TOP
-  regex=$(repo forall -c '[ "$REPO_REMOTE" = "vanir" ] &&  echo -n \|^$REPO_PATH\$' | sed 's/^|//g')
-  repo forall -r $regex $FORALL_ARGS -c "$@"
-}
-function forall_cm()
-{
-  cd $ANDROID_BUILD_TOP
-  regex=$(repo forall -c '[ "$REPO_REMOTE" = "cm" ] &&     echo -n \|^$REPO_PATH\$' | sed 's/^|//g')
-  repo forall -r $regex $FORALL_ARGS -c "$@"
-}
-
-# sepolicy grep by Nuclearmistake
-case $(uname -s) in
-    Darwin)
-        function segrep()
-        {
-            find -E . -name .repo -prune -o -name .git -prune -o -path ./out -prune -o -regextype posix-egrep -iregex '(.*\/[A-Za-z][A-Za-z]*_contexts|.*\.te)' -type f -print0 | xargs -0 grep --color -n "$@"
-        }
-        ;;
-    *)
-        function segrep()
-        {
-            find . -name .repo -prune -o -name .git -prune -o -path ./out -prune -o -regextype posix-egrep -iregex '(.*\/[A-Za-z][A-Za-z]*_contexts|.*\.te)' -type f -print0 | xargs -0 grep --color -n "$@"
-        }
-        ;;
-esac
-
-
-# compile master branch ccache
-$ANDROID_BUILD_TOP/vendor/vanir/build/tools/ccache_version_check.sh
-
-# repo versioning hack
-if [ $STFU_REPO ]; then
-    pushd . >& /dev/null
-    cd $(gettop)/.repo/repo
-    [ $(git remote -v | grep github | wc -l) -eq 0 ] && git remote add github https://github.com/nuclearmistake/repo
-    git fetch github >& /dev/null
-    git checkout github/master >& /dev/null
-    popd >& /dev/null
-fi
-
-# rst (repo start helper), rup (repo upload helper)
-source $(gettop)/vendor/vanir/build/nukehawtness
-
-# GIT PS1 shenans
-parse_git_dirty() {
- [ $(git status --porcelain 2> /dev/null | wc -l) -ne 0 ] && echo " \*"
-}
-parse_git_branch() {
- [ "$(parse_git_dirty)" = "" ] && echo -en "\033[1;32m" || echo -en "\033[1;31m"
- git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/ (\1$(parse_git_dirty))/"
-}
-if [ ! $GITPS1ENGAGED ]; then
-export GITPS1ENGAGED=1
-export PS1=$(echo "$PS1" | sed 's/\[\$ \]*//g')
-export NONE='\[\033[0m\]'
-istheregit=$(which git)
-if [ $(echo $PS1 | grep parse_git_branch | wc -l) -eq 0 ]; then
-  if [ -x "$istheregit" ]; then
-      export PS1="${NONE}$PS1\$(parse_git_branch)${NONE}"
-  else
-      export PS1="$PS1$ "
-  fi
-  export PS1=$(echo "$PS1" | sed 's/$[ ]*$//g')"\n${NONE}\$ "
-fi
-fi
-
 # Enable SD-LLVM if available
 if [ -d $(gettop)/prebuilts/snapdragon-llvm/toolchains ]; then
     case `uname -s` in
@@ -1087,13 +953,6 @@ if [ -d $(gettop)/prebuilts/snapdragon-llvm/toolchains ]; then
             ;;
     esac
 fi
-
-# tab completion
-if [ $(typeset -F | grep _git | wc -l) -eq 0 ]; then
-  source $(gettop)/vendor/vanir/build/git-completion.bash
-fi
-
-export PATH=$ANDROID_BUILD_TOP/ccache:$PATH:$ANDROID_BUILD_TOP/vendor/vanir/build/tools:$ANDROID_BUILD_TOP/vendor/vanir/scripts
 
 # Android specific JACK args
 if [ -n "$JACK_SERVER_VM_ARGUMENTS" ] && [ -z "$ANDROID_JACK_VM_ARGS" ]; then

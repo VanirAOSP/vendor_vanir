@@ -1,8 +1,0 @@
-#!/system/bin/sh
-
-export PATH=/sbin:/system/sbin:/system/bin:/system/xbin
-logwrapper run-parts /system/etc/boot.d
-
-if [ -d /data/boot.d ]; then
-    logwrapper run-parts /data/boot.d
-fi

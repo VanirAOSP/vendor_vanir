@@ -1,41 +1,39 @@
 #!/bin/bash
-set -e
-HERE="$(dirname "$0")"
+
 WIDTH="$1"
 HEIGHT="$2"
 HALF_RES="$3"
 OUT="$ANDROID_PRODUCT_OUT/obj/BOOTANIMATION"
 
 if [ "$HEIGHT" -lt "$WIDTH" ]; then
-    SIZE="$HEIGHT"
+    IMAGEWIDTH="$HEIGHT"
 else
-    SIZE="$WIDTH"
+    IMAGEWIDTH="$WIDTH"
 fi
+
+IMAGESCALEWIDTH="$IMAGEWIDTH"
+IMAGESCALEHEIGHT=$(expr $IMAGESCALEWIDTH / 3)
 
 if [ "$HALF_RES" = "true" ]; then
-    IMAGESIZE="$((SIZE / 2))"
-else
-    IMAGESIZE="$SIZE"
+    IMAGEWIDTH=$(expr $IMAGEWIDTH / 2)
 fi
 
-RESOLUTION="${IMAGESIZE}x${IMAGESIZE}"
-for x in $(tar tf "${HERE}/bootanimation.tar" --exclude '*/*'); do
-    mkdir -p "$OUT/bootanimation/$x"
+IMAGEHEIGHT=$(expr $IMAGEWIDTH / 3)
+
+RESOLUTION=""$IMAGEWIDTH"x"$IMAGEHEIGHT""
+
+for part_cnt in 0 1 2 3 4
+do
+    mkdir -p $ANDROID_PRODUCT_OUT/obj/BOOTANIMATION/bootanimation/part$part_cnt
 done
-doit() { echo "Neither \"gm\" nor \"convert\" found. Install graphicsmagick or imagemagick." 1>&2; return 1; }
-if which gm >/dev/null 2>&1 || which mogrify >/dev/null 2>&1; then
-  mogrify="gm mogrify"
-  if which mogrify >/dev/null 2>&1; then
-    mogrify=mogrify
-  fi
-  doit() { echo "Building $RESOLUTION bootanimation.zip w/ GraphicsMagick mogrify" 1>&2; tar xfp "$HERE/bootanimation.tar" -C "$OUT/bootanimation/" && $mogrify -resize "$RESOLUTION" "$OUT/bootanimation/"*"/"*".jpg"; return $?; }
-elif which convert >/dev/null 2>&1; then
-  doit() { echo "Building $RESOLUTION bootanimation.zip w/ ImageMagick convert" 1>&2; tar xfp "$HERE/bootanimation.tar" --to-command "convert - -resize '$RESOLUTION' \"jpg:$OUT/bootanimation/\$TAR_FILENAME\""; return $?; }
-fi
-doit || exit 1
+tar xfp "vendor/lineage/bootanimation/bootanimation.tar" -C "$OUT/bootanimation/"
+mogrify -resize $RESOLUTION -colors 250 "$OUT/bootanimation/"*"/"*".png"
+
 # Create desc.txt
-echo "$WIDTH" "$HEIGHT" 30 > "$OUT/bootanimation/desc.txt"
-cat "$HERE/desc.txt" >> "$OUT/bootanimation/desc.txt" # Create bootanimation.zip
+echo "$IMAGESCALEWIDTH $IMAGESCALEHEIGHT" 60 > "$OUT/bootanimation/desc.txt"
+cat "vendor/lineage/bootanimation/desc.txt" >> "$OUT/bootanimation/desc.txt"
+
+# Create bootanimation.zip
 cd "$OUT/bootanimation"
 
 zip -qr0 "$OUT/bootanimation.zip" .
