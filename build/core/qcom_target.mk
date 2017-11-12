@@ -47,13 +47,13 @@ ifeq ($(BOARD_USES_QCOM_HARDWARE),true)
     # Allow building audio encoders
     TARGET_USES_QCOM_MM_AUDIO := true
 
-    # Enable color metadata for 8xx UM targets
-    ifneq ($(filter msm8996 msm8998,$(TARGET_BOARD_PLATFORM)),)
+    # Enable color metadata for modern UM targets
+    ifneq ($(filter msm8996 msm8998 sdm660,$(TARGET_BOARD_PLATFORM)),)
         TARGET_USES_COLOR_METADATA := true
     endif
 
     # List of targets that use master side content protection
-    MASTER_SIDE_CP_TARGET_LIST := msm8996 msm8998
+    MASTER_SIDE_CP_TARGET_LIST := msm8996 msm8998 sdm660
 
     ifeq ($(call is-board-platform-in-list, $(B_FAMILY)),true)
         MSM_VIDC_TARGET_LIST := $(B_FAMILY)
@@ -98,11 +98,11 @@ $(call project-set-path,qcom-audio,hardware/qcom/audio/default)
 $(call project-set-path,qcom-display,hardware/qcom/display/$(TARGET_BOARD_PLATFORM))
 $(call project-set-path,qcom-media,hardware/qcom/media/$(TARGET_BOARD_PLATFORM))
 
-$(call set-device-specific-path,CAMERA,camera,hardware/qcom/camera)
-$(call set-device-specific-path,GPS,gps,hardware/qcom/gps)
-$(call set-device-specific-path,SENSORS,sensors,hardware/qcom/sensors)
-$(call set-device-specific-path,LOC_API,loc-api,vendor/qcom/opensource/location)
-$(call set-device-specific-path,DATASERVICES,dataservices,$(TARGET_DEVICE_DIR)/dataservices)
+$(call project-set-path,qcom-camera,hardware/qcom/camera)
+$(call project-set-path,qcom-gps,hardware/qcom/gps)
+$(call project-set-path,qcom-sensors,hardware/qcom/sensors)
+$(call project-set-path,qcom-loc-api,vendor/qcom/opensource/location)
+$(call project-set-path,qcom-dataservices,$(TARGET_DEVICE_DIR)/dataservices)
 
 $(call ril-set-path-variant,ril)
 $(call wlan-set-path-variant,wlan)

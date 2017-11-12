@@ -143,6 +143,7 @@ if __name__ == '__main__':
     parser.add_argument('change_number', nargs='*', help='change number to cherry pick.  Use {change number}/{patchset number} to get a specific revision.')
     parser.add_argument('-i', '--ignore-missing', action='store_true', help='do not error out if a patch applies to a missing directory')
     parser.add_argument('-s', '--start-branch', nargs=1, help='start the specified branch before cherry picking')
+    parser.add_argument('-r', '--reset', action='store_true', help='reset to initial state (abort cherry-pick) if there is a conflict')
     parser.add_argument('-a', '--abandon-first', action='store_true', help='before cherry picking, abandon the branch specified in --start-branch')
     parser.add_argument('-b', '--auto-branch', action='store_true', help='shortcut to "--start-branch auto --abandon-first --ignore-missing"')
     parser.add_argument('-q', '--quiet', action='store_true', help='print as little as possible')
@@ -225,7 +226,7 @@ if __name__ == '__main__':
                 if remote.get('name') == project.get('remote'):
                     revision = remote.get('revision')
             if revision is None:
-            revision = default_revision
+                revision = default_revision
 
         if not name in project_name_to_data:
             project_name_to_data[name] = {}
@@ -268,6 +269,10 @@ if __name__ == '__main__':
             continue
 
         change = int(change)
+
+        if patchset is not None:
+            patchset = int(patchset)
+
         review = next((x for x in reviews if x['number'] == change), None)
         if review is None:
             print('Change %d not found, skipping' % change)
@@ -286,7 +291,7 @@ if __name__ == '__main__':
         mergables[-1]['id'] = change
         if patchset:
             try:
-                mergables[-1]['fetch'] = [x['fetch'] for x in review['revisions'] if x['_number'] == patchset][0]
+                mergables[-1]['fetch'] = [review['revisions'][x]['fetch'] for x in review['revisions'] if review['revisions'][x]['_number'] == patchset][0]
                 mergables[-1]['id'] = '{0}/{1}'.format(change, patchset)
             except (IndexError, ValueError):
                 args.quiet or print('ERROR: The patch set {0}/{1} could not be found, using CURRENT_REVISION instead.'.format(change, patchset))
@@ -294,7 +299,7 @@ if __name__ == '__main__':
     for item in mergables:
         args.quiet or print('Applying change number {0}...'.format(item['id']))
         # Check if change is open and exit if it's not, unless -f is specified
-        if (item['status'] != 'OPEN' and item['status'] != 'NEW') and not args.query:
+        if (item['status'] != 'OPEN' and item['status'] != 'NEW' and item['status'] != 'DRAFT') and not args.query:
             if args.force:
                 print('!! Force-picking a closed change !!\n')
             else:
@@ -347,7 +352,7 @@ if __name__ == '__main__':
 
         # Print out some useful info
         if not args.quiet:
-            print('--> Subject:       "{0}"'.format(item['subject']))
+            print('--> Subject:       "{0}"'.format(item['subject'].encode('utf-8')))
             print('--> Project path:  {0}'.format(project_path))
             print('--> Change number: {0} (Patch Set {0})'.format(item['id']))
 
@@ -404,7 +409,12 @@ if __name__ == '__main__':
                 cmd_out = None
             result = subprocess.call(cmd, cwd=project_path, shell=True, stdout=cmd_out, stderr=cmd_out)
             if result != 0:
-                print('ERROR: git command failed')
+                if args.reset:
+                    print('ERROR: git command failed, aborting cherry-pick')
+                    cmd = ['git cherry-pick --abort']
+                    subprocess.call(cmd, cwd=project_path, shell=True, stdout=cmd_out, stderr=cmd_out)
+                else:
+                    print('ERROR: git command failed')
                 sys.exit(result)
         if not args.quiet:
             print('')

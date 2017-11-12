@@ -1,7 +1,6 @@
-
 function __print_vanir_functions_help() {
 cat <<EOF
-Additional CyanogenMod functions:
+Additional Build functions:
 - cout:            Changes directory to out.
 - mmp:             Builds all of the modules in the current directory and pushes them to the device.
 - mmap:            Builds all of the modules in the current directory and its dependencies, then pushes the package to the device.
@@ -454,7 +453,7 @@ function lineagegerrit() {
         $FUNCNAME help
         return 1
     fi
-    local user=$(git config --get review.review.cyanogenmod.org.username)
+    local user=$(git config --get review.review.lineage.org.username)
     local review=$(git config --get remote.github.review)
     local project=$(git config --get remote.github.projectname)
     local command=$1
@@ -711,7 +710,7 @@ function lineagerebase() {
     echo "Bringing it up to date..."
     repo sync .
     echo "Fetching change..."
-    git fetch "http://review.cyanogenmod.org/p/$repo" "refs/changes/$refs" && git cherry-pick FETCH_HEAD
+    git fetch "http://review.lineage.org/p/$repo" "refs/changes/$refs" && git cherry-pick FETCH_HEAD
     if [ "$?" != "0" ]; then
         echo "Error cherry-picking. Not uploading!"
         return
