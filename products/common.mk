@@ -13,7 +13,8 @@ $(call inherit-product, vendor/vanir/proprietary/ringtones/VanirRingtones.mk)
 
 # Lineage SDK
 #ifneq ($(TARGET_DISABLE_LINEAGE_SDK), true)
-include vendor/vanir/config/lineage_sdk_common.mk
+$(call inherit-product, vendor/vanir/config/lineage_sdk_common.mk) 
+#include vendor/vanir/config/lineage_sdk_common.mk
 #endif
 
 # Backup Services whitelist

@@ -20,9 +20,12 @@ FRAMEWORK_LINEAGE_PLATFORM_API_FILE := $(TOPDIR)lineage-sdk/api/lineage_current.
 FRAMEWORK_LINEAGE_PLATFORM_REMOVED_API_FILE := $(TOPDIR)lineage-sdk/api/lineage_removed.txt
 FRAMEWORK_LINEAGE_API_NEEDS_UPDATE_TEXT := $(TOPDIR)vendor/vanir/build/core/apicheck_msg_current.txt
 
-LOCAL_PATH := $(TOPDIR)$(shell dirname $(lastword $(MAKEFILE_LIST)))
-BUILD_MAVEN_PREBUILT := $(LOCAL_PATH)/maven_artifact.mk
-PUBLISH_MAVEN_PREBUILT := $(LOCAL_PATH)/maven_artifact_publish.mk
+BUILD_MAVEN_PREBUILT := $(TOP)/vendor/vanir/build/core/maven_artifact.mk
+PUBLISH_MAVEN_PREBUILT := $(TOP)/vendor/vanir/build/core/maven_artifact_publish.mk
+
+BUILD_HTTP_PREBUILT := $(TOP)/vendor/vanir/build/core/http_prebuilt.mk
+
+### Below is Vanir specific
 
 MANGLE_BOOTANIMATION_RESOLUTION :=
 ifeq ($(TARGET_SCREEN_WIDTH),)
@@ -51,7 +54,3 @@ ifneq ($(BOOT_ANIMATION_LINE),)
 PRODUCT_COPY_FILES := $(filter-out $(BOOT_ANIMATION_LINE),$(PRODUCT_COPY_FILES))
 endif
 
-BUILD_MAVEN_PREBUILT := $(TOP)/vendor/vanir/build/core/maven_artifact.mk
-PUBLISH_MAVEN_PREBUILT := $(TOP)/vendor/vanir/build/core/maven_artifact_publish.mk
-
-BUILD_HTTP_PREBUILT := $(TOP)/vendor/vanir/build/core/http_prebuilt.mk
