@@ -27,6 +27,8 @@ BUILD_HTTP_PREBUILT := $(TOP)/vendor/vanir/build/core/http_prebuilt.mk
 
 ### Below is Vanir specific
 
+LOCAL_PATH := $(TOPDIR)$(shell dirname $(lastword $(MAKEFILE_LIST)))
+
 MANGLE_BOOTANIMATION_RESOLUTION :=
 ifeq ($(TARGET_SCREEN_WIDTH),)
 MANGLE_BOOTANIMATION_RESOLUTION := true

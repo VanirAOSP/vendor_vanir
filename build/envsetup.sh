@@ -1048,7 +1048,7 @@ if [ $STFU_REPO ]; then
 fi
 
 # rst (repo start helper), rup (repo upload helper)
-source $(gettop)/vendor/vanir/build/nukehawtness
+# source $(gettop)/vendor/vanir/build/nukehawtness
 
 # GIT PS1 shenans
 parse_git_dirty() {
